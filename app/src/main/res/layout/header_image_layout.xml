@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="80dp"
+    android:id="@+id/llHeader"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:gravity="center"
+    android:layout_marginTop="3dp"
+    android:layout_marginBottom="1dp"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:cardCornerRadius="500dp">
+
+        <ImageView
+            android:id="@+id/ivHeaderImage"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/all" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvHeaderName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        tools:text="All" />
+
+
+</LinearLayout>

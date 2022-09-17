@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/navigation_discover"
+        android:title="@string/discover"
+        android:icon="@drawable/gift"/>
+
+    <item android:id="@+id/navigation_category"
+        android:title="@string/categories"
+        android:icon="@drawable/categories"/>
+
+    <item android:id="@+id/navigation_moments"
+        android:title="@string/memories"
+        android:icon="@drawable/parenting"/>
+
+    <item android:id="@+id/navigation_account"
+        android:title="@string/account"
+        android:icon="@drawable/my_account"/>
+
+    <item android:id="@+id/navigation_cart"
+        android:title="@string/cart"
+        android:icon="@drawable/cart"/>
+
+</menu>

@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.Offer.OfferFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/rlMenu"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/yellow">
+
+            <LinearLayout
+                android:id="@+id/llMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingStart="10dp"
+                android:paddingEnd="20dp">
+
+                <ImageView
+                    app:tint="@color/black"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/ic_baseline_arrow_back_24" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:gravity="center"
+                    android:text="@string/offers"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/llTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/llSearch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toStartOf="@+id/llWishlist"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="5dp">
+
+                    <ImageView
+                        app:tint="@color/black"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/searchicon" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llWishlist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_toStartOf="@+id/llCart"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="5dp">
+
+                    <ImageView
+                        app:tint="@color/black"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/wishlist_menu" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCart"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="8dp"
+                    android:paddingRight="15dp">
+
+                    <ImageView
+                        app:tint="@color/black"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/profile_details" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rlMenu"
+            android:fillViewport="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="12dp"
+                android:gravity="center_horizontal">
+
+                <LinearLayout
+                    android:id="@+id/llApplyCoupor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/promo_code_bg"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:weightSum="1.3">
+
+                    <EditText
+                        android:id="@+id/etOffer"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/white"
+                        android:hint="@string/enter_a_promo_code"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:gravity="center"
+                        android:text="@string/apply"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ivCard1"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_below="@+id/llApplyCoupor"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/pmc1" />
+
+                <RelativeLayout
+                    android:id="@+id/llCard1"
+                    android:layout_below="@+id/ivCard1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+
+                    <TextView
+                        android:id="@+id/tv1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/view_all_items_with_this_offer"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="10dp"/>
+
+                    <ImageView
+                        android:id="@+id/iCvard1Dropdown"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
+
+                    <TextView
+                        android:id="@+id/tvCoupon1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:textColor="@color/black"
+                        android:layout_below="@+id/iCvard1Dropdown"
+                        android:text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
+
+
+                <ImageView
+                    android:id="@+id/ivCard2"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_below="@+id/llCard1"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/pmc2" />
+
+                <RelativeLayout
+                    android:id="@+id/llCard2"
+                    android:layout_below="@+id/ivCard2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+
+                    <TextView
+                        android:id="@+id/tv2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/view_all_items_with_this_offer"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="10dp"/>
+
+                    <ImageView
+                        android:id="@+id/iCvard2Dropdown"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
+
+                    <TextView
+                        android:id="@+id/tvCoupon2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:textColor="@color/black"
+                        android:layout_below="@+id/iCvard2Dropdown"
+                        android:text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/ivCard3"
+                    android:layout_width="match_parent"
+                    android:layout_height="190dp"
+                    android:layout_below="@+id/llCard2"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/pm3" />
+
+                <RelativeLayout
+                    android:id="@+id/llCard3"
+                    android:layout_below="@+id/ivCard3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
+
+
+                    <TextView
+                        android:id="@+id/tv3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/view_all_items_with_this_offer"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/black"
+                        android:layout_marginStart="10dp"/>
+
+                    <ImageView
+                        android:id="@+id/iCvard3Dropdown"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_gravity="end"
+                        android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
+
+                    <TextView
+                        android:id="@+id/tvCoupon3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:textColor="@color/black"
+                        android:layout_below="@+id/iCvard3Dropdown"
+                        android:text="Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged."
+                        android:textSize="15sp"/>
+
+                </RelativeLayout>
+
+
+
+
+
+            </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "851799146139",
+    "project_id": "divinekiddey",
+    "storage_bucket": "divinekiddey.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851799146139:android:ea93aa8e31115efaf0d03e",
+        "android_client_info": {
+          "package_name": "com.textifly.divinekiddy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "851799146139-a0nkvo7p4hjb51m1d2e3rc7lf4fmfkj4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.textifly.divinekiddy",
+            "certificate_hash": "b8cc8fe7a550e42a0ad4d77e0492e4949b170ae2"
+          }
+        },
+        {
+          "client_id": "851799146139-i24luroasgaisbuj6fp06p2iuufhpi3n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByMVTMLG78sz9oHQYXam-WkxdJUkR82jc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "851799146139-i24luroasgaisbuj6fp06p2iuufhpi3n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

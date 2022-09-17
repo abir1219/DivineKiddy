@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_discover"
+    >
+
+    <fragment
+        android:id="@+id/navigation_discover"
+        android:name="com.textifly.divinekiddy.ui.Discover.DiscoverFragment"
+        android:label="@string/discover"
+        tools:layout="@layout/fragment_discover" >
+
+        <action android:id="@+id/nav_discover_to_subcategory"
+            app:destination="@+id/nav_discover_to_subcategory"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_category"
+        android:name="com.textifly.divinekiddy.ui.Categories.AllCategoriesFragment"
+        android:label="@string/categories"
+        tools:layout="@layout/fragment_all_categories" />
+
+    <fragment
+        android:id="@+id/navigation_account"
+        android:name="com.textifly.divinekiddy.ui.Account.AccountFragment"
+        android:label="@string/account"
+        tools:layout="@layout/fragment_account" >
+
+        <action android:id="@+id/nav_account_to_profile_details"
+            app:destination="@+id/navigation_profile_details"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_account_to_join_us"
+            app:destination="@+id/navigation_join_us"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_account_to_saved_address"
+            app:destination="@+id/navigation_address_list"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_account_to_navigation_wishlist"
+            app:destination="@+id/navigation_wishlist"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_account_to_navigation_cancel_order"
+            app:destination="@+id/navigation_cance_order"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_account_to_signin_otp"
+            app:destination="@+id/navigation_sign_in_otp"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_address_list"
+        android:name="com.textifly.divinekiddy.ui.SavedAddress.AddressListFragment"
+        android:label="@string/saved_address"
+        tools:layout="@layout/fragment_address_list" >
+
+        <action android:id="@+id/nav_address_list_to_add_address"
+            app:destination="@+id/navigation_add_address"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_address_list_to_account"
+            app:destination="@+id/navigation_account"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_wishlist"
+        android:name="com.textifly.divinekiddy.ui.Wishlist.WishlistFragment"
+        android:label="@string/wishlist"
+        tools:layout="@layout/fragment_wishlist" />
+
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.textifly.divinekiddy.ui.Cart.CartFragment"
+        android:label="@string/cart"
+        tools:layout="@layout/fragment_cart" >
+
+        <action android:id="@+id/nav_cart_to_shipping_address"
+            app:destination="@+id/navigation_shipping_address"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_cart_to_offer"
+            app:destination="@+id/navigation_coupon"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_boys_category"
+        android:name="com.textifly.divinekiddy.ui.Products.ProductsFragment"
+        android:label="@string/boys_category"
+        tools:layout="@layout/fragment_products_layout" >
+
+        <action android:id="@+id/nav_product_to_product_details"
+            app:destination="@+id/navigation_product_details"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_product_details"
+        android:name="com.textifly.divinekiddy.ui.ProductDetails.ProductDetailsFragment"
+        android:label="Product Details"
+        tools:layout="@layout/fragment_product_details" >
+
+        <action android:id="@+id/navigation_product_details_to_cart"
+            app:destination="@+id/navigation_cart"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_shipping_address"
+        android:name="com.textifly.divinekiddy.ui.ShippingAddress.ShippingAddressFragment"
+        android:label="Shipping Address"
+        tools:layout="@layout/fragment_shipping_address" >
+
+        <action android:id="@+id/navigation_shipping_address_to_order_summery"
+            app:destination="@+id/navigation_order_summery"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_order_summery"
+        android:name="com.textifly.divinekiddy.ui.OrderSummery.OrderSummeryFragment"
+        android:label="Order Summery"
+        tools:layout="@layout/fragment_order_summery" >
+
+        <action android:id="@+id/navigation_order_summery_to_payment"
+            app:destination="@+id/navigation_payment"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_payment"
+        android:name="com.textifly.divinekiddy.ui.Payment.PaymentFragment"
+        android:label="Payment"
+        tools:layout="@layout/fragment_payment" >
+
+        <action android:id="@+id/navigation_payment_to_success"
+            app:destination="@+id/navigation_all_done"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_all_done"
+        android:name="com.textifly.divinekiddy.ui.OrderSuccess.AllDoneFragment"
+        android:label="All Done"
+        tools:layout="@layout/fragment_all_done" >
+
+        <action android:id="@+id/navigation_success_to_discover"
+            app:destination="@+id/navigation_discover"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_coupon"
+        android:name="com.textifly.divinekiddy.ui.Offer.OfferFragment"
+        android:label="@string/offers"
+        tools:layout="@layout/fragment_offer" >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_cance_order"
+        android:name="com.textifly.divinekiddy.ui.Cancel.CancelOrderFragment"
+        android:label="@string/cancel"
+        tools:layout="@layout/fragment_cancel_order" >
+
+        <action android:id="@+id/navigation_cancel_order_to_cancel_success"
+            app:destination="@+id/navigation_cancel_success"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_cancel_success"
+        android:name="com.textifly.divinekiddy.ui.Cancel.CancelSuccessFragment"
+        android:label="Cancel Success"
+        tools:layout="@layout/fragment_cancel_success" >
+
+        <action android:id="@+id/navigation_cancel_success_to_discover"
+            app:destination="@+id/navigation_discover"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_sign_in_otp"
+        android:name="com.textifly.divinekiddy.ui.SignIn.SigninOtpFragment"
+        android:label="SignIn otp"
+        tools:layout="@layout/fragment_signin_otp" >
+
+        <action android:id="@+id/nav_signinotp_to_account"
+            app:destination="@+id/navigation_account"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_signinotp_to_verify_otp"
+            app:destination="@+id/nav_otp_verification"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_signinotp_to_join_us"
+            app:destination="@+id/navigation_join_us"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_signinotp_to_signin_mobile"
+            app:destination="@+id/navigation_signin_mobile_to_account"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_signin_mobile_to_account"
+        android:name="com.textifly.divinekiddy.ui.SignIn.SigninMobileFragment"
+        android:label="SignIn Mobile"
+        tools:layout="@layout/fragment_signin_mobile" >
+
+        <action android:id="@+id/nav_signin_mobile_to_account"
+            app:destination="@+id/navigation_account"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_signin_mobile_to_verify_otp"
+            app:destination="@+id/nav_otp_verification"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_signin_mobile_to_join_us"
+            app:destination="@+id/navigation_join_us"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+
+
+        <action android:id="@+id/nav_signin_mobile_to_signin_otp"
+            app:destination="@+id/navigation_sign_in_otp"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_join_us"
+        android:name="com.textifly.divinekiddy.ui.SignIn.JoinUsFragment"
+        android:label="Join Us"
+        tools:layout="@layout/fragment_join_us" >
+
+        <action android:id="@+id/nav_join_us_to_signin"
+            app:destination="@+id/navigation_sign_in_otp"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_join_us_to_account"
+            app:destination="@+id/navigation_account"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_join_us_to_otp_verify"
+            app:destination="@+id/nav_otp_verification"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_add_address"
+        android:name="com.textifly.divinekiddy.ui.AddAddress.AddAddressFragment"
+        android:label="Add Address"
+        tools:layout="@layout/fragment_add_address" >
+
+        <action android:id="@+id/nav_to_add_address_address_list"
+            app:destination="@+id/navigation_address_list"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_to_add_address_account"
+            app:destination="@+id/navigation_account"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_profile_details"
+        android:name="com.textifly.divinekiddy.ui.Profile.ProfileDetailsFragment"
+        android:label="Profile Details"
+        tools:layout="@layout/fragment_product_details" >
+
+        <action android:id="@+id/nav_profile_details_to_account"
+            app:destination="@+id/navigation_account"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_profile_details_to_name_change"
+            app:destination="@+id/navigation_name_change"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/nav_profile_details_to_mobile_change"
+            app:destination="@+id/navigation_mobile_change"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_name_change"
+        android:name="com.textifly.divinekiddy.ui.ProfileEdit.NameChangeFragment"
+        android:label="Name Change"
+        tools:layout="@layout/fragment_name_change" >
+
+        <action android:id="@+id/nav_name_change_to_profile_details"
+            app:destination="@+id/navigation_profile_details"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_mobile_change"
+        android:name="com.textifly.divinekiddy.ui.ProfileEdit.MobileFragment"
+        android:label="Mobile Change"
+        tools:layout="@layout/fragment_mobile" >
+
+        <action android:id="@+id/nav_mobile_change_to_profile_details"
+            app:destination="@+id/navigation_profile_details"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_discover_to_subcategory"
+        android:name="com.textifly.divinekiddy.ui.SubCategory.SubCategoryFragment"
+        android:label="Sub Category"
+        tools:layout="@layout/fragment_sub_category" >
+
+        <action android:id="@+id/nav_discover_to_subcategory_to_products"
+            app:destination="@+id/navigation_boys_category"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_otp_verification"
+        android:name="com.textifly.divinekiddy.ui.OtpView.OtpViewFragment"
+        android:label="Otp Verification"
+        tools:layout="@layout/fragment_otp_view" >
+
+        <action android:id="@+id/nav_otp_verification_to_join"
+            app:destination="@+id/navigation_join_us"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+        <!--<action android:id="@+id/nav_otp_verify_to_"
+            app:destination="@+id/nav_otp_verification"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>-->
+
+    </fragment>
+
+</navigation>
