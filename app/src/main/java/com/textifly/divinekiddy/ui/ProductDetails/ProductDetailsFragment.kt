@@ -2,6 +2,7 @@ package com.textifly.divinekiddy.ui.ProductDetails
 
 import android.content.Context
 import android.os.Bundle
+import android.provider.Settings
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,10 +21,7 @@ import com.textifly.divinekiddy.ApiManager.RetrofitHelper
 import com.textifly.divinekiddy.ui.Discover.Adapter.SliderAdapter
 import com.textifly.divinekiddy.ui.ProductDetails.Adapter.AgePriceAdapter
 import com.textifly.divinekiddy.ui.ProductDetails.Adapter.SimilarProductsAdapter
-import com.textifly.divinekiddy.ui.ProductDetails.Model.AgePriceModel
-import com.textifly.divinekiddy.ui.ProductDetails.Model.ProductDetailsModel
-import com.textifly.divinekiddy.ui.ProductDetails.Model.ProductImage
-import com.textifly.divinekiddy.ui.ProductDetails.Model.SimilarProductsModel
+import com.textifly.divinekiddy.ui.ProductDetails.Model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -179,23 +177,62 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         //Toast.makeText(activity,"Prod Id => $prodId",Toast.LENGTH_LONG).show()
         val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE",
             Context.MODE_PRIVATE)
-        val editor = sharedPreference.edit()
-        editor.remove("priceId")
-        editor.commit()
+//        val editor = sharedPreference.edit()
+//        editor.remove("priceId")
+//        editor.commit()
         val uid : String?
         if(sharedPreference.contains("uid")){
             uid = sharedPreference.getString("uid","")
             Toast.makeText(activity,"uid => $uid",Toast.LENGTH_LONG).show()
 
-            //retrofitApiInterface.addToCart(prodId!!,uid!!,"",)
-        }else{
+            retrofitApiInterface.addToCart(prodId!!,uid!!,"",sharedPreference.getString("priceId","")!!,
+                sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {
+                override fun onResponse(
+                    call: Call<CartModel?>,
+                    response: Response<CartModel?>
+                ) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    if(response.body()!!.status!!.equals("Success")){
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                    }else if(response.body()!!.status!!.equals("error")){
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                    }
+                }
 
+                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    Toast.makeText(activity,"Getting some troubles",Toast.LENGTH_LONG).show()
+                }
+            })
+        }else{
+            val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
+                Settings.Secure.ANDROID_ID)
+
+            retrofitApiInterface.addToCart(prodId!!,"",device_id,sharedPreference.getString("priceId","")!!,
+                sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {
+                override fun onResponse(
+                    call: Call<CartModel?>,
+                    response: Response<CartModel?>
+                ) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    if(response.body()!!.status!!.equals("Success")){
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                    }else if(response.body()!!.status!!.equals("error")){
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    Toast.makeText(activity,"Getting some troubles",Toast.LENGTH_LONG).show()
+                }
+            })
         }
 
-        CustomProgressDialog.showDialog(requireContext(),false)
+       /* CustomProgressDialog.showDialog(requireContext(),false)
 
         view.findNavController()
-            .navigate(R.id.navigation_product_details_to_cart)
+            .navigate(R.id.navigation_product_details_to_cart)*/
     }
 
     private fun openProdDetails() {

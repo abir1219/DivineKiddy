@@ -2,6 +2,7 @@ package com.textifly.divinekiddy.Utils
 
 import com.textifly.divinekiddy.ui.Discover.Model.HeaderImageModel
 import com.textifly.divinekiddy.ui.Discover.Model.SliderModel
+import com.textifly.divinekiddy.ui.ProductDetails.Model.CartModel
 import com.textifly.divinekiddy.ui.ProductDetails.Model.ProductDetailsModel
 import com.textifly.divinekiddy.ui.Products.Model.ProductsModel
 import com.textifly.divinekiddy.ui.SignIn.JoinModel
@@ -42,7 +43,7 @@ interface WebService {
         @Field("price_id") price_id : String,
         @Field("price") price : String,
         @Field("quantity") quantity : String,
-    ): Call<ProductDetailsModel?>
+    ): Call<CartModel?>
 
     @FormUrlEncoded
     @POST("registration")

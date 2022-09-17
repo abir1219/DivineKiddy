@@ -34,6 +34,7 @@ class AgePriceAdapter(var modelList : List<AgePriceModel>):RecyclerView.Adapter<
             )
             val editor = sharedPreference.edit()
             editor.putString("priceId", modelList[position].id)
+            editor.putString("price", modelList[position].price)
             editor.commit()
         }
     }
