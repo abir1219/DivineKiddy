@@ -18,6 +18,7 @@ import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.databinding.FragmentProductDetailsBinding
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
+import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Discover.Adapter.SliderAdapter
 import com.textifly.divinekiddy.ui.ProductDetails.Adapter.AgePriceAdapter
 import com.textifly.divinekiddy.ui.ProductDetails.Adapter.SimilarProductsAdapter
@@ -64,10 +65,60 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
 
         }
         btnClick()
+        cartCount()
         loadProduct()
         setLayout()
         loadSimilarProduct()
         return binding.root
+    }
+
+    private fun cartCount() {
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+//        val editor = sharedPreference.edit()
+//        editor.remove("priceId")
+//        editor.commit()
+        val uid : String?
+        if(sharedPreference.contains("uid")) {
+            uid = sharedPreference.getString("uid", "")
+            retrofitApiInterface.cartCount(uid,"").enqueue(object : Callback<CartCountModel?> {
+                override fun onResponse(
+                    call: Call<CartCountModel?>,
+                    response: Response<CartCountModel?>
+                ) {
+                    if(response.equals("success")){
+                        binding.tvcartBadge.visibility = View.VISIBLE
+                        binding.tvcartBadge.text = response.body()!!.count.toString()
+                    }else if(response.equals("error")){
+                        binding.tvcartBadge.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<CartCountModel?>, t: Throwable) {
+
+                }
+            })
+        }else{
+            val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
+                Settings.Secure.ANDROID_ID)
+
+            retrofitApiInterface.cartCount("",device_id).enqueue(object : Callback<CartCountModel?> {
+                override fun onResponse(
+                    call: Call<CartCountModel?>,
+                    response: Response<CartCountModel?>
+                ) {
+                    if(response.equals("success")){
+                        binding.tvcartBadge.visibility = View.VISIBLE
+                        binding.tvcartBadge.text = response.body()!!.count.toString()
+                    }else if(response.equals("error")){
+                        binding.tvcartBadge.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<CartCountModel?>, t: Throwable) {
+
+                }
+            })
+        }
     }
 
     private fun loadProduct() {
@@ -175,8 +226,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         //activity?.let { CustomProgressDialog.showDialog(it,true) }
         CustomProgressDialog.showDialog(requireContext(),true)
         //Toast.makeText(activity,"Prod Id => $prodId",Toast.LENGTH_LONG).show()
-        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE",
-            Context.MODE_PRIVATE)
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
 //        val editor = sharedPreference.edit()
 //        editor.remove("priceId")
 //        editor.commit()
@@ -193,6 +243,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                 ) {
                     CustomProgressDialog.showDialog(requireContext(),false)
                     if(response.body()!!.status!!.equals("Success")){
+                        cartCount()
                         Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
                     }else if(response.body()!!.status!!.equals("error")){
                         Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
@@ -216,6 +267,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                 ) {
                     CustomProgressDialog.showDialog(requireContext(),false)
                     if(response.body()!!.status!!.equals("Success")){
+                        cartCount()
                         Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
                     }else if(response.body()!!.status!!.equals("error")){
                         Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
