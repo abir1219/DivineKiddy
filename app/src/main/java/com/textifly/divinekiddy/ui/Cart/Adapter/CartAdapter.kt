@@ -9,12 +9,12 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.textifly.divinekiddy.R
-import com.textifly.divinekiddy.ui.Cart.Model.CartModel
+import com.textifly.divinekiddy.ui.Cart.Model.CartList
 
-class CartAdapter(var modelList:List<CartModel>) : RecyclerView.Adapter<CartAdapter.ViewHolder>(){
+class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapter.ViewHolder>(){
     lateinit var context: Context
 
 
@@ -24,14 +24,17 @@ class CartAdapter(var modelList:List<CartModel>) : RecyclerView.Adapter<CartAdap
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.ivImage?.setImageResource(modelList[position].imageUrl)
+        Glide.with(context)
+            .load("https://divinekiddy.com/uploads/product/${modelList[position].image}")
+            .into(holder.ivImage)
+        //holder.ivImage?.setImageResource(modelList[position].image)
         //holder.tvDeliveryTime?.text = modelList[position].deliveryDate
-        holder.tvProdName?.text = modelList[position].prodName
-        holder.tvSize?.text = "Size: "+modelList[position].size+" years"
-        //holder.tvQuantity?.text = modelList[position].quantity
-        holder.tvSellingPrice?.text = "₹"+modelList[position].sellingPrice
-        holder.tvCostPrice?.text = "₹"+modelList[position].costPrice
-        holder.tvDiscountPercentage?.text = modelList[position].discount+"% off"
+        holder.tvProdName?.text = modelList[position].name
+        holder.tvSize?.text = "Size: "+modelList[position].age
+        holder.tvQuantity?.text = "Quantity: ${modelList[position].quantity}"
+        holder.tvSellingPrice?.text = "₹"+modelList[position].special_price
+        holder.tvCostPrice?.text = "₹"+modelList[position].actual_price
+        holder.tvDiscountPercentage?.text = modelList[position].parcentage+"% off"
 
         holder.ivMenu?.setOnClickListener(View.OnClickListener {
             Log.d("","clicked")
@@ -55,13 +58,13 @@ class CartAdapter(var modelList:List<CartModel>) : RecyclerView.Adapter<CartAdap
 
 
     class ViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
-        var ivImage: ImageView? = itemview.findViewById(R.id.ivImage)
+        var ivImage: ImageView = itemview.findViewById(R.id.ivImage)
         var ivMenu: ImageView? = itemview.findViewById(R.id.ivMenu)
         var ivBack: ImageView? = itemview.findViewById(R.id.ivBack)
         //var tvDeliveryTime: TextView? = itemview.findViewById(R.id.tvDeliveryTime)
         var tvProdName: TextView? = itemview.findViewById(R.id.tvProdName)
         var tvSize: TextView? = itemview.findViewById(R.id.tvSize)
-        //var tvQuantity: TextView? = itemview.findViewById(R.id.tvQuantity)
+        var tvQuantity: TextView? = itemview.findViewById(R.id.tvQuantity)
         var tvSellingPrice: TextView? = itemview.findViewById(R.id.tvSellingPrice)
         var tvCostPrice: TextView? = itemview.findViewById(R.id.tvCostPrice)
         var tvDiscountPercentage: TextView? = itemview.findViewById(R.id.tvDiscountPercentage)

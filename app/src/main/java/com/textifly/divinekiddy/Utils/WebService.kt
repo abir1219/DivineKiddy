@@ -1,6 +1,7 @@
 package com.textifly.divinekiddy.Utils
 
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
+import com.textifly.divinekiddy.ui.Cart.Model.CartListModel
 import com.textifly.divinekiddy.ui.Discover.Model.HeaderImageModel
 import com.textifly.divinekiddy.ui.Discover.Model.SliderModel
 import com.textifly.divinekiddy.ui.ProductDetails.Model.CartModel
@@ -67,5 +68,12 @@ interface WebService {
         @Field("user_id") user_id : String?,
         @Field("device_id") device_id : String?,
     ): Call<CartCountModel?>
+
+    @FormUrlEncoded
+    @POST("getcartlist")
+    fun cartList(
+        @Field("user_id") user_id : String?,
+        @Field("device_id") device_id : String?,
+    ): Call<CartListModel?>
 
 }

@@ -225,12 +225,87 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                     Toast.makeText(requireActivity(),"Select Price First",Toast.LENGTH_SHORT).show()
                 }
             }
-
-
             R.id.rlProdDetails -> openProdDetails()
 
             R.id.llMenu -> activity?.onBackPressed()
+
+            R.id.tvBuyNow -> {
+                val sharedPreference = context?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+                if(sharedPreference!!.contains("priceId")){
+                    addAndGoToCart(view)
+                }else{
+                    Toast.makeText(requireActivity(),"Select Price First",Toast.LENGTH_SHORT).show()
+                }
+            }
         }
+    }
+
+    private fun addAndGoToCart(view: View) {
+        //activity?.let { CustomProgressDialog.showDialog(it,true) }
+        CustomProgressDialog.showDialog(requireContext(),true)
+        //Toast.makeText(activity,"Prod Id => $prodId",Toast.LENGTH_LONG).show()
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+//        val editor = sharedPreference.edit()
+//        editor.remove("priceId")
+//        editor.commit()
+        val uid : String?
+        if(sharedPreference.contains("uid")){
+            uid = sharedPreference.getString("uid","")
+            Toast.makeText(activity,"uid => $uid",Toast.LENGTH_LONG).show()
+
+            retrofitApiInterface.addToCart(prodId!!,uid!!,"",sharedPreference.getString("priceId","")!!,
+                sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {
+
+                override fun onResponse(
+                    call: Call<CartModel?>,
+                    response: Response<CartModel?>
+                ) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    if(response.body()!!.status!!.equals("Success")){
+                        cartCount()
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                        view.findNavController()
+                            .navigate(R.id.navigation_product_details_to_cart)
+                    }else if(response.body()!!.status!!.equals("error")){
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    Toast.makeText(activity,"Getting some troubles",Toast.LENGTH_LONG).show()
+                }
+            })
+        }else{
+            val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
+                Settings.Secure.ANDROID_ID)
+
+            retrofitApiInterface.addToCart(prodId!!,"",device_id,sharedPreference.getString("priceId","")!!,
+                sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {
+                override fun onResponse(
+                    call: Call<CartModel?>,
+                    response: Response<CartModel?>
+                ) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    if(response.body()!!.status!!.equals("Success")){
+                        cartCount()
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                    }else if(response.body()!!.status!!.equals("error")){
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    Toast.makeText(activity,"Getting some troubles",Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+
+        /* CustomProgressDialog.showDialog(requireContext(),false)
+
+         view.findNavController()
+             .navigate(R.id.navigation_product_details_to_cart)*/
     }
 
     private fun addToCart(view: View) {

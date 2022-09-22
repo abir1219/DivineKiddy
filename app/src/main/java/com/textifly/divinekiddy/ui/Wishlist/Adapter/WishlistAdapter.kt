@@ -9,7 +9,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.textifly.divinekiddy.R
-import com.textifly.divinekiddy.ui.Cart.Model.CartModel
 import com.textifly.divinekiddy.ui.Wishlist.Model.WishlistModel
 
 class WishlistAdapter(var modelList: ArrayList<WishlistModel>) :
