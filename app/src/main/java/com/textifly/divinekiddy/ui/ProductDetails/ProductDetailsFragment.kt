@@ -3,6 +3,7 @@ package com.textifly.divinekiddy.ui.ProductDetails
 import android.content.Context
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -64,12 +65,20 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         } catch (e: Exception) {
 
         }
+        initView()
         btnClick()
         cartCount()
         loadProduct()
         setLayout()
         loadSimilarProduct()
         return binding.root
+    }
+
+    private fun initView() {
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+            val editor = sharedPreference.edit()
+            editor.remove("priceId")
+            editor.commit()
     }
 
     private fun cartCount() {
@@ -85,7 +94,8 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                     call: Call<CartCountModel?>,
                     response: Response<CartCountModel?>
                 ) {
-                    if(response.equals("success")){
+                    Log.d("CART_COUNT_RES",response.body()!!.toString())
+                    if(response.body()!!.status.equals("success")){
                         binding.tvcartBadge.visibility = View.VISIBLE
                         binding.tvcartBadge.text = response.body()!!.count.toString()
                     }else if(response.equals("error")){
@@ -94,7 +104,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                 }
 
                 override fun onFailure(call: Call<CartCountModel?>, t: Throwable) {
-
+                    Log.d("CART_COUNT_Error","Error")
                 }
             })
         }else{
@@ -155,6 +165,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
 
     private fun btnClick() {
         binding.tvAddToCart.setOnClickListener(this)
+        binding.tvBuyNow.setOnClickListener(this)
         binding.llMenu.setOnClickListener(this)
         binding.rlProdDetails.setOnClickListener(this)
     }
@@ -237,6 +248,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
 
             retrofitApiInterface.addToCart(prodId!!,uid!!,"",sharedPreference.getString("priceId","")!!,
                 sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {
+
                 override fun onResponse(
                     call: Call<CartModel?>,
                     response: Response<CartModel?>
