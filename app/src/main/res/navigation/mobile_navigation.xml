@@ -18,6 +18,11 @@
             app:exitAnim="@anim/fade_out_animation"
             />
 
+        <action android:id="@+id/navigation_discover_details_to_cart"
+            app:destination="@+id/navigation_cart"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
     </fragment>
 
     <fragment
@@ -38,6 +43,7 @@
             app:exitAnim="@anim/fade_out_animation"
             app:popEnterAnim="@anim/fade_in_animation"
             app:popExitAnim="@anim/fade_out_animation"/>
+
 
         <action android:id="@+id/nav_account_to_join_us"
             app:destination="@+id/navigation_join_us"
@@ -122,6 +128,11 @@
 
         <action android:id="@+id/nav_product_to_product_details"
             app:destination="@+id/navigation_product_details"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/navigation_products_to_cart"
+            app:destination="@+id/navigation_cart"
             app:enterAnim="@anim/fade_in_animation"
             app:exitAnim="@anim/fade_out_animation"/>
 
@@ -416,6 +427,11 @@
             app:exitAnim="@anim/fade_out_animation"
             app:popEnterAnim="@anim/fade_in_animation"
             app:popExitAnim="@anim/fade_out_animation"/>
+
+        <action android:id="@+id/navigation_subcategory_to_cart"
+            app:destination="@+id/navigation_cart"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
 
     </fragment>
 

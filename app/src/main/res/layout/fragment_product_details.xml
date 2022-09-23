@@ -74,12 +74,48 @@
                 android:orientation="horizontal"
                 android:paddingStart="5dp">
 
-                <ImageView
+                <FrameLayout
+                    android:id="@+id/flWishlist"
+                    style="?attr/actionButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:clipToPadding="false"
+                    android:focusable="true"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/wishlist_menu"
+                        app:tint="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvWishlist_badge"
+                        android:layout_width="19dp"
+                        android:layout_height="19dp"
+                        android:layout_gravity="right|end|top"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginEnd="-10dp"
+                        android:background="@drawable/bottom_nav_background"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        tools:text="0" />
+
+                </FrameLayout>
+
+                <!--<ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:src="@drawable/wishlist_menu"
-                    app:tint="@color/black" />
+                    app:tint="@color/black" />-->
 
 
             </LinearLayout>
@@ -91,7 +127,6 @@
                 android:layout_alignParentEnd="true"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingStart="8dp"
                 android:paddingEnd="15dp">
 
 
@@ -243,7 +278,7 @@
             android:layout_below="@+id/flSlider">
 
             <TextView
-                android:id="@+id/tvPriceRange"
+                android:id="@+id/tvSellingPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
@@ -252,7 +287,20 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/tvActualPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                tools:text="₹813"
+                android:layout_toEndOf="@+id/tvSellingPrice"
+                android:background="@drawable/strike_through"
+                android:textColor="@color/grey"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
             <ImageView
+                android:id="@+id/ivAddToWishlist"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginLeft="15dp"
@@ -479,7 +527,7 @@
                     android:paddingTop="3dp"
                     android:paddingEnd="5dp"
                     android:paddingBottom="3dp"
-                    android:text="1 day"
+                    android:text="4-6 days"
                     android:textColor="@color/white" />
 
 

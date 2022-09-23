@@ -68,10 +68,15 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         initView()
         btnClick()
         cartCount()
+        wishlistCount()
         loadProduct()
         setLayout()
         loadSimilarProduct()
         return binding.root
+    }
+
+    private fun wishlistCount() {
+
     }
 
     private fun initView() {
@@ -111,15 +116,17 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
             val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
                 Settings.Secure.ANDROID_ID)
 
+            Log.d("Divice_id_cart_count",device_id)
+
             retrofitApiInterface.cartCount("",device_id).enqueue(object : Callback<CartCountModel?> {
                 override fun onResponse(
                     call: Call<CartCountModel?>,
                     response: Response<CartCountModel?>
                 ) {
-                    if(response.equals("success")){
+                    if(response.body()!!.status.equals("success")){
                         binding.tvcartBadge.visibility = View.VISIBLE
                         binding.tvcartBadge.text = response.body()!!.count.toString()
-                    }else if(response.equals("error")){
+                    }else if(response.body()!!.status.equals("error")){
                         binding.tvcartBadge.visibility = View.GONE
                     }
                 }
@@ -146,7 +153,8 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                         activity?.let { CustomProgressDialog.showDialog(it,false) }
                         when (response.body()!!.status) {
                             1 -> {
-                                binding.tvPriceRange.text = "₹" + response.body()!!.special_price
+                                binding.tvSellingPrice.text = "₹" + response.body()!!.special_price
+                                binding.tvActualPrice.text = "₹" + response.body()!!.actual_price
                                 binding.tvProdName.text = response.body()!!.name
                                 binding.tvProdDetails.text = response.body()!!.description
                                 loadSlider(response.body()!!.imageList)
@@ -165,6 +173,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
 
     private fun btnClick() {
         binding.tvAddToCart.setOnClickListener(this)
+        binding.ivAddToWishlist.setOnClickListener(this)
         binding.tvBuyNow.setOnClickListener(this)
         binding.llMenu.setOnClickListener(this)
         binding.rlProdDetails.setOnClickListener(this)
@@ -225,6 +234,14 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                     Toast.makeText(requireActivity(),"Select Price First",Toast.LENGTH_SHORT).show()
                 }
             }
+            R.id.ivAddToWishlist -> {
+                val sharedPreference = context?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+                if(sharedPreference!!.contains("priceId")){
+                    addToWishlist(view)
+                }else{
+                    Toast.makeText(requireActivity(),"Select Price First",Toast.LENGTH_SHORT).show()
+                }
+            }
             R.id.rlProdDetails -> openProdDetails()
 
             R.id.llMenu -> activity?.onBackPressed()
@@ -237,6 +254,69 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                     Toast.makeText(requireActivity(),"Select Price First",Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun addToWishlist(view: View) {
+        //activity?.let { CustomProgressDialog.showDialog(it,true) }
+        CustomProgressDialog.showDialog(requireContext(),true)
+        //Toast.makeText(activity,"Prod Id => $prodId",Toast.LENGTH_LONG).show()
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+//        val editor = sharedPreference.edit()
+//        editor.remove("priceId")
+//        editor.commit()
+        val uid : String?
+        if(sharedPreference.contains("uid")){
+            uid = sharedPreference.getString("uid","")
+            Toast.makeText(activity,"uid => $uid",Toast.LENGTH_LONG).show()
+
+            retrofitApiInterface.addToWishlist(prodId!!,uid!!,"",sharedPreference.getString("priceId","")!!,
+                sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {
+
+                override fun onResponse(
+                    call: Call<CartModel?>,
+                    response: Response<CartModel?>
+                ) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    if(response.body()!!.status!!.equals("success")){
+                        cartCount()
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                    }else if(response.body()!!.status!!.equals("error")){
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    Toast.makeText(activity,"Getting some troubles",Toast.LENGTH_LONG).show()
+                }
+            })
+        }else{
+            val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
+                Settings.Secure.ANDROID_ID)
+
+            Log.d("Divice_id_res",device_id)
+
+            retrofitApiInterface.addToWishlist(prodId!!,"",device_id,sharedPreference.getString("priceId","")!!,
+                sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {
+                override fun onResponse(
+                    call: Call<CartModel?>,
+                    response: Response<CartModel?>
+                ) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    if(response.body()!!.status!!.equals("success")){
+                        cartCount()
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                    }else if(response.body()!!.status!!.equals("error")){
+                        Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    Toast.makeText(activity,"Getting some troubles",Toast.LENGTH_LONG).show()
+                }
+            })
         }
     }
 
@@ -345,6 +425,8 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         }else{
             val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
                 Settings.Secure.ANDROID_ID)
+
+            Log.d("Divice_id_res",device_id)
 
             retrofitApiInterface.addToCart(prodId!!,"",device_id,sharedPreference.getString("priceId","")!!,
                 sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {

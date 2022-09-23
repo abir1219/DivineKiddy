@@ -103,7 +103,13 @@ class CartFragment : Fragment(),View.OnClickListener{
                     call: Call<CartListModel?>,
                     response: Response<CartListModel?>
                 ) {
-                    CustomProgressDialog.showDialog(requireContext(),false) 
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    if(response.body()!!.status.equals("Success")){
+                        Toast.makeText(requireContext(),"success",Toast.LENGTH_SHORT).show()
+                        binding.rvCart.adapter = CartAdapter(response.body()!!.list)
+                    }else{
+                        Toast.makeText(requireContext(),"error",Toast.LENGTH_SHORT).show()
+                    }
                 }
 
                 override fun onFailure(
@@ -111,6 +117,7 @@ class CartFragment : Fragment(),View.OnClickListener{
                     t: Throwable
                 ) {
                     CustomProgressDialog.showDialog(requireContext(),false)
+                    Toast.makeText(requireContext(),"Getting some troubles",Toast.LENGTH_SHORT).show()
                 }
             })   
         }

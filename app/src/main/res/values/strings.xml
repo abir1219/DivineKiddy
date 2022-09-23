@@ -109,4 +109,5 @@
     <string name="save_and_verify">SAVE AND VERIFY</string>
     <string name="shop_by_category">Shop By Category</string>
     <string name="otp_has_been_sent_to">OTP has been sent to</string>
+    <string name="pincode">Pincode</string>
 </resources>

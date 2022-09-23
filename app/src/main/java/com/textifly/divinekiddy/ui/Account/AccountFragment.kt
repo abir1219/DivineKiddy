@@ -77,16 +77,36 @@ class AccountFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(view: View?) {
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+
         when (view?.id) {
             R.id.llSavedAddress -> //Navigation.findNavController()?.navigate(R.id.nav_account_to_saved_address)
-                view.findNavController().navigate(R.id.nav_account_to_saved_address)
+            {
+                if (sharedPreference.contains("uid")){
+                    view.findNavController().navigate(R.id.nav_account_to_saved_address)
+                }else{
+                    view.findNavController().navigate(R.id.nav_account_to_signin_otp)
+                }
+
+            }
             R.id.rlWishlist -> view.findNavController()
                 .navigate(R.id.nav_account_to_navigation_wishlist)
-            R.id.rlCancelOrder -> view.findNavController()
-                .navigate(R.id.nav_account_to_navigation_cancel_order)
+            R.id.rlCancelOrder -> {
+                if (sharedPreference.contains("uid")){
+                    view.findNavController().navigate(R.id.nav_account_to_navigation_cancel_order)
+                }else{
+                    view.findNavController().navigate(R.id.nav_account_to_signin_otp)
+                }
+            }
             R.id.tvSignIn -> view.findNavController().navigate(R.id.nav_account_to_signin_otp)
             R.id.tvJoinUs -> view.findNavController().navigate(R.id.nav_account_to_join_us)
-            R.id.rlProfileDetails -> view.findNavController().navigate(R.id.nav_account_to_profile_details)
+            R.id.rlProfileDetails -> {
+                if (sharedPreference.contains("uid")) {
+                    view.findNavController().navigate(R.id.nav_account_to_profile_details)
+                } else {
+                    view.findNavController().navigate(R.id.nav_account_to_signin_otp)
+                }
+            }
             R.id.tvSignOut -> {
                 /*Helper.isSignIn = false
                 activity?.recreate()*/

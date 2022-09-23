@@ -87,8 +87,8 @@
                     android:text="₹2089"
                     android:gravity="center_vertical"
                     android:padding="5dp"
-                    android:background="@drawable/strike_through"
                     android:textSize="12sp"
+                    android:background="@drawable/strike_through"
                     android:textColor="@color/grey"/>
 
                 <TextView

@@ -1,5 +1,6 @@
 package com.textifly.divinekiddy.Utils
 
+import com.textifly.divinekiddy.ui.AddAddress.Model.AddAddressModel
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Cart.Model.CartListModel
 import com.textifly.divinekiddy.ui.Discover.Model.HeaderImageModel
@@ -48,6 +49,17 @@ interface WebService {
     ): Call<CartModel?>
 
     @FormUrlEncoded
+    @POST("addwishlist")
+    fun addToWishlist(
+        @Field("product_id") product_id : String,
+        @Field("user_id") user_id : String,
+        @Field("device_id") device_id : String,
+        @Field("price_id") price_id : String,
+        @Field("price") price : String,
+        @Field("quantity") quantity : String,
+    ): Call<CartModel?>
+
+    @FormUrlEncoded
     @POST("registration")
     fun join(
         @Field("name") name : String,
@@ -75,5 +87,17 @@ interface WebService {
         @Field("user_id") user_id : String?,
         @Field("device_id") device_id : String?,
     ): Call<CartListModel?>
+
+    @FormUrlEncoded
+    @POST("addaddress")
+    fun addAddress(
+        @Field("user_id") user_id : String?,
+        @Field("name") name : String?,
+        @Field("email") email : String?,
+        @Field("address") address : String?,
+        @Field("landmark") landmark : String?,
+        @Field("state") state : String?,
+        @Field("city") city : String?,
+    ): Call<AddAddressModel?>
 
 }

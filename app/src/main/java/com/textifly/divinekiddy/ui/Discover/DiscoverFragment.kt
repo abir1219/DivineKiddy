@@ -1,11 +1,14 @@
 package com.textifly.divinekiddy.ui.Discover
 
+import android.content.Context
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -13,6 +16,7 @@ import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.databinding.FragmentDiscoverBinding
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
+import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Discover.Adapter.HeaderImageAdapter
 import com.textifly.divinekiddy.ui.Discover.Adapter.SliderAdapter
 import com.textifly.divinekiddy.ui.Discover.Model.HeaderImageModel
@@ -22,7 +26,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DiscoverFragment : Fragment() {
+class DiscoverFragment : Fragment(),View.OnClickListener {
     private var _binding: FragmentDiscoverBinding? = null
     private val binding get() = _binding!!
     lateinit var modelList: ArrayList<HeaderImageModel>
@@ -30,8 +34,8 @@ class DiscoverFragment : Fragment() {
     lateinit var imageUrl: ArrayList<String>
     lateinit var sliderAdapter: SliderAdapter
 
-    var retrofit = RetrofitHelper.getRetrofitInstance()
-    val apiInterface = retrofit.create(WebService::class.java)
+    private val retrofitHelper = RetrofitHelper.getRetrofitInstance()
+    private val retrofitApiInterface = retrofitHelper.create(WebService::class.java)
 
     override fun onResume() {
         super.onResume()
@@ -57,10 +61,67 @@ class DiscoverFragment : Fragment() {
         /*val binding = DataBindingUtil.inflate<FragmentDiscoverBinding>(inflater,
             R.layout.fragment_discover,container,false)*/
         setLayout()
+        btnClick()
+        cartCount()
         loadHeader()
         loadSlider()
         //Toast.makeText(activity,"Hi",Toast.LENGTH_LONG).show()
         return binding.root
+    }
+
+    private fun btnClick() {
+        binding.llCart.setOnClickListener(this)
+    }
+
+    private fun cartCount() {
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+//        val editor = sharedPreference.edit()
+//        editor.remove("priceId")
+//        editor.commit()
+        val uid : String?
+        if(sharedPreference.contains("uid")) {
+            uid = sharedPreference.getString("uid", "")
+            retrofitApiInterface.cartCount(uid,"").enqueue(object : Callback<CartCountModel?> {
+                override fun onResponse(
+                    call: Call<CartCountModel?>,
+                    response: Response<CartCountModel?>
+                ) {
+                    Log.d("CART_COUNT_RES",response.body()!!.toString())
+                    if(response.body()!!.status.equals("success")){
+                        binding.tvcartBadge.visibility = View.VISIBLE
+                        binding.tvcartBadge.text = response.body()!!.count.toString()
+                    }else if(response.equals("error")){
+                        Log.d("CART_COUNT_Error_discover","Error")
+                        binding.tvcartBadge.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<CartCountModel?>, t: Throwable) {
+                    Log.d("CART_COUNT_Error","Error")
+                }
+            })
+        }else{
+            val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
+                Settings.Secure.ANDROID_ID)
+
+            retrofitApiInterface.cartCount("",device_id).enqueue(object : Callback<CartCountModel?> {
+                override fun onResponse(
+                    call: Call<CartCountModel?>,
+                    response: Response<CartCountModel?>
+                ) {
+                    if(response.body()!!.status.equals("success")){
+                        binding.tvcartBadge.visibility = View.VISIBLE
+                        binding.tvcartBadge.text = response.body()!!.count.toString()
+                    }else if(response.body()!!.status.equals("error")){
+                        binding.tvcartBadge.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<CartCountModel?>, t: Throwable) {
+
+                }
+            })
+        }
     }
 
     private fun loadSlider() {
@@ -69,12 +130,12 @@ class DiscoverFragment : Fragment() {
 
 
         //val response = apiInterface.getBanner()
-        val response: Call<SliderModel?> = apiInterface.getBanner()
+        val response: Call<SliderModel?> = retrofitApiInterface.getBanner()
 
         //Log.d("RES_CALL",response.toString())
 
         //Ctrl+Shift+Space
-        apiInterface.getBanner().enqueue(object : Callback<SliderModel?> {
+        retrofitApiInterface.getBanner().enqueue(object : Callback<SliderModel?> {
             override fun onResponse(
                 call: Call<SliderModel?>,
                 response: Response<SliderModel?>
@@ -134,7 +195,7 @@ class DiscoverFragment : Fragment() {
     private fun loadHeader() {
         modelList = ArrayList()
 
-        apiInterface.getAllCategory().enqueue(object : Callback<HeaderImageModel?> {
+        retrofitApiInterface.getAllCategory().enqueue(object : Callback<HeaderImageModel?> {
             override fun onResponse(
                 call: Call<HeaderImageModel?>,
                 response: Response<HeaderImageModel?>
@@ -165,6 +226,12 @@ class DiscoverFragment : Fragment() {
         }
         //binding.rvHeaderImage.adapter = HeaderImageAdapter(modelList)
         //print("HeaderImageLength ${headerImageList.size}")
+    }
+
+    override fun onClick(view: View?) {
+        when(view?.id){
+            R.id.llCart -> view.findNavController().navigate(R.id.navigation_discover_details_to_cart)
+        }
     }
 }
 
