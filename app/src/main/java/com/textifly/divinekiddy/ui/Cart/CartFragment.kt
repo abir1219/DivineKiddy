@@ -80,8 +80,16 @@ class CartFragment : Fragment(),View.OnClickListener{
                 ) {
                     CustomProgressDialog.showDialog(requireContext(),false)
                     if(response.body()!!.status.equals("Success")){
-                        Toast.makeText(requireContext(),"success",Toast.LENGTH_SHORT).show()
-                        binding.rvCart.adapter = CartAdapter(response.body()!!.list)
+                        //Toast.makeText(requireContext(),"success",Toast.LENGTH_SHORT).show()
+                        val cartAdapter = CartAdapter(response.body()!!.list)
+                        binding.rvCart.adapter = cartAdapter
+                        cartAdapter.setListner(object : onDataRecived {
+                            override fun onCallBack(pos: String?) {
+                                loadCartList()
+                            }
+                        })
+
+
                     }else{
                         Toast.makeText(requireContext(),"error",Toast.LENGTH_SHORT).show()
                     }
@@ -167,4 +175,8 @@ class CartFragment : Fragment(),View.OnClickListener{
          R.id.tvCheckout -> view.findNavController().navigate(R.id.nav_cart_to_shipping_address)
      }
     }//nav_cart_to_offer
+
+    interface onDataRecived {
+        fun onCallBack(pos: String?)
+    }
 }

@@ -71,12 +71,62 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         wishlistCount()
         loadProduct()
         setLayout()
-        loadSimilarProduct()
         return binding.root
     }
 
     private fun wishlistCount() {
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+//        val editor = sharedPreference.edit()
+//        editor.remove("priceId")
+//        editor.commit()
+        val uid : String?
+        if(sharedPreference.contains("uid")) {
+            uid = sharedPreference.getString("uid", "")
+            retrofitApiInterface.wishlistCount(uid,"").enqueue(object : Callback<CartCountModel?> {
+                override fun onResponse(
+                    call: Call<CartCountModel?>,
+                    response: Response<CartCountModel?>
+                ) {
+                    Log.d("Wishlist_COUNT_RES",response.body()!!.toString())
+                    if(response.body()!!.status.equals("success")){
+                        binding.tvWishlistBadge.visibility = View.VISIBLE
+                        binding.tvWishlistBadge.text = response.body()!!.count.toString()
 
+                        binding.ivAddToWishlist.setColorFilter(resources.getColor(R.color.red))
+                    }else if(response.equals("error")){
+                        binding.tvWishlistBadge.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<CartCountModel?>, t: Throwable) {
+                    Log.d("CART_COUNT_Error","Error")
+                }
+            })
+        }else{
+            val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
+                Settings.Secure.ANDROID_ID)
+
+            Log.d("Divice_id_cart_count",device_id)
+
+            retrofitApiInterface.wishlistCount("",device_id).enqueue(object : Callback<CartCountModel?> {
+                override fun onResponse(
+                    call: Call<CartCountModel?>,
+                    response: Response<CartCountModel?>
+                ) {
+                    if(response.body()!!.status.equals("success")){
+                        binding.tvWishlistBadge.visibility = View.VISIBLE
+                        binding.ivAddToWishlist.setColorFilter(resources.getColor(R.color.red))
+                        binding.tvWishlistBadge.text = response.body()!!.count.toString()
+                    }else if(response.body()!!.status.equals("error")){
+                        binding.tvWishlistBadge.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<CartCountModel?>, t: Throwable) {
+
+                }
+            })
+        }
     }
 
     private fun initView() {
@@ -157,6 +207,9 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                                 binding.tvActualPrice.text = "₹" + response.body()!!.actual_price
                                 binding.tvProdName.text = response.body()!!.name
                                 binding.tvProdDetails.text = response.body()!!.description
+
+                                loadSimilarProduct(response.body()!!.id,response.body()!!.subcategory_id)
+                                
                                 loadSlider(response.body()!!.imageList)
                                 loadAgePrice(response.body()!!.ageList)
                             }
@@ -176,11 +229,25 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         binding.ivAddToWishlist.setOnClickListener(this)
         binding.tvBuyNow.setOnClickListener(this)
         binding.llMenu.setOnClickListener(this)
+        binding.llCart.setOnClickListener(this)
         binding.rlProdDetails.setOnClickListener(this)
     }
 
-    private fun loadSimilarProduct() {
-        similarModelList = ArrayList()
+    private fun loadSimilarProduct(prodId: String?, subcategoryId: String?) {
+        retrofitApiInterface.getRelatedProducts(prodId,subcategoryId).enqueue(object : Callback<SimilarProductsModel?> {
+            override fun onResponse(
+                call: Call<SimilarProductsModel?>,
+                response: Response<SimilarProductsModel?>
+            ) {
+                if(response.body()!!.status.equals("success")){
+                    binding.rvSimilarProduct.adapter = SimilarProductsAdapter(response.body()!!.list)
+                }
+            }
+
+            override fun onFailure(call: Call<SimilarProductsModel?>, t: Throwable) {
+            }
+        })
+        /*similarModelList = ArrayList()
         val similartImageList = arrayListOf(
             R.drawable.p0,
             R.drawable.p1,
@@ -195,7 +262,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         for (i in 0 until similartImageList.size) {
             similarModelList.add(SimilarProductsModel(similartImageList[i], priceList[i]))
         }
-        binding.rvSimilarProduct.adapter = SimilarProductsAdapter(similarModelList)
+        binding.rvSimilarProduct.adapter = SimilarProductsAdapter(similarModelList)*/
 
     }
 
@@ -244,6 +311,8 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
             }
             R.id.rlProdDetails -> openProdDetails()
 
+            R.id.llCart -> view.findNavController().navigate(R.id.navigation_product_details_to_cart)
+
             R.id.llMenu -> activity?.onBackPressed()
 
             R.id.tvBuyNow -> {
@@ -271,15 +340,16 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
             Toast.makeText(activity,"uid => $uid",Toast.LENGTH_LONG).show()
 
             retrofitApiInterface.addToWishlist(prodId!!,uid!!,"",sharedPreference.getString("priceId","")!!,
-                sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {
+                sharedPreference.getString("price","")!!).enqueue(object : Callback<CartModel?> {
 
                 override fun onResponse(
                     call: Call<CartModel?>,
                     response: Response<CartModel?>
                 ) {
+                    Log.d("ADD_TO_WISHLIST",response.body()!!.toString())
                     CustomProgressDialog.showDialog(requireContext(),false)
                     if(response.body()!!.status!!.equals("success")){
-                        cartCount()
+                        wishlistCount()
                         Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
                     }else if(response.body()!!.status!!.equals("error")){
                         Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
@@ -298,14 +368,14 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
             Log.d("Divice_id_res",device_id)
 
             retrofitApiInterface.addToWishlist(prodId!!,"",device_id,sharedPreference.getString("priceId","")!!,
-                sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {
+                sharedPreference.getString("price","")!!).enqueue(object : Callback<CartModel?> {
                 override fun onResponse(
                     call: Call<CartModel?>,
                     response: Response<CartModel?>
                 ) {
                     CustomProgressDialog.showDialog(requireContext(),false)
                     if(response.body()!!.status!!.equals("success")){
-                        cartCount()
+                        wishlistCount()
                         Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()
                     }else if(response.body()!!.status!!.equals("error")){
                         Toast.makeText(activity,response.body()!!.message,Toast.LENGTH_LONG).show()

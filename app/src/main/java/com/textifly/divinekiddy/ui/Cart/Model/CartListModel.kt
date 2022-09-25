@@ -32,7 +32,7 @@ data class CartList(
     var price:String?,
     @SerializedName("quantity")
     var quantity:String?,
-    @SerializedName("parcentage")
+    @SerializedName("percentage")
     var parcentage:String?,
 )
 

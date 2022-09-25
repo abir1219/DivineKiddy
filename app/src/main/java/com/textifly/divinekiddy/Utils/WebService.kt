@@ -7,6 +7,8 @@ import com.textifly.divinekiddy.ui.Discover.Model.HeaderImageModel
 import com.textifly.divinekiddy.ui.Discover.Model.SliderModel
 import com.textifly.divinekiddy.ui.ProductDetails.Model.CartModel
 import com.textifly.divinekiddy.ui.ProductDetails.Model.ProductDetailsModel
+import com.textifly.divinekiddy.ui.ProductDetails.Model.SimilarProductList
+import com.textifly.divinekiddy.ui.ProductDetails.Model.SimilarProductsModel
 import com.textifly.divinekiddy.ui.Products.Model.ProductsModel
 import com.textifly.divinekiddy.ui.SignIn.JoinModel
 import com.textifly.divinekiddy.ui.SubCategory.Model.SubCategoryModel
@@ -56,7 +58,6 @@ interface WebService {
         @Field("device_id") device_id : String,
         @Field("price_id") price_id : String,
         @Field("price") price : String,
-        @Field("quantity") quantity : String,
     ): Call<CartModel?>
 
     @FormUrlEncoded
@@ -82,11 +83,25 @@ interface WebService {
     ): Call<CartCountModel?>
 
     @FormUrlEncoded
-    @POST("getcartlist")
+    @POST("wishlistcount")
+    fun wishlistCount(
+        @Field("user_id") user_id : String?,
+        @Field("device_id") device_id : String?,
+    ): Call<CartCountModel?>
+
+    @FormUrlEncoded
+    @POST("getwishlist")
     fun cartList(
         @Field("user_id") user_id : String?,
         @Field("device_id") device_id : String?,
     ): Call<CartListModel?>
+
+    @FormUrlEncoded
+    @POST("cartTransfer")
+    fun cartTransfer(
+        @Field("user_id") user_id : String?,
+        @Field("device_id") device_id : String?,
+    ): Call<CartModel?>
 
     @FormUrlEncoded
     @POST("addaddress")
@@ -99,5 +114,18 @@ interface WebService {
         @Field("state") state : String?,
         @Field("city") city : String?,
     ): Call<AddAddressModel?>
+
+    @FormUrlEncoded
+    @POST("related_productlist")
+    fun getRelatedProducts(
+        @Field("product_id") product_id: String?,
+        @Field("subcategory_id") subcategory_id: String?
+    ):Call<SimilarProductsModel?>
+
+    @FormUrlEncoded
+    @POST("removecart")
+    fun removeFromCart(
+        @Field("cartid") cartid: String?,
+    ):Call<CartModel?>
 
 }

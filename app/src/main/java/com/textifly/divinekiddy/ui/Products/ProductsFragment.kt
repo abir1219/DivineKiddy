@@ -55,9 +55,64 @@ class ProductsFragment : Fragment(),View.OnClickListener {
         binding.tvTitle.text = arguments!!.getString("categoryName")
         btnClick()
         cartCount()
+        wishlistCount()
         setLayout()
         loadCategory()
         return binding.root
+    }
+
+    private fun wishlistCount() {
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+//        val editor = sharedPreference.edit()
+//        editor.remove("priceId")
+//        editor.commit()
+        val uid : String?
+        if(sharedPreference.contains("uid")) {
+            uid = sharedPreference.getString("uid", "")
+            apiInterface.wishlistCount(uid,"").enqueue(object : Callback<CartCountModel?> {
+                override fun onResponse(
+                    call: Call<CartCountModel?>,
+                    response: Response<CartCountModel?>
+                ) {
+                    Log.d("CART_COUNT_RES",response.body()!!.toString())
+                    if(response.body()!!.status.equals("success")){
+                        binding.tvWishlistBadge.visibility = View.VISIBLE
+                        binding.tvWishlistBadge.text = response.body()!!.count.toString()
+
+
+                    }else if(response.equals("error")){
+                        binding.tvWishlistBadge.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<CartCountModel?>, t: Throwable) {
+                    Log.d("CART_COUNT_Error","Error")
+                }
+            })
+        }else{
+            val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
+                Settings.Secure.ANDROID_ID)
+
+            Log.d("Divice_id_cart_count",device_id)
+
+            apiInterface.wishlistCount("",device_id).enqueue(object : Callback<CartCountModel?> {
+                override fun onResponse(
+                    call: Call<CartCountModel?>,
+                    response: Response<CartCountModel?>
+                ) {
+                    if(response.body()!!.status.equals("success")){
+                        binding.tvWishlistBadge.visibility = View.VISIBLE
+                        binding.tvWishlistBadge.text = response.body()!!.count.toString()
+                    }else if(response.body()!!.status.equals("error")){
+                        binding.tvWishlistBadge.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<CartCountModel?>, t: Throwable) {
+
+                }
+            })
+        }
     }
 
     private fun cartCount() {

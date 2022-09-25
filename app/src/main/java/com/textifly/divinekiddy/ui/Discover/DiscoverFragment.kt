@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,12 +17,14 @@ import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.databinding.FragmentDiscoverBinding
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
+import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Discover.Adapter.HeaderImageAdapter
 import com.textifly.divinekiddy.ui.Discover.Adapter.SliderAdapter
 import com.textifly.divinekiddy.ui.Discover.Model.HeaderImageModel
 //import com.textifly.divinekiddy.ui.Discover.Model.ImageList
 import com.textifly.divinekiddy.ui.Discover.Model.SliderModel
+import com.textifly.divinekiddy.ui.ProductDetails.Model.CartModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -63,10 +66,93 @@ class DiscoverFragment : Fragment(),View.OnClickListener {
         setLayout()
         btnClick()
         cartCount()
+        wishlistCount()
         loadHeader()
         loadSlider()
+        cartTransfer()
+
         //Toast.makeText(activity,"Hi",Toast.LENGTH_LONG).show()
         return binding.root
+    }
+
+    private fun cartTransfer() {
+        CustomProgressDialog.showDialog(requireContext(),true)
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+        val uid : String?
+        if(sharedPreference.contains("uid")) {
+            uid = sharedPreference.getString("uid", "")
+            val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
+                Settings.Secure.ANDROID_ID)
+
+            retrofitApiInterface.cartTransfer(uid,device_id).enqueue(object : Callback<CartModel?> {
+                override fun onResponse(call: Call<CartModel?>, response: Response<CartModel?>) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    if(response.body()!!.status.equals("success")){
+                        cartCount()
+                        wishlistCount()
+                    }
+                }
+
+                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                }
+            })
+        }else{
+            CustomProgressDialog.showDialog(requireContext(),false)
+            Toast.makeText(requireContext(),"Please Login",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun wishlistCount() {
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+//        val editor = sharedPreference.edit()
+//        editor.remove("priceId")
+//        editor.commit()
+        val uid : String?
+        if(sharedPreference.contains("uid")) {
+            uid = sharedPreference.getString("uid", "")
+            retrofitApiInterface.wishlistCount(uid,"").enqueue(object : Callback<CartCountModel?> {
+                override fun onResponse(
+                    call: Call<CartCountModel?>,
+                    response: Response<CartCountModel?>
+                ) {
+                    Log.d("CART_COUNT_RES",response.body()!!.toString())
+                    if(response.body()!!.status.equals("success")){
+                        binding.tvWishlistBadge.visibility = View.VISIBLE
+                        binding.tvWishlistBadge.text = response.body()!!.count.toString()
+                    }else if(response.equals("error")){
+                        binding.tvWishlistBadge.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<CartCountModel?>, t: Throwable) {
+                    Log.d("CART_COUNT_Error","Error")
+                }
+            })
+        }else{
+            val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
+                Settings.Secure.ANDROID_ID)
+
+            Log.d("Divice_id_cart_count",device_id)
+
+            retrofitApiInterface.wishlistCount("",device_id).enqueue(object : Callback<CartCountModel?> {
+                override fun onResponse(
+                    call: Call<CartCountModel?>,
+                    response: Response<CartCountModel?>
+                ) {
+                    if(response.body()!!.status.equals("success")){
+                        binding.tvWishlistBadge.visibility = View.VISIBLE
+                        binding.tvWishlistBadge.text = response.body()!!.count.toString()
+                    }else if(response.body()!!.status.equals("error")){
+                        binding.tvWishlistBadge.visibility = View.GONE
+                    }
+                }
+
+                override fun onFailure(call: Call<CartCountModel?>, t: Throwable) {
+
+                }
+            })
+        }
     }
 
     private fun btnClick() {
