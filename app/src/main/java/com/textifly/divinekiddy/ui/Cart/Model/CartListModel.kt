@@ -5,6 +5,10 @@ import com.google.gson.annotations.SerializedName
 data class CartListModel(
     @SerializedName("status")
     var status:String?,
+    @SerializedName("total_price")
+    var total_price:String?,
+    @SerializedName("total_discount")
+    var total_discount:String?,
     @SerializedName("list")
     var list : List<CartList>
 )
@@ -32,7 +36,7 @@ data class CartList(
     var price:String?,
     @SerializedName("quantity")
     var quantity:String?,
-    @SerializedName("percentage")
+    @SerializedName("parcentage")
     var parcentage:String?,
 )
 

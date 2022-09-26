@@ -90,7 +90,7 @@ interface WebService {
     ): Call<CartCountModel?>
 
     @FormUrlEncoded
-    @POST("getwishlist")
+    @POST("getcartlist")
     fun cartList(
         @Field("user_id") user_id : String?,
         @Field("device_id") device_id : String?,

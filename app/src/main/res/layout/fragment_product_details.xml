@@ -44,14 +44,13 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/llSearch"
+                android:id="@+id/llShare"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@+id/llWishlist"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingStart="5dp">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="25dp"
@@ -67,12 +66,9 @@
                 android:id="@+id/llWishlist"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
                 android:layout_toLeftOf="@+id/llCart"
                 android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingStart="5dp">
+                android:orientation="horizontal">
 
                 <FrameLayout
                     android:id="@+id/flWishlist"
@@ -82,9 +78,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:clipToPadding="false"
-                    android:focusable="true"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp">
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="25dp"
@@ -138,9 +132,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:clipToPadding="false"
-                    android:focusable="true"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp">
+                    android:focusable="true">
 
                     <ImageView
                         android:layout_width="25dp"
@@ -459,6 +451,7 @@
             android:layout_below="@+id/v4"
             android:layout_marginTop="10dp"
             android:paddingLeft="8dp"
+            android:visibility="gone"
             android:paddingRight="8dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
@@ -489,7 +482,7 @@
             android:id="@+id/llDeliveryDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/llPincode"
+            android:layout_below="@+id/v4"
             android:layout_marginStart="10dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="10dp"
