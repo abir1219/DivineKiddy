@@ -50,23 +50,101 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
+                <LinearLayout
+                    android:id="@+id/llWishlist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/llCart"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:id="@+id/flWishlist"
+                        style="?attr/actionButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:clipToPadding="false"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="17dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/wishlist_menu"
+                            app:tint="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tvWishlist_badge"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
+                            android:layout_gravity="right|end|top"
+                            android:layout_marginTop="7dp"
+                            android:layout_marginEnd="-10dp"
+                            android:background="@drawable/bottom_nav_background"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            tools:text="0" />
+
+                    </FrameLayout>
+
+                    <!--<ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/wishlist_menu"
+                        app:tint="@color/black" />-->
+
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/llCart"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
+                    android:paddingEnd="15dp">
 
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:src="@drawable/cart"
-                        app:tint="@color/black" />
+
+                    <FrameLayout
+                        android:id="@+id/flCart"
+                        style="?attr/actionButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:clipToPadding="false"
+                        android:focusable="true">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/cart"
+                            app:tint="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tvcart_badge"
+                            android:layout_width="19dp"
+                            android:layout_height="19dp"
+                            android:layout_gravity="right|end|top"
+                            android:layout_marginTop="7dp"
+                            android:layout_marginEnd="-10dp"
+                            android:background="@drawable/bottom_nav_background"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:visibility="gone"
+                            tools:text="0" />
+
+                    </FrameLayout>
 
                 </LinearLayout>
 
@@ -81,6 +159,52 @@
             android:layout_below="@+id/rlMenu"
             android:layout_marginTop="10dp"
             tools:itemCount="2" />
+
+        <RelativeLayout
+            android:id="@+id/rlNoRecordsFound"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_below="@+id/rlMenu"
+            >
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                app:lottie_fileName="no_records.json"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"/>
+
+            <TextView
+                android:id="@+id/tvNoRecords"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Records Found"
+                android:gravity="center"
+                android:layout_marginTop="-20dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:layout_below="@+id/animationView"/>
+
+            <TextView
+                android:id="@+id/tvContinueShopping"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/tvNoRecords"
+                android:background="@drawable/btn_bg"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:padding="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:text="Continue Shopping"/>
+
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

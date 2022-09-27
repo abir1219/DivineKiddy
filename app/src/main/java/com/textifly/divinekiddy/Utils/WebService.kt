@@ -5,13 +5,11 @@ import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Cart.Model.CartListModel
 import com.textifly.divinekiddy.ui.Discover.Model.HeaderImageModel
 import com.textifly.divinekiddy.ui.Discover.Model.SliderModel
-import com.textifly.divinekiddy.ui.ProductDetails.Model.CartModel
-import com.textifly.divinekiddy.ui.ProductDetails.Model.ProductDetailsModel
-import com.textifly.divinekiddy.ui.ProductDetails.Model.SimilarProductList
-import com.textifly.divinekiddy.ui.ProductDetails.Model.SimilarProductsModel
+import com.textifly.divinekiddy.ui.ProductDetails.Model.*
 import com.textifly.divinekiddy.ui.Products.Model.ProductsModel
 import com.textifly.divinekiddy.ui.SignIn.JoinModel
 import com.textifly.divinekiddy.ui.SubCategory.Model.SubCategoryModel
+import com.textifly.divinekiddy.ui.Wishlist.Model.WishlistModel
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -97,6 +95,13 @@ interface WebService {
     ): Call<CartListModel?>
 
     @FormUrlEncoded
+    @POST("getcartlist")
+    fun getWishlistList(
+        @Field("user_id") user_id : String?,
+        @Field("device_id") device_id : String?,
+    ): Call<WishlistModel?>
+
+    @FormUrlEncoded
     @POST("cartTransfer")
     fun cartTransfer(
         @Field("user_id") user_id : String?,
@@ -127,5 +132,19 @@ interface WebService {
     fun removeFromCart(
         @Field("cartid") cartid: String?,
     ):Call<CartModel?>
+
+    @FormUrlEncoded
+    @POST("removewishlist")
+    fun removeFromWishlist(
+        @Field("wishid") wishid: String?,
+    ):Call<CartModel?>
+
+    @FormUrlEncoded
+    @POST("removewishlist")
+    fun checkProductInWishlist(
+        @Field("user_id") user_id : String?,
+        @Field("device_id") device_id : String?,
+        @Field("product_id") product_id : String?,
+    ):Call<CheckWishlistProduct?>
 
 }

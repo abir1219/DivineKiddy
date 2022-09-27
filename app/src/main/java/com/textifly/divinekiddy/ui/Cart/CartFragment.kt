@@ -176,6 +176,7 @@ class CartFragment : Fragment(), View.OnClickListener {
         binding.tvCheckout.setOnClickListener(this)
         binding.llCoupon.setOnClickListener(this)
         binding.tvContinueShopping.setOnClickListener(this)
+        binding.llWishlist.setOnClickListener(this)
     }
 
     private fun loadCartList() {
@@ -310,6 +311,8 @@ class CartFragment : Fragment(), View.OnClickListener {
             R.id.llCoupon -> view.findNavController().navigate(R.id.nav_cart_to_offer)
             R.id.tvCheckout -> view.findNavController().navigate(R.id.nav_cart_to_shipping_address)
             R.id.tvContinueShopping -> startActivity(Intent(requireContext(),MainActivity::class.java))
+            R.id.llWishlist -> view.findNavController()
+                .navigate(R.id.navigation_cart_to_wishlist)
         }
     }//nav_cart_to_offer
 
