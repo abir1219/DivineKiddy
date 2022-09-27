@@ -203,6 +203,8 @@ class CartFragment : Fragment(), View.OnClickListener {
                         cartAdapter.setListner(object : onDataRecived {
                             override fun onCallBack(pos: String?) {
                                 loadCartList()
+                                cartCount()
+                                wishlistCount()
                             }
                         })
 
@@ -246,6 +248,8 @@ class CartFragment : Fragment(), View.OnClickListener {
                         cartAdapter.setListner(object : onDataRecived {
                             override fun onCallBack(pos: String?) {
                                 loadCartList()
+                                cartCount()
+                                wishlistCount()
                             }
                         })
 

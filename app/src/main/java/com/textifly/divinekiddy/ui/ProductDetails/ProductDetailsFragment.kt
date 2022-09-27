@@ -39,6 +39,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
 
     var prodId : String? = null
 
+    var isInWishlist :Boolean =  false
     var isProdDetailsClicked: Boolean = false
 
     lateinit var imageUrl: ArrayList<String>
@@ -70,8 +71,57 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         cartCount()
         wishlistCount()
         loadProduct()
+        checkProductInWishlist()
         setLayout()
         return binding.root
+    }
+
+    private fun checkProductInWishlist() {
+        val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+        val uid : String?
+        if(sharedPreference.contains("uid")) {
+            uid = sharedPreference.getString("uid", "")
+            val pid = sharedPreference.getString("prodId", "")
+            retrofitApiInterface.checkProductInWishlist(uid,"",pid).enqueue(object : Callback<CheckWishlistProduct?> {
+                override fun onResponse(
+                    call: Call<CheckWishlistProduct?>,
+                    response: Response<CheckWishlistProduct?>
+                ) {
+                    if(response.body()!!.status.equals("success")){
+                        isInWishlist = true
+                        binding.ivAddToWishlist.setColorFilter(resources.getColor(R.color.red))
+                    }else{
+                        isInWishlist = false
+                        binding.ivAddToWishlist.setColorFilter(resources.getColor(R.color.grey))
+                    }
+                }
+
+                override fun onFailure(call: Call<CheckWishlistProduct?>, t: Throwable) {
+                    Toast.makeText(requireContext(),"Getting some troubles",Toast.LENGTH_SHORT).show()
+                }
+            })
+        }else{
+            val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
+                Settings.Secure.ANDROID_ID)
+            val pid = arguments?.getString("prodId")
+            Log.d("ProdId=>",pid.toString())
+            retrofitApiInterface.checkProductInWishlist("",device_id,pid).enqueue(object : Callback<CheckWishlistProduct?> {
+                override fun onResponse(
+                    call: Call<CheckWishlistProduct?>,
+                    response: Response<CheckWishlistProduct?>
+                ) {
+                    if(response.body()!!.status.equals("success")){
+                        binding.ivAddToWishlist.setColorFilter(resources.getColor(R.color.red))
+                    }else{
+                        binding.ivAddToWishlist.setColorFilter(resources.getColor(R.color.grey))
+                    }
+                }
+
+                override fun onFailure(call: Call<CheckWishlistProduct?>, t: Throwable) {
+                    Toast.makeText(requireContext(),"Getting some troubles",Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 
     private fun wishlistCount() {
@@ -92,7 +142,6 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                         binding.tvWishlistBadge.visibility = View.VISIBLE
                         binding.tvWishlistBadge.text = response.body()!!.count.toString()
 
-                        binding.ivAddToWishlist.setColorFilter(resources.getColor(R.color.red))
                     }else if(response.equals("error")){
                         binding.tvWishlistBadge.visibility = View.GONE
                     }
@@ -115,7 +164,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                 ) {
                     if(response.body()!!.status.equals("success")){
                         binding.tvWishlistBadge.visibility = View.VISIBLE
-                        binding.ivAddToWishlist.setColorFilter(resources.getColor(R.color.red))
+                        //binding.ivAddToWishlist.setColorFilter(resources.getColor(R.color.red))
                         binding.tvWishlistBadge.text = response.body()!!.count.toString()
                     }else if(response.body()!!.status.equals("error")){
                         binding.tvWishlistBadge.visibility = View.GONE
@@ -302,11 +351,15 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                 }
             }
             R.id.ivAddToWishlist -> {
-                val sharedPreference = context?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
-                if(sharedPreference!!.contains("priceId")){
-                    addToWishlist(view)
+                if(!isInWishlist){
+                    val sharedPreference = context?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+                    if(sharedPreference!!.contains("priceId")){
+                        addToWishlist(view)
+                    }else{
+                        Toast.makeText(requireActivity(),"Select Price First",Toast.LENGTH_SHORT).show()
+                    }
                 }else{
-                    Toast.makeText(requireActivity(),"Select Price First",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(),"Already in wishlist",Toast.LENGTH_SHORT).show()
                 }
             }
             R.id.rlProdDetails -> openProdDetails()

@@ -95,7 +95,7 @@ interface WebService {
     ): Call<CartListModel?>
 
     @FormUrlEncoded
-    @POST("getcartlist")
+    @POST("getwishlist")
     fun getWishlistList(
         @Field("user_id") user_id : String?,
         @Field("device_id") device_id : String?,
@@ -140,7 +140,23 @@ interface WebService {
     ):Call<CartModel?>
 
     @FormUrlEncoded
-    @POST("removewishlist")
+    @POST("moveToCart")
+    fun moveToCart(
+        @Field("wishid") wishid: String?,
+        @Field("user_id") user_id: String?,
+        @Field("device_id") device_id: String?,
+    ):Call<CartModel?>
+
+    @FormUrlEncoded
+    @POST("moveToWishlist")
+    fun moveToWishlist(
+        @Field("cartid") cartid: String?,
+        @Field("user_id") user_id: String?,
+        @Field("device_id") device_id: String?,
+    ):Call<CartModel?>
+
+    @FormUrlEncoded
+    @POST("wishlistcheck_product")
     fun checkProductInWishlist(
         @Field("user_id") user_id : String?,
         @Field("device_id") device_id : String?,

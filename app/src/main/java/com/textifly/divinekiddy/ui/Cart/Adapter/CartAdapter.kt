@@ -2,6 +2,7 @@ package com.textifly.divinekiddy.ui.Cart.Adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -53,42 +54,108 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
 
         Log.d("CART_ID", modelList[position].id!!)
 
-        holder.ivMenu?.setOnClickListener(View.OnClickListener {
+        holder.ivMenu?.setOnClickListener{
             Log.d("","clicked")
             val animationZoomIn = AnimationUtils.loadAnimation(context, R.anim.slide_right_to_left)
             holder.llFunctions?.visibility = View.VISIBLE
             holder.llFunctions?.startAnimation(animationZoomIn)
             //holder.llData?.visibility = View.GONE
-        })
+        }
 
-        holder.ivBack?.setOnClickListener(View.OnClickListener {
+        holder.ivBack?.setOnClickListener{
             val animationZoomIn = AnimationUtils.loadAnimation(context, R.anim.slide_left_to_right)
             holder.llFunctions?.startAnimation(animationZoomIn)
             //holder.llData?.visibility = View.VISIBLE
             holder.llFunctions?.visibility = View.GONE
-        })
+        }
 
+        holder.llMoveToWishlist?.setOnClickListener{
+            Log.d("Cart_id",modelList[position].id.toString())
+            CustomProgressDialog.showDialog(context, true)
+            val sharedPreference = context.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+            if (sharedPreference!!.contains("uid")) {
+                val uid = sharedPreference.getString("uid", "")
+                retrofitApiInterface.moveToWishlist(modelList[position].id, uid, "")
+                    .enqueue(object : Callback<CartModel?> {
+                        override fun onResponse(call: Call<CartModel?>, response: Response<CartModel?>
+                        ) {
+                            if (response.body()!!.status.equals("success")) {
+                                CustomProgressDialog.showDialog(context, false)
+                                removeFromCart(position, modelList[position].id!!,holder.llFunctions)
+                                onDataRecived?.onCallBack(position.toString())
+                            } else {
+                                //Toast.makeText(context,"")
+                                CustomProgressDialog.showDialog(context, false)
+                            }
+                        }
 
-        holder.llRemoveCart?.setOnClickListener(View.OnClickListener {
+                        override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                            CustomProgressDialog.showDialog(context, false)
+                        }
+                    })
+            } else {
+                val device_id: String = Settings.Secure.getString(
+                    context.contentResolver,
+                    Settings.Secure.ANDROID_ID
+                )
+                retrofitApiInterface.moveToWishlist(modelList[position].id, "", device_id)
+                    .enqueue(object : Callback<CartModel?> {
+                        override fun onResponse(
+                            call: Call<CartModel?>,
+                            response: Response<CartModel?>
+                        ) {
+                            if (response.body()!!.status.equals("success")) {
+                                CustomProgressDialog.showDialog(context, false)
+                                removeFromCart(position, modelList[position].id!!,holder.llFunctions)
+                                onDataRecived?.onCallBack(position.toString())
+                            } else {
+                                //Toast.makeText(context,"")
+                                CustomProgressDialog.showDialog(context, false)
+                            }
+                        }
+
+                        override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                            CustomProgressDialog.showDialog(context, false)
+                        }
+                    })
+            }
+        }
+
+        holder.llRemoveCart?.setOnClickListener {
             Log.d("CART_ID", modelList[position].id!!)
-            retrofitApiInterface.removeFromCart(modelList[position].id).enqueue(object : Callback<CartModel?> {
-                override fun onResponse(call: Call<CartModel?>, response: Response<CartModel?>) {
-                    CustomProgressDialog.showDialog(context,true)
-                    if(response.body()!!.status.equals("success")){
-                        CustomProgressDialog.showDialog(context,false)
+            CustomProgressDialog.showDialog(context, true)
+            removeFromCart(position,modelList[position].id!!,holder.llFunctions)
+        }
+    }
+
+    private fun removeFromCart(position: Int, id: String, llFunctions: LinearLayout?) {
+        retrofitApiInterface.removeFromCart(id)
+            .enqueue(object : Callback<CartModel?> {
+                override fun onResponse(
+                    call: Call<CartModel?>,
+                    response: Response<CartModel?>
+                ) {
+                    if (response.body()!!.status.equals("success")) {
+                        CustomProgressDialog.showDialog(context, false)
                         onDataRecived?.onCallBack(position.toString())
-                        holder.llFunctions?.visibility = View.VISIBLE
-                    }else{
-                        CustomProgressDialog.showDialog(context,false)
+                        llFunctions?.visibility = View.GONE
+                        val animationZoomIn =
+                            AnimationUtils.loadAnimation(context, R.anim.slide_left_to_right)
+                        llFunctions?.startAnimation(animationZoomIn)
+                        //holder.llData?.visibility = View.VISIBLE
+                        llFunctions?.visibility = View.GONE
+                    } else {
+                        llFunctions?.visibility = View.VISIBLE
+                        CustomProgressDialog.showDialog(context, false)
                     }
                 }
 
                 override fun onFailure(call: Call<CartModel?>, t: Throwable) {
-                    Toast.makeText(context,"Getting some troubles",Toast.LENGTH_SHORT).show()
-                    CustomProgressDialog.showDialog(context,false)
+                    Toast.makeText(context, "Getting some troubles", Toast.LENGTH_SHORT).show()
+                    llFunctions?.visibility = View.VISIBLE
+                    CustomProgressDialog.showDialog(context, false)
                 }
             })
-        })
     }
 
     override fun getItemCount(): Int {
@@ -108,6 +175,7 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
         var tvCostPrice: TextView? = itemview.findViewById(R.id.tvCostPrice)
         var tvDiscountPercentage: TextView? = itemview.findViewById(R.id.tvDiscountPercentage)
         var llRemoveCart: LinearLayout? = itemview.findViewById(R.id.llRemoveCart)
+        var llMoveToWishlist: LinearLayout? = itemview.findViewById(R.id.llMoveToWishlist)
 
 
         var llData: LinearLayout? = itemview.findViewById(R.id.llData)

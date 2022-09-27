@@ -37,7 +37,7 @@ class WishlistFragment : Fragment(),View.OnClickListener {
     override fun onResume() {
         super.onResume()
         try {
-            var bottomNav : BottomNavigationView?  = activity?.findViewById(R.id.bottom_nav)
+            val bottomNav : BottomNavigationView?  = activity?.findViewById(R.id.bottom_nav)
             bottomNav?.visibility = View.GONE
         }catch (e:Exception){}
     }
@@ -46,11 +46,11 @@ class WishlistFragment : Fragment(),View.OnClickListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentWishlistBinding.inflate(inflater,container,false)
         super.onResume()
         try {
-            var bottomNav : BottomNavigationView?  = activity?.findViewById(R.id.bottom_nav)
+            val bottomNav : BottomNavigationView?  = activity?.findViewById(R.id.bottom_nav)
             bottomNav?.visibility = View.GONE
         }catch (e:Exception){}
         btnClick()
@@ -191,6 +191,7 @@ class WishlistFragment : Fragment(),View.OnClickListener {
                         wishlistAdapter.setListner(object : WishlistFragment.onDataRecived {
                             override fun onCallBack(pos: String?) {
                                 loadWishlist()
+                                cartCount()
                             }
                         })
 
@@ -230,6 +231,8 @@ class WishlistFragment : Fragment(),View.OnClickListener {
                         wishlistAdapter.setListner(object : WishlistFragment.onDataRecived {
                             override fun onCallBack(pos: String?) {
                                 loadWishlist()
+                                cartCount()
+                                wishlistCount()
                             }
                         })
 
