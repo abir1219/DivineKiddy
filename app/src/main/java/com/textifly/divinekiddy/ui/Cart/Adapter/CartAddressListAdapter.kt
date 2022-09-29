@@ -23,6 +23,9 @@ class CartAddressListAdapter(var modelList:List<AddressList>):RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
+        holder.tvAddress?.text =
+            "${modelList[position].address}, ${modelList[position].landmark}, ${modelList[position].city}, ${modelList[position].state} - ${modelList[position].pin}"
+
         holder.llAddress?.setBackgroundResource(
             if (selected_position == position)
                 R.drawable.address_select_bg
