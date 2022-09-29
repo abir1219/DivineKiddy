@@ -12,14 +12,17 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
 import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.ui.Cart.CartFragment
 import com.textifly.divinekiddy.ui.Cart.Model.CartList
+import com.textifly.divinekiddy.ui.Cart.Model.QtyModel
 import com.textifly.divinekiddy.ui.ProductDetails.Model.CartModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,6 +33,15 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
     lateinit var context: Context
     private var retrofitHelper = RetrofitHelper.getRetrofitInstance()
     private var retrofitApiInterface = retrofitHelper.create(WebService::class.java)
+
+    private var bottomSheetDialog1: BottomSheetDialog? = null
+    var rvQty: RecyclerView? = null
+
+    var btnDone: TextView? = null
+    var cancel: ImageView? = null
+    var llcanceld:LinearLayout? = null
+
+    var qtyModelList: ArrayList<QtyModel>? = null
 
     var onDataRecived: CartFragment.onDataRecived? = null
 
@@ -126,6 +138,65 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
             CustomProgressDialog.showDialog(context, true)
             removeFromCart(position,modelList[position].id!!,holder.llFunctions)
         }
+
+        holder.llChangeQuantity?.setOnClickListener{
+
+            //QuantityFragment fragment = new QuantityFragment();
+
+            //fragment.show(((FragmentActivity)context).getSupportFragmentManager(), fragment.getTag());
+            bottomSheetDialog1 = BottomSheetDialog(context)
+            bottomSheetDialog1!!.setContentView(R.layout.quantity_base)
+            bottomSheetDialog1!!.setCanceledOnTouchOutside(true)
+
+            rvQty = bottomSheetDialog1!!.findViewById(R.id.rvQty)
+            btnDone = bottomSheetDialog1!!.findViewById(R.id.btnDone)
+            llcanceld = bottomSheetDialog1!!.findViewById(R.id.llcanceld)
+
+            llcanceld!!.setOnClickListener(View.OnClickListener { bottomSheetDialog1!!.dismiss() })
+
+            rvQty!!.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+
+            loadQuantity()
+
+            btnDone!!.setOnClickListener {
+                if (QtyAdapter.quantity != "") {
+                    CustomProgressDialog.showDialog(context,true)
+                    retrofitApiInterface.cartUpdate(modelList[position].id, QtyAdapter.quantity)
+                        .enqueue(object : Callback<CartModel?> {
+                            override fun onResponse(
+                                call: Call<CartModel?>,
+                                response: Response<CartModel?>
+                            ) {
+                                CustomProgressDialog.showDialog(context,false)
+                                if(response.body()!!.status.equals("success",ignoreCase = true)){
+                                    Toast.makeText(context,response.body()!!.message,Toast.LENGTH_SHORT).show()
+                                    onDataRecived?.onCallBack(position.toString())
+                                }else{
+                                    Toast.makeText(context,response.body()!!.message,Toast.LENGTH_SHORT).show()
+                                }
+                            }
+
+                            override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                                CustomProgressDialog.showDialog(context,false)
+                            }
+                        })
+                } else {
+                    Toast.makeText(context, "Please select quantity", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            bottomSheetDialog1!!.show()
+        }
+    }
+
+    private fun loadQuantity() {
+        qtyModelList = ArrayList()
+        for (i in 1..10) {
+            qtyModelList!!.add(QtyModel(i.toString()))
+        }
+
+        val adapter = QtyAdapter(qtyModelList!!)
+        rvQty!!.adapter = adapter
     }
 
     private fun removeFromCart(position: Int, id: String, llFunctions: LinearLayout?) {
@@ -176,6 +247,7 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
         var tvDiscountPercentage: TextView? = itemview.findViewById(R.id.tvDiscountPercentage)
         var llRemoveCart: LinearLayout? = itemview.findViewById(R.id.llRemoveCart)
         var llMoveToWishlist: LinearLayout? = itemview.findViewById(R.id.llMoveToWishlist)
+        var llChangeQuantity: LinearLayout? = itemview.findViewById(R.id.llChangeQuantity)
 
 
         var llData: LinearLayout? = itemview.findViewById(R.id.llData)

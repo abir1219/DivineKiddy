@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvBackground"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:cardBackgroundColor="@color/colorGray"
+        app:cardElevation="0dp"
+        app:cardCornerRadius="25dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            app:cardCornerRadius="25dp">
+
+            <TextView
+                android:id="@+id/qty"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:textColor="@color/black"
+                tools:text="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:textSize="19sp"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <!--<androidx.cardview.widget.CardView
+        android:layout_width="47dp"
+        android:layout_height="47dp"
+        android:padding="3dp"
+        app:cardBackgroundColor="@color/baseColor"
+        app:cardCornerRadius="25dp">
+
+        <TextView
+            android:id="@+id/qty"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
+            android:textColor="@color/black"
+            android:text="1"
+            android:background="@color/white"
+            android:gravity="center"
+            android:textSize="19sp"/>
+
+    </androidx.cardview.widget.CardView>-->
+
+</RelativeLayout>

@@ -157,6 +157,7 @@ class DiscoverFragment : Fragment(),View.OnClickListener {
 
     private fun btnClick() {
         binding.llCart.setOnClickListener(this)
+        binding.llWishlist.setOnClickListener(this)
     }
 
     private fun cartCount() {
@@ -317,6 +318,7 @@ class DiscoverFragment : Fragment(),View.OnClickListener {
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.llCart -> view.findNavController().navigate(R.id.navigation_discover_details_to_cart)
+            R.id.llWishlist -> view.findNavController().navigate(R.id.navigation_discover_details_to_wishlist)
         }
     }
 }

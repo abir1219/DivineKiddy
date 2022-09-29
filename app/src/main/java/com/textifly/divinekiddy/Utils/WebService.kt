@@ -7,6 +7,8 @@ import com.textifly.divinekiddy.ui.Discover.Model.HeaderImageModel
 import com.textifly.divinekiddy.ui.Discover.Model.SliderModel
 import com.textifly.divinekiddy.ui.ProductDetails.Model.*
 import com.textifly.divinekiddy.ui.Products.Model.ProductsModel
+import com.textifly.divinekiddy.ui.SavedAddress.Model.AddressList
+import com.textifly.divinekiddy.ui.SavedAddress.Model.SavedAddressModel
 import com.textifly.divinekiddy.ui.SignIn.JoinModel
 import com.textifly.divinekiddy.ui.SubCategory.Model.SubCategoryModel
 import com.textifly.divinekiddy.ui.Wishlist.Model.WishlistModel
@@ -109,6 +111,13 @@ interface WebService {
     ): Call<CartModel?>
 
     @FormUrlEncoded
+    @POST("cartUpdate")
+    fun cartUpdate(
+        @Field("cart_id") cart_id : String?,
+        @Field("quantity") quantity : String?,
+    ): Call<CartModel?>
+
+    @FormUrlEncoded
     @POST("addaddress")
     fun addAddress(
         @Field("user_id") user_id : String?,
@@ -118,7 +127,43 @@ interface WebService {
         @Field("landmark") landmark : String?,
         @Field("state") state : String?,
         @Field("city") city : String?,
+        @Field("pin") pin : String?,
+        @Field("mobile") mobile : String?,
+        @Field("default_address") default_address : String?,
     ): Call<AddAddressModel?>
+
+    @FormUrlEncoded
+    @POST("addressedit")
+    fun getAddressById(
+        @Field("id") id : String?
+    ): Call<AddressList?>
+
+    @FormUrlEncoded
+    @POST("addressupdate")
+    fun updateAddress(
+        @Field("id") id: String?,
+        @Field("user_id") user_id : String?,
+        @Field("name") name : String?,
+        @Field("email") email : String?,
+        @Field("address") address : String?,
+        @Field("landmark") landmark : String?,
+        @Field("state") state : String?,
+        @Field("city") city : String?,
+        @Field("pin") pin : String?,
+        @Field("mobile") mobile : String?,
+    ):Call<CartModel?>
+
+    @FormUrlEncoded
+    @POST("getaddresslist")
+    fun getAddressList(
+        @Field("user_id") user_id : String?
+    ): Call<SavedAddressModel?>
+
+    @FormUrlEncoded
+    @POST("removeaddress")
+    fun removeAddress(
+        @Field("id") id: String?,
+    ):Call<CartModel?>
 
     @FormUrlEncoded
     @POST("related_productlist")
@@ -132,6 +177,7 @@ interface WebService {
     fun removeFromCart(
         @Field("cartid") cartid: String?,
     ):Call<CartModel?>
+
 
     @FormUrlEncoded
     @POST("removewishlist")

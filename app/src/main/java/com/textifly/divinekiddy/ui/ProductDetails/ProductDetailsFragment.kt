@@ -279,6 +279,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         binding.tvBuyNow.setOnClickListener(this)
         binding.llMenu.setOnClickListener(this)
         binding.llCart.setOnClickListener(this)
+        binding.llWishlist.setOnClickListener(this)
         binding.rlProdDetails.setOnClickListener(this)
     }
 
@@ -365,6 +366,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
             R.id.rlProdDetails -> openProdDetails()
 
             R.id.llCart -> view.findNavController().navigate(R.id.navigation_product_details_to_cart)
+            R.id.llWishlist -> view.findNavController().navigate(R.id.navigation_product_details_to_wishlist)
 
             R.id.llMenu -> activity?.onBackPressed()
 

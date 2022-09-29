@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:weightSum="2.8"
+        android:weightSum="2.9"
         android:orientation="vertical">
 
         <ImageView
@@ -26,7 +26,7 @@
             android:layout_height="0dp"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
-            android:layout_weight=".4"
+            android:layout_weight=".45"
             android:orientation="horizontal"
             >
 
@@ -38,8 +38,8 @@
                 android:layout_toStartOf="@+id/ivSave"
                 android:text="Boys Red Animal Print"
                 android:paddingEnd="3dp"
-                android:paddingTop="1dp"
-                android:textSize="13sp"
+                android:paddingTop=".5dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -59,7 +59,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".4"
+            android:layout_weight=".45"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="4dp"
             android:orientation="horizontal"

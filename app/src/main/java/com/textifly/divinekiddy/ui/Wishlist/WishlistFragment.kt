@@ -176,7 +176,7 @@ class WishlistFragment : Fragment(),View.OnClickListener {
             requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
         if (sharedPreference.contains("uid")) {
             val uid = sharedPreference.getString("uid", "")
-            Toast.makeText(requireContext(), "uid=>$uid", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(requireContext(), "uid=>$uid", Toast.LENGTH_SHORT).show()
             retrofitApiInterface.getWishlistList(uid, "").enqueue(object : Callback<WishlistModel?> {
                 override fun onResponse(
                     call: Call<WishlistModel?>,
@@ -268,8 +268,7 @@ class WishlistFragment : Fragment(),View.OnClickListener {
                 Intent(requireContext(),
                     MainActivity::class.java)
             )
-            R.id.llCart -> view.findNavController()
-                .navigate(R.id.navigation_wishlist_to_cart)
+            R.id.llCart -> view.findNavController().navigate(R.id.navigation_wishlist_to_cart)
         }
     }
 

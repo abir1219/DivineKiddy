@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.SavedAddress.AddressListFragment">
 
     <RelativeLayout
@@ -12,10 +13,13 @@
         <ImageView
             android:id="@+id/ivBack"
             android:layout_width="40dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_alignParentStart="true"
-            android:layout_margin="10dp"
-            android:src="@drawable/ic_baseline_arrow_back_24"/>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/ic_baseline_arrow_back_24" />
 
         <TextView
             android:id="@+id/tvSavedAddress"
@@ -30,108 +34,68 @@
             android:textSize="28sp"
             android:textStyle="bold" />
 
-
-        <LinearLayout
-            android:id="@+id/llAddressList"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSavedAddressList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
-            android:layout_below="@+id/tvSavedAddress"
-            android:orientation="vertical">
+            android:layout_above="@+id/tvAddAddress"
+            android:layout_marginBottom="5dp"/>
 
+        <RelativeLayout
+            android:id="@+id/rlNoRecordsFound"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:gravity="center"
+            android:layout_above="@+id/tvAddAddress"
+            >
 
-            <LinearLayout
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animationView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tvName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ashik"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Default"
-                    android:background="@drawable/address_type_bg"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingTop="5dp"
-                    android:textSize="14sp"
-                    android:paddingBottom="5dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black4"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginEnd="10dp"/>
-
-            </LinearLayout>
-            <TextView
-                android:id="@+id/tvPhone"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="+91 97323 38420"
-                android:textSize="13sp"
-                android:layout_marginTop="8dp"/>
+                android:layout_height="250dp"
+                app:lottie_fileName="no_records.json"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"/>
 
             <TextView
-                android:id="@+id/tvAddress"
+                android:id="@+id/tvNoRecords"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Nabadiganta,Mukundapur, Near Shib Mandir, Kolkata, West Bengal - 700 094"
-                android:inputType="textMultiLine"
-                android:textSize="13sp"
-                android:layout_marginTop="5dp"
-                tools:ignore="TextViewEdits" />
+                android:text="No Records Found"
+                android:gravity="center"
+                android:layout_marginTop="-20dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:layout_below="@+id/animationView"/>
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
+           <!-- <TextView
+                android:id="@+id/tvContinueShopping"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/tvNoRecords"
+                android:background="@drawable/btn_bg"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:padding="10dp"
+                android:layout_centerHorizontal="true"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:text="Continue Shopping"/>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/edit"
-                    android:textSize="16sp"
-                    android:textColor="@color/black4"
-                    android:textStyle="bold"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/remove"
-                    android:layout_marginStart="30dp"
-                    android:textSize="16sp"
-                    android:textColor="@color/black4"
-                    android:textStyle="bold"/>
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black4"
-                android:layout_marginTop="20dp"/>
-
-        </LinearLayout>
+        </RelativeLayout>
 
         <TextView
-            android:id="@+id/llAddAddress"
+            android:id="@+id/tvAddAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/llAddressList"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/add_address_btn_bg"
             android:gravity="center"
             android:letterSpacing=".03"

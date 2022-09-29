@@ -186,7 +186,7 @@ class CartFragment : Fragment(), View.OnClickListener {
             requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
         if (sharedPreference.contains("uid")) {
             val uid = sharedPreference.getString("uid", "")
-            Toast.makeText(requireContext(), "uid=>$uid", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(requireContext(), "uid=>$uid", Toast.LENGTH_SHORT).show()
             retrofitApiInterface.cartList(uid, "").enqueue(object : Callback<CartListModel?> {
                 override fun onResponse(
                     call: Call<CartListModel?>,
