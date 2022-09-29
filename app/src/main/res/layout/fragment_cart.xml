@@ -235,9 +235,11 @@
                         android:weightSum="2">
 
                         <LinearLayout
+                            android:id="@+id/llAddressData"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1.5"
+                            android:visibility="gone"
                             android:orientation="vertical"
                             android:weightSum="2">
 
@@ -317,7 +319,24 @@
 
                         </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/llNoAddressData"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.5"
+                        android:orientation="vertical">
+
                         <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="@string/choose_address"
+                            android:textSize="18sp"
+                            android:gravity="center_vertical"/>
+
+                    </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/tvChangeAddress"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight=".5"

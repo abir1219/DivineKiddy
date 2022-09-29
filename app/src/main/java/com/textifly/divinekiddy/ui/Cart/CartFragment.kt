@@ -10,12 +10,15 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
 import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.MainActivity
@@ -23,8 +26,12 @@ import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.databinding.FragmentCartBinding
 import com.textifly.divinekiddy.ui.Cart.Adapter.CartAdapter
+import com.textifly.divinekiddy.ui.Cart.Adapter.CartAddressListAdapter
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Cart.Model.CartListModel
+import com.textifly.divinekiddy.ui.SavedAddress.Adapter.SavedAddressAdapter
+import com.textifly.divinekiddy.ui.SavedAddress.AddressListFragment
+import com.textifly.divinekiddy.ui.SavedAddress.Model.SavedAddressModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -87,7 +94,7 @@ class CartFragment : Fragment(), View.OnClickListener {
 
 
                     }else if(response.equals("error")){
-                        binding.tvWishlistBadge.visibility = View.GONE
+                        binding.tvWishlistBadge.visibility = GONE
                     }
                 }
 
@@ -110,7 +117,7 @@ class CartFragment : Fragment(), View.OnClickListener {
                         binding.tvWishlistBadge.visibility = View.VISIBLE
                         binding.tvWishlistBadge.text = response.body()!!.count.toString()
                     }else if(response.body()!!.status.equals("error")){
-                        binding.tvWishlistBadge.visibility = View.GONE
+                        binding.tvWishlistBadge.visibility = GONE
                     }
                 }
 
@@ -139,7 +146,7 @@ class CartFragment : Fragment(), View.OnClickListener {
                         binding.tvcartBadge.visibility = View.VISIBLE
                         binding.tvcartBadge.text = response.body()!!.count.toString()
                     }else if(response.equals("error")){
-                        binding.tvcartBadge.visibility = View.GONE
+                        binding.tvcartBadge.visibility = GONE
                     }
                 }
 
@@ -160,7 +167,7 @@ class CartFragment : Fragment(), View.OnClickListener {
                         binding.tvcartBadge.visibility = View.VISIBLE
                         binding.tvcartBadge.text = response.body()!!.count.toString()
                     }else if(response.body()!!.status.equals("error")){
-                        binding.tvcartBadge.visibility = View.GONE
+                        binding.tvcartBadge.visibility = GONE
                     }
                 }
 
@@ -177,6 +184,7 @@ class CartFragment : Fragment(), View.OnClickListener {
         binding.llCoupon.setOnClickListener(this)
         binding.tvContinueShopping.setOnClickListener(this)
         binding.llWishlist.setOnClickListener(this)
+        binding.tvChangeAddress.setOnClickListener(this)
     }
 
     private fun loadCartList() {
@@ -317,8 +325,62 @@ class CartFragment : Fragment(), View.OnClickListener {
             R.id.tvContinueShopping -> startActivity(Intent(requireContext(),MainActivity::class.java))
             R.id.llWishlist -> view.findNavController()
                 .navigate(R.id.navigation_cart_to_wishlist)
+
+            R.id.tvChangeAddress -> {
+                var bottomSheetDialog: BottomSheetDialog? = null
+                bottomSheetDialog = BottomSheetDialog(requireContext())
+                bottomSheetDialog.setContentView(R.layout.select_addresslist_layout)
+                bottomSheetDialog.setCanceledOnTouchOutside(true)
+
+                val rvAddressList: RecyclerView? = bottomSheetDialog.findViewById(R.id.rvAddressList)
+                val llcancel: LinearLayout? = bottomSheetDialog.findViewById(R.id.llcancel)
+
+                val rlNoRecordsFound: RelativeLayout? = bottomSheetDialog.findViewById(R.id.rlNoRecordsFound)
+
+                llcancel!!.setOnClickListener(View.OnClickListener { bottomSheetDialog.dismiss() })
+
+                rvAddressList!!.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+
+                loadAddressList(rvAddressList,rlNoRecordsFound)
+
+                bottomSheetDialog.show()
+            }
         }
     }//nav_cart_to_offer
+
+    private fun loadAddressList(rvAddressList: RecyclerView, rlNoRecordsFound: RelativeLayout?) {
+        CustomProgressDialog.showDialog(requireContext(), true)
+        val sharedPreference = requireContext().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+        val uid = sharedPreference.getString("uid", "")
+        retrofitApiInterface.getAddressList(uid).enqueue(object : Callback<SavedAddressModel?> {
+            override fun onResponse(
+                call: Call<SavedAddressModel?>,
+                response: Response<SavedAddressModel?>
+            ) {
+                Log.d("Addresslist_RES",response.body()!!.toString())
+                CustomProgressDialog.showDialog(requireContext(), false)
+                if(response.body()!!.status.equals("success",ignoreCase = true)){
+                    rvAddressList.visibility = View.VISIBLE
+                    rlNoRecordsFound?.visibility = GONE
+                    val cartAddressAdapter = CartAddressListAdapter(response.body()!!.addressList)
+                    rvAddressList.adapter = cartAddressAdapter
+
+                    /*savedAddressAdapter.setListner(object : AddressListFragment.onDataRecived {
+                        override fun onCallBack(pos: String?) {
+                            loadAddressList(rvAddressList, rlNoRecordsFound)
+                        }
+                    })*/
+                }else{
+                    rvAddressList.visibility = GONE
+                    binding.rlNoRecordsFound.visibility = VISIBLE
+                }
+            }
+
+            override fun onFailure(call: Call<SavedAddressModel?>, t: Throwable) {
+                CustomProgressDialog.showDialog(requireContext(), false)
+            }
+        })
+    }
 
     interface onDataRecived {
         fun onCallBack(pos: String?)

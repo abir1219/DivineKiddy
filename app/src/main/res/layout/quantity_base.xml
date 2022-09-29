@@ -38,9 +38,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
-                android:layout_toLeftOf="@+id/llcanceld"
-                android:paddingLeft="15dp"
-                android:text="Select Quantity"
+                android:layout_toStartOf="@+id/llcanceld"
+                android:paddingStart="15dp"
+                android:text="@string/select_quantity"
                 android:textColor="@color/yellow"
                 android:textSize="14sp" />
 
