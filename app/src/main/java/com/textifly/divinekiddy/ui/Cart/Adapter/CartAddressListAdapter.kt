@@ -1,6 +1,7 @@
 package com.textifly.divinekiddy.ui.Cart.Adapter
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.textifly.divinekiddy.R
+import com.textifly.divinekiddy.ui.Cart.CartFragment
 import com.textifly.divinekiddy.ui.SavedAddress.Model.AddressList
 
 class CartAddressListAdapter(var modelList:List<AddressList>):RecyclerView.Adapter<CartAddressListAdapter.ViewHolder>() {
     lateinit var context: Context
     var selected_position = -1
+
+    var onDataRecived: CartFragment.onDataRecived? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
@@ -48,6 +52,11 @@ class CartAddressListAdapter(var modelList:List<AddressList>):RecyclerView.Adapt
             notifyItemChanged(selected_position)
             selected_position = holder.layoutPosition
             notifyItemChanged(selected_position)
+            val sharedPreference = context.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+            val editor = sharedPreference.edit()
+            editor.putString("addressId",modelList[position].id)
+            editor.commit()
+            onDataRecived!!.onCallBack(position.toString())
             //QtyAdapter.quantity = holder.tvQty.text.toString()
 
             //holder.cvBackground.setCardBackgroundColor(context.getResources().getColor(R.color.red5));
@@ -62,5 +71,9 @@ class CartAddressListAdapter(var modelList:List<AddressList>):RecyclerView.Adapt
     class ViewHolder(itemview: View) : RecyclerView.ViewHolder(itemview) {
         var tvAddress: TextView? = itemView.findViewById(R.id.tvAddress)
         var llAddress: LinearLayout? = itemView.findViewById(R.id.llAddress)
+    }
+
+    fun setListner(onDataRecived: CartFragment.onDataRecived) {
+        this.onDataRecived = onDataRecived
     }
 }

@@ -2,6 +2,7 @@ package com.textifly.divinekiddy.ui.Cart
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -29,8 +30,7 @@ import com.textifly.divinekiddy.ui.Cart.Adapter.CartAdapter
 import com.textifly.divinekiddy.ui.Cart.Adapter.CartAddressListAdapter
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Cart.Model.CartListModel
-import com.textifly.divinekiddy.ui.SavedAddress.Adapter.SavedAddressAdapter
-import com.textifly.divinekiddy.ui.SavedAddress.AddressListFragment
+import com.textifly.divinekiddy.ui.SavedAddress.Model.AddressList
 import com.textifly.divinekiddy.ui.SavedAddress.Model.SavedAddressModel
 import retrofit2.Call
 import retrofit2.Callback
@@ -71,7 +71,32 @@ class CartFragment : Fragment(), View.OnClickListener {
         cartCount()
         wishlistCount()
         loadCartList()
+        val sharedPreference = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+        if(sharedPreference.contains("addressId")){
+            binding.llAddressData.visibility = VISIBLE
+            binding.llNoAddressData.visibility = GONE
+            loadingAddress(sharedPreference)
+        }else{
+            binding.llAddressData.visibility = GONE
+            binding.llNoAddressData.visibility = VISIBLE
+        }
         return binding.root
+    }
+
+    private fun loadingAddress(sharedPreference: SharedPreferences) {
+        retrofitApiInterface.getAddressById(sharedPreference.getString("addressId","")).
+                    enqueue(object : Callback<AddressList?> {
+            override fun onResponse(call: Call<AddressList?>, response: Response<AddressList?>) {
+                binding.tvAddressName.text = response.body()!!.name+","
+                binding.tvPin.text = response.body()!!.pin
+                binding.tvPin.text = response.body()!!.pin
+                binding.tvAddress.text = response.body()!!.address +", "+response.body()!!.city+", "+response.body()!!.state
+            }
+
+            override fun onFailure(call: Call<AddressList?>, t: Throwable) {
+                Toast.makeText(requireActivity(),"Getting some troubles",Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun wishlistCount() {
