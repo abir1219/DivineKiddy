@@ -63,6 +63,12 @@ class DiscoverFragment : Fragment(),View.OnClickListener {
         }
         /*val binding = DataBindingUtil.inflate<FragmentDiscoverBinding>(inflater,
             R.layout.fragment_discover,container,false)*/
+        val prefs = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+        if(prefs.contains("addressId")){
+            val edit = prefs.edit()
+            edit.remove("addressId")
+            edit.commit()
+        }
         setLayout()
         btnClick()
         cartCount()

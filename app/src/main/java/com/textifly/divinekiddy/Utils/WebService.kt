@@ -118,6 +118,13 @@ interface WebService {
     ): Call<CartModel?>
 
     @FormUrlEncoded
+    @POST("orders")
+    fun placeOrder(
+        @Field("user_id") user_id : String?,
+        @Field("address_id") address_id : String?,
+    ): Call<CartModel?>
+
+    @FormUrlEncoded
     @POST("addaddress")
     fun addAddress(
         @Field("user_id") user_id : String?,

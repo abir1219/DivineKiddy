@@ -30,6 +30,7 @@ import com.textifly.divinekiddy.ui.Cart.Adapter.CartAdapter
 import com.textifly.divinekiddy.ui.Cart.Adapter.CartAddressListAdapter
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Cart.Model.CartListModel
+import com.textifly.divinekiddy.ui.ProductDetails.Model.CartModel
 import com.textifly.divinekiddy.ui.SavedAddress.Model.AddressList
 import com.textifly.divinekiddy.ui.SavedAddress.Model.SavedAddressModel
 import retrofit2.Call
@@ -73,8 +74,6 @@ class CartFragment : Fragment(), View.OnClickListener {
         loadCartList()
         val sharedPreference = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
         if(sharedPreference.contains("addressId")){
-            binding.llAddressData.visibility = VISIBLE
-            binding.llNoAddressData.visibility = GONE
             loadingAddress(sharedPreference)
         }else{
             binding.llAddressData.visibility = GONE
@@ -84,9 +83,12 @@ class CartFragment : Fragment(), View.OnClickListener {
     }
 
     private fun loadingAddress(sharedPreference: SharedPreferences) {
+        //Toast.makeText(requireContext(),"${sharedPreference.getString("addressId","")}",Toast.LENGTH_SHORT).show()
         retrofitApiInterface.getAddressById(sharedPreference.getString("addressId","")).
                     enqueue(object : Callback<AddressList?> {
             override fun onResponse(call: Call<AddressList?>, response: Response<AddressList?>) {
+                binding.llAddressData.visibility = VISIBLE
+                binding.llNoAddressData.visibility = GONE
                 binding.tvAddressName.text = response.body()!!.name+","
                 binding.tvPin.text = response.body()!!.pin
                 binding.tvPin.text = response.body()!!.pin
@@ -346,7 +348,9 @@ class CartFragment : Fragment(), View.OnClickListener {
         when (view?.id) {
             R.id.llMenu -> activity?.onBackPressed()
             R.id.llCoupon -> view.findNavController().navigate(R.id.nav_cart_to_offer)
-            R.id.tvCheckout -> view.findNavController().navigate(R.id.nav_cart_to_shipping_address)
+            R.id.tvCheckout ->{
+                checkOut()
+            }
             R.id.tvContinueShopping -> startActivity(Intent(requireContext(),MainActivity::class.java))
             R.id.llWishlist -> view.findNavController()
                 .navigate(R.id.navigation_cart_to_wishlist)
@@ -366,14 +370,39 @@ class CartFragment : Fragment(), View.OnClickListener {
 
                 rvAddressList!!.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
-                loadAddressList(rvAddressList,rlNoRecordsFound)
+                loadAddressList(bottomSheetDialog,rvAddressList,rlNoRecordsFound)
 
                 bottomSheetDialog.show()
             }
         }
     }//nav_cart_to_offer
 
-    private fun loadAddressList(rvAddressList: RecyclerView, rlNoRecordsFound: RelativeLayout?) {
+    private fun checkOut() {
+        val prefs = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+        if(prefs.contains("addressId")){
+            CustomProgressDialog.showDialog(requireContext(),true)
+            retrofitApiInterface.placeOrder(prefs.getString("uid",""),prefs.getString("addressId","")).enqueue(object : Callback<CartModel?> {
+                override fun onResponse(call: Call<CartModel?>, response: Response<CartModel?>) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    if(response.body()!!.status.equals("Success", ignoreCase = true)){
+                        Toast.makeText(requireContext(),"Order Placed Successfully",Toast.LENGTH_SHORT).show()
+                        view?.findNavController()?.navigate(R.id.nav_cart_to_shipping_address)
+                    }else{
+                        Toast.makeText(requireContext(),"Order Placed un-successful",Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                    CustomProgressDialog.showDialog(requireContext(),false)
+                    Toast.makeText(requireContext(),"Getting some troubles",Toast.LENGTH_SHORT).show()
+                }
+            })
+        }else{
+            Toast.makeText(requireContext(), "Please select Address", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun loadAddressList(bottomSheetDialog:BottomSheetDialog,rvAddressList: RecyclerView, rlNoRecordsFound: RelativeLayout?) {
         CustomProgressDialog.showDialog(requireContext(), true)
         val sharedPreference = requireContext().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
         val uid = sharedPreference.getString("uid", "")
@@ -385,12 +414,24 @@ class CartFragment : Fragment(), View.OnClickListener {
                 Log.d("Addresslist_RES",response.body()!!.toString())
                 CustomProgressDialog.showDialog(requireContext(), false)
                 if(response.body()!!.status.equals("success",ignoreCase = true)){
-                    rvAddressList.visibility = View.VISIBLE
+                    rvAddressList.visibility = VISIBLE
                     rlNoRecordsFound?.visibility = GONE
                     val cartAddressAdapter = CartAddressListAdapter(response.body()!!.addressList)
                     rvAddressList.adapter = cartAddressAdapter
 
-                    /*savedAddressAdapter.setListner(object : AddressListFragment.onDataRecived {
+                    cartAddressAdapter.setListner(object : onDataRecived {
+                        override fun onCallBack(pos: String?) {
+                            //loadAddressList(rvAddressList, rlNoRecordsFound)
+                            val prefs = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+                            loadingAddress(prefs)
+                            bottomSheetDialog.dismiss()
+                            loadAddressList(bottomSheetDialog,rvAddressList,rlNoRecordsFound)
+                            val ft = parentFragmentManager.beginTransaction()
+                            ft.detach(this@CartFragment).attach(this@CartFragment).commit()
+                        }
+                    })
+
+                    /*cartAddressAdapter.setListner(object : CartAddressListAdapter.onDataRecived {
                         override fun onCallBack(pos: String?) {
                             loadAddressList(rvAddressList, rlNoRecordsFound)
                         }

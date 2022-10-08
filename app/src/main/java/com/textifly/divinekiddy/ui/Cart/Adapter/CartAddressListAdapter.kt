@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.ui.Cart.CartFragment
@@ -33,8 +35,9 @@ class CartAddressListAdapter(var modelList:List<AddressList>):RecyclerView.Adapt
         holder.llAddress?.setBackgroundResource(
             if (selected_position == position)
                 R.drawable.address_select_bg
+                //R.color.yellow
                 //context.resources.getColor(R.color.yellow)
-            else R.drawable.address_unselect_bg//context.resources.getColor(R.color.black)
+            else R.drawable.address_unselect_bg //R.color.white//context.resources.getColor(R.color.black)
         )
         /*setCardBackgroundColor(
             if (selected_position == position) context!!.resources.getColor(
@@ -48,7 +51,20 @@ class CartAddressListAdapter(var modelList:List<AddressList>):RecyclerView.Adapt
             else context.resources.getColor(R.color.black)//context.resources.getColor(R.color.grey)
         )
 
-        holder.llAddress?.setOnClickListener {
+
+        holder.tvAddress?.setOnClickListener(View.OnClickListener {
+            Toast.makeText(context,"clicked",Toast.LENGTH_SHORT).show()
+            notifyItemChanged(selected_position)
+            selected_position = holder.layoutPosition
+            notifyItemChanged(selected_position)
+            val sharedPreference = context.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+            val editor = sharedPreference.edit()
+            editor.putString("addressId",modelList[position].id)
+            editor.commit()
+            onDataRecived!!.onCallBack(position.toString())
+        })
+
+        /*holder.llAddress?.setOnClickListener {
             notifyItemChanged(selected_position)
             selected_position = holder.layoutPosition
             notifyItemChanged(selected_position)
@@ -61,7 +77,7 @@ class CartAddressListAdapter(var modelList:List<AddressList>):RecyclerView.Adapt
 
             //holder.cvBackground.setCardBackgroundColor(context.getResources().getColor(R.color.red5));
             //holder.tvQty.setTextColor(context.getResources().getColor(R.color.red5));
-        }
+        }*/
     }
 
     override fun getItemCount(): Int {
