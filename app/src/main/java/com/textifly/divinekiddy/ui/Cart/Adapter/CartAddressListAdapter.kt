@@ -53,7 +53,7 @@ class CartAddressListAdapter(var modelList:List<AddressList>):RecyclerView.Adapt
 
 
         holder.tvAddress?.setOnClickListener(View.OnClickListener {
-            Toast.makeText(context,"clicked",Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context,"clicked",Toast.LENGTH_SHORT).show()
             notifyItemChanged(selected_position)
             selected_position = holder.layoutPosition
             notifyItemChanged(selected_position)
