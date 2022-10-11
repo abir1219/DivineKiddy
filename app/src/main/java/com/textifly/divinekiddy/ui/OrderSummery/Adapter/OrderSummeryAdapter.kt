@@ -23,13 +23,14 @@ import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.ui.Cart.CartFragment
 import com.textifly.divinekiddy.ui.Cart.Model.CartList
 import com.textifly.divinekiddy.ui.Cart.Model.QtyModel
+import com.textifly.divinekiddy.ui.OrderSummery.OrderSummeryFragment
 import com.textifly.divinekiddy.ui.ProductDetails.Model.CartModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 
-class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapter.ViewHolder>(){
+class OrderSummeryAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<OrderSummeryAdapter.ViewHolder>(){
     lateinit var context: Context
     private var retrofitHelper = RetrofitHelper.getRetrofitInstance()
     private var retrofitApiInterface = retrofitHelper.create(WebService::class.java)
@@ -43,7 +44,7 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
 
     var qtyModelList: ArrayList<QtyModel>? = null
 
-    var onDataRecived: CartFragment.onDataRecived? = null
+    var onDataRecived: OrderSummeryFragment.onDataRecived? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -169,7 +170,7 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
                             ) {
                                 CustomProgressDialog.showDialog(context,false)
                                 if(response.body()!!.status.equals("success",ignoreCase = true)){
-                                    Toast.makeText(context,response.body()!!.message,Toast.LENGTH_SHORT).show()
+                                    //Toast.makeText(context,response.body()!!.message,Toast.LENGTH_SHORT).show()
                                     onDataRecived?.onCallBack(position.toString())
                                     bottomSheetDialog1!!.dismiss()
                                 }else{
@@ -255,8 +256,8 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
         var llFunctions: LinearLayout? = itemview.findViewById(R.id.llFunctions)
     }
 
-    fun setListner(onDataRecived4: CartFragment.onDataRecived) {
-        onDataRecived = onDataRecived4
+    fun setListner(onDataRecived: OrderSummeryFragment.onDataRecived) {
+        this.onDataRecived = onDataRecived
     }
 
 }

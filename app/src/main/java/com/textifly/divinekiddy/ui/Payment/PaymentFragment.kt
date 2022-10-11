@@ -40,7 +40,15 @@ class PaymentFragment : Fragment() ,View.OnClickListener{
             bottomNav?.visibility = View.GONE
         }catch (e:Exception){}
         btnClick()
+        initView()
         return binding.root
+    }
+
+    private fun initView() {
+        binding.tvTotalItemPrice.text="₹"+arguments?.getString("totalPrice")
+        binding.tvTotalPrice.text="₹"+arguments?.getString("totalPrice")
+        binding.tvTotal.text="You Pay ₹"+arguments?.getString("totalPrice")
+        binding.tvDiscount.text="₹"+arguments?.getString("discountPrice")
     }
 
     private fun btnClick() {

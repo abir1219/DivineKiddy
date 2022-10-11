@@ -392,7 +392,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         val uid : String?
         if(sharedPreference.contains("uid")){
             uid = sharedPreference.getString("uid","")
-            Toast.makeText(activity,"uid => $uid",Toast.LENGTH_LONG).show()
+            //Toast.makeText(activity,"uid => $uid",Toast.LENGTH_LONG).show()
 
             retrofitApiInterface.addToWishlist(prodId!!,uid!!,"",sharedPreference.getString("priceId","")!!,
                 sharedPreference.getString("price","")!!).enqueue(object : Callback<CartModel?> {

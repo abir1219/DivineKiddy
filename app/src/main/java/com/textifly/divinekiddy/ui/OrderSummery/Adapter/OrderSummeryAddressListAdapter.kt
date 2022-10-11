@@ -9,13 +9,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.ui.Cart.CartFragment
+import com.textifly.divinekiddy.ui.OrderSummery.OrderSummeryFragment
 import com.textifly.divinekiddy.ui.SavedAddress.Model.AddressList
 
-class CartAddressListAdapter(var modelList:List<AddressList>):RecyclerView.Adapter<CartAddressListAdapter.ViewHolder>() {
+class OrderSummeryAddressListAdapter(var modelList:List<AddressList>):RecyclerView.Adapter<OrderSummeryAddressListAdapter.ViewHolder>() {
     lateinit var context: Context
     var selected_position = -1
 
-    var onDataRecived: CartFragment.onDataRecived? = null
+    var onDataRecived: OrderSummeryFragment.onDataRecived? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         context = parent.context
@@ -86,7 +87,7 @@ class CartAddressListAdapter(var modelList:List<AddressList>):RecyclerView.Adapt
         var llAddress: LinearLayout? = itemView.findViewById(R.id.llAddress)
     }
 
-    fun setListner(onDataRecived: CartFragment.onDataRecived) {
+    fun setListner(onDataRecived: OrderSummeryFragment.onDataRecived) {
         this.onDataRecived = onDataRecived
     }
 }

@@ -283,6 +283,7 @@
                         >
 
                         <TextView
+                            android:id="@+id/tvTotal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="You Pay ₹299"
@@ -303,7 +304,6 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
                             android:orientation="horizontal"
                             android:weightSum="2">
 
@@ -316,11 +316,12 @@
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/tvTotalItemPrice"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="₹6,096"
+                                tools:text="₹6,096"
                                 android:textColor="@color/grey"
                                 android:textSize="14sp" />
 
@@ -343,11 +344,12 @@
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/tvDiscount"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="end"
-                                android:text="-₹3,150"
+                                tools:text="-₹3,150"
                                 android:textColor="@color/green"
                                 android:textSize="14sp" />
 
@@ -405,6 +407,7 @@
                                 android:textSize="16sp" />
 
                             <TextView
+                                android:id="@+id/tvTotalPrice"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"

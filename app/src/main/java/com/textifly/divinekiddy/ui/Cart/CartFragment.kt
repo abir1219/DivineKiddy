@@ -28,9 +28,9 @@ import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.databinding.FragmentCartBinding
 import com.textifly.divinekiddy.ui.Cart.Adapter.CartAdapter
 import com.textifly.divinekiddy.ui.Cart.Adapter.CartAddressListAdapter
+import com.textifly.divinekiddy.ui.Cart.Adapter.OrderSummeryAddressListAdapter
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Cart.Model.CartListModel
-import com.textifly.divinekiddy.ui.ProductDetails.Model.CartModel
 import com.textifly.divinekiddy.ui.SavedAddress.Model.AddressList
 import com.textifly.divinekiddy.ui.SavedAddress.Model.SavedAddressModel
 import retrofit2.Call
@@ -242,8 +242,6 @@ class CartFragment : Fragment(), View.OnClickListener {
                                 wishlistCount()
                             }
                         })
-
-
                     } else {
                         //Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
                         binding.rlRecordsFound.visibility = GONE
@@ -380,7 +378,8 @@ class CartFragment : Fragment(), View.OnClickListener {
     private fun checkOut() {
         val prefs = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
         if(prefs.contains("addressId")){
-            CustomProgressDialog.showDialog(requireContext(),true)
+            view?.findNavController()?.navigate(R.id.navigation_cart_to_order_summery)
+          /*  CustomProgressDialog.showDialog(requireContext(),true)
             retrofitApiInterface.placeOrder(prefs.getString("uid",""),prefs.getString("addressId","")).enqueue(object : Callback<CartModel?> {
                 override fun onResponse(call: Call<CartModel?>, response: Response<CartModel?>) {
                     CustomProgressDialog.showDialog(requireContext(),false)
@@ -396,7 +395,7 @@ class CartFragment : Fragment(), View.OnClickListener {
                     CustomProgressDialog.showDialog(requireContext(),false)
                     Toast.makeText(requireContext(),"Getting some troubles",Toast.LENGTH_SHORT).show()
                 }
-            })
+            })*/
         }else{
             Toast.makeText(requireContext(), "Please select Address", Toast.LENGTH_SHORT).show()
         }
