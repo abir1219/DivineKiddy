@@ -1,4 +1,4 @@
-package com.textifly.divinekiddy.ui.Discover.Adapter
+package com.textifly.divinekiddy.ui.ProductDetails.Adapter
 
 import android.content.Context
 import android.util.Log
@@ -12,11 +12,11 @@ import com.bumptech.glide.Glide
 import com.smarteist.autoimageslider.SliderViewAdapter
 import com.textifly.divinekiddy.R
 
-class SliderAdapter(basepath: String?, imageUrl: ArrayList<String>) :
-    SliderViewAdapter<SliderAdapter.ViewHolder>() {
+class ProductSliderAdapter(imageUrl: ArrayList<String>) :
+    SliderViewAdapter<ProductSliderAdapter.ViewHolder>() {
     lateinit var context: Context
     var modelList: ArrayList<String> = imageUrl
-    var imagePath = basepath
+    //var imagePath = basepath
 
 
     class ViewHolder(itemView: View) : SliderViewAdapter.ViewHolder(itemView) {
@@ -25,12 +25,17 @@ class SliderAdapter(basepath: String?, imageUrl: ArrayList<String>) :
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("ivSlider_$position", imagePath+ modelList[position])
+        Log.d("ivSimilarSlider_$position", "https://divinekiddy.com/uploads/product/"+ modelList[position])
         Glide.with(holder.itemView)
-            .load(imagePath + modelList[position]).placeholder(R.drawable.loader).into(holder.ivSlider)
+            .load("https://divinekiddy.com/uploads/product/" + modelList[position]).placeholder(R.drawable.loader).into(holder.ivSlider)
 
         Log.d("POSITION_count",position.toString())
         Log.d("modelList.size",modelList.size.toString())
+        if(position == modelList.size-1){
+            Toast.makeText(context,"End",Toast.LENGTH_SHORT).show()
+            modelList.clear()
+            notifyDataSetChanged()
+        }
     }
 
 

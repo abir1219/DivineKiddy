@@ -5,6 +5,9 @@ import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Cart.Model.CartListModel
 import com.textifly.divinekiddy.ui.Discover.Model.HeaderImageModel
 import com.textifly.divinekiddy.ui.Discover.Model.SliderModel
+import com.textifly.divinekiddy.ui.OrderDetails.Model.OrderDetailsModel
+import com.textifly.divinekiddy.ui.OrderSuccess.Model.OrderSuccessModel
+import com.textifly.divinekiddy.ui.Orders.Model.OrderListModel
 import com.textifly.divinekiddy.ui.ProductDetails.Model.*
 import com.textifly.divinekiddy.ui.Products.Model.ProductsModel
 import com.textifly.divinekiddy.ui.SavedAddress.Model.AddressList
@@ -14,6 +17,7 @@ import com.textifly.divinekiddy.ui.SubCategory.Model.SubCategoryModel
 import com.textifly.divinekiddy.ui.Wishlist.Model.WishlistModel
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
 interface WebService {
@@ -216,4 +220,21 @@ interface WebService {
         @Field("product_id") product_id : String?,
     ):Call<CheckWishlistProduct?>
 
+    @FormUrlEncoded
+    @POST("orderlist")
+    fun orderList(
+        @Field("user_id") user_id : String?,
+    ): Call<OrderListModel?>
+
+    @FormUrlEncoded
+    @POST("orderdetails")
+    fun orderDetails(
+        @Field("orders_id") user_id : String?,
+    ): Call<OrderDetailsModel?>
+
+    @FormUrlEncoded
+    @POST("getRecentOrders")
+    fun successOrderDetails(
+        @Field("order_id") order_id : String?,
+    ): Call<OrderSuccessModel?>
 }

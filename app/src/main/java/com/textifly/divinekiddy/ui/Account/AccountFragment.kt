@@ -67,6 +67,7 @@ class AccountFragment : Fragment(), View.OnClickListener {
     }
 
     private fun btnClick() {
+        binding.rlOrderList.setOnClickListener(this)
         binding.llSavedAddress.setOnClickListener(this)
         binding.rlWishlist.setOnClickListener(this)
         binding.rlCancelOrder.setOnClickListener(this)
@@ -87,10 +88,11 @@ class AccountFragment : Fragment(), View.OnClickListener {
                 }else{
                     view.findNavController().navigate(R.id.nav_account_to_signin_otp)
                 }
-
             }
-            R.id.rlWishlist -> view.findNavController()
-                .navigate(R.id.nav_account_to_navigation_wishlist)
+            R.id.rlWishlist -> view.findNavController().navigate(R.id.nav_account_to_navigation_wishlist)
+
+            R.id.rlOrderList -> view.findNavController().navigate(R.id.nav_account_to_order_list)
+
             R.id.rlCancelOrder -> {
                 if (sharedPreference.contains("uid")){
                     view.findNavController().navigate(R.id.nav_account_to_navigation_cancel_order)

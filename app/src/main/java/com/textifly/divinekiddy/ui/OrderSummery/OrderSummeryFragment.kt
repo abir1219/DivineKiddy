@@ -9,22 +9,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
 import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.databinding.FragmentOrderSummeryBinding
 import com.textifly.divinekiddy.ui.Cart.Adapter.CartAdapter
+import com.textifly.divinekiddy.ui.Cart.Adapter.CartAddressListAdapter
 import com.textifly.divinekiddy.ui.Cart.Adapter.OrderSummeryAdapter
+import com.textifly.divinekiddy.ui.Cart.Adapter.OrderSummeryAddressListAdapter
 import com.textifly.divinekiddy.ui.Cart.CartFragment
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Cart.Model.CartListModel
 import com.textifly.divinekiddy.ui.SavedAddress.Model.AddressList
+import com.textifly.divinekiddy.ui.SavedAddress.Model.SavedAddressModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -159,6 +165,7 @@ class OrderSummeryFragment : Fragment(),View.OnClickListener {
                         binding.tvTotalItemPrice.text = "₹"+response.body()!!.total_price
                         binding.tvTotalPrice.text = "₹"+response.body()!!.total_price
                         binding.tvDiscount.text = "-₹"+response.body()!!.total_discount
+                        binding.tvDiscountedPrice.text = "You will Save ₹${response.body()!!.total_discount} On This Order"
 
                         bundle.putString("totalPrice",response.body()!!.total_price)
                         bundle.putString("discountPrice",response.body()!!.total_discount)
@@ -201,6 +208,7 @@ class OrderSummeryFragment : Fragment(),View.OnClickListener {
                         binding.tvTotalItemPrice.text = "₹"+response.body()!!.total_price
                         binding.tvTotalPrice.text = "₹"+response.body()!!.total_price
                         binding.tvDiscount.text = "-₹"+response.body()!!.total_discount
+                        binding.tvDiscountedPrice.text = "You will Save ₹${response.body()!!.total_discount} On This Order"
                         //Toast.makeText(requireContext(), "success", Toast.LENGTH_SHORT).show()
                         //binding.rvCart.adapter = CartAdapter(response.body()!!.list)
                         bundle.putString("totalPrice",response.body()!!.total_price)
@@ -271,6 +279,7 @@ class OrderSummeryFragment : Fragment(),View.OnClickListener {
     private fun btnClick() {
         binding.llMenu.setOnClickListener(this)
         binding.tvContinue.setOnClickListener(this)
+        binding.tvChangeAddress.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -279,8 +288,69 @@ class OrderSummeryFragment : Fragment(),View.OnClickListener {
             R.id.tvContinue -> {
                 checkOut()
             }
+            R.id.tvChangeAddress -> {
+                var bottomSheetDialog: BottomSheetDialog? = null
+                bottomSheetDialog = BottomSheetDialog(requireContext())
+                bottomSheetDialog.setContentView(R.layout.select_addresslist_layout)
+                bottomSheetDialog.setCanceledOnTouchOutside(true)
 
+                val rvAddressList: RecyclerView? = bottomSheetDialog.findViewById(R.id.rvAddressList)
+                val llcancel: LinearLayout? = bottomSheetDialog.findViewById(R.id.llcancel)
+
+                val rlNoRecordsFound: RelativeLayout? = bottomSheetDialog.findViewById(R.id.rlNoRecordsFound)
+
+                llcancel!!.setOnClickListener(View.OnClickListener { bottomSheetDialog.dismiss() })
+
+                rvAddressList!!.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+
+                loadAddressList(bottomSheetDialog,rvAddressList,rlNoRecordsFound)
+
+                bottomSheetDialog.show()
+            }
         }
+    }
+
+    private fun loadAddressList(bottomSheetDialog:BottomSheetDialog,rvAddressList: RecyclerView, rlNoRecordsFound: RelativeLayout?) {
+        CustomProgressDialog.showDialog(requireContext(), true)
+        val sharedPreference = requireContext().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+        val uid = sharedPreference.getString("uid", "")
+        retrofitApiInterface.getAddressList(uid).enqueue(object : Callback<SavedAddressModel?> {
+            override fun onResponse(
+                call: Call<SavedAddressModel?>,
+                response: Response<SavedAddressModel?>
+            ) {
+                Log.d("Addresslist_RES",response.body()!!.toString())
+                CustomProgressDialog.showDialog(requireContext(), false)
+                if(response.body()!!.status.equals("success",ignoreCase = true)){
+                    rvAddressList.visibility = View.VISIBLE
+                    rlNoRecordsFound?.visibility = View.GONE
+                    val orderSummeryAddressListAdapter = OrderSummeryAddressListAdapter(response.body()!!.addressList)
+                    rvAddressList.adapter = orderSummeryAddressListAdapter
+
+                    orderSummeryAddressListAdapter.setListner(object : onDataRecived {
+                        override fun onCallBack(pos: String?) {
+                            //loadAddressList(rvAddressList, rlNoRecordsFound)
+                            val prefs = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+                            loadingAddress(prefs)
+                            bottomSheetDialog.dismiss()
+                            loadAddressList(bottomSheetDialog,rvAddressList,rlNoRecordsFound)
+                            val ft = parentFragmentManager.beginTransaction()
+                            ft.detach(this@OrderSummeryFragment).attach(this@OrderSummeryFragment).commit()
+                        }
+                    })
+
+                    /*cartAddressAdapter.setListner(object : CartAddressListAdapter.onDataRecived {
+                        override fun onCallBack(pos: String?) {
+                            loadAddressList(rvAddressList, rlNoRecordsFound)
+                        }
+                    })*/
+                }
+            }
+
+            override fun onFailure(call: Call<SavedAddressModel?>, t: Throwable) {
+                CustomProgressDialog.showDialog(requireContext(), false)
+            }
+        })
     }
 
     private fun checkOut() {

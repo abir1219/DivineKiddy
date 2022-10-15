@@ -316,6 +316,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvChangeAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -800,9 +801,10 @@
                 android:background="@color/background" />
 
             <TextView
+                android:id="@+id/tvDiscountedPrice"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="You will Save ₹300 On This Order"
+                tools:text="You will Save ₹300 On This Order"
                 android:textColor="@color/green"
                 android:textSize="16sp"/>
 

@@ -233,6 +233,13 @@ class CartFragment : Fragment(), View.OnClickListener {
                         //Toast.makeText(requireContext(),"success",Toast.LENGTH_SHORT).show()
                         binding.tvTotalItemPrice.text = "₹"+response.body()!!.total_price
                         binding.tvDiscount.text = "-₹"+response.body()!!.total_discount
+
+                        val sharedPreference = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+                        var edit = sharedPreference.edit()
+                        edit.putString("totalPrice",response.body()!!.total_price)
+                        edit.putString("totalDiscount",response.body()!!.total_discount)
+                        edit.commit()
+
                         val cartAdapter = CartAdapter(response.body()!!.list)
                         binding.rvCart.adapter = cartAdapter
                         cartAdapter.setListner(object : onDataRecived {
@@ -354,23 +361,30 @@ class CartFragment : Fragment(), View.OnClickListener {
                 .navigate(R.id.navigation_cart_to_wishlist)
 
             R.id.tvChangeAddress -> {
-                var bottomSheetDialog: BottomSheetDialog? = null
-                bottomSheetDialog = BottomSheetDialog(requireContext())
-                bottomSheetDialog.setContentView(R.layout.select_addresslist_layout)
-                bottomSheetDialog.setCanceledOnTouchOutside(true)
+                val prefs = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+                if(prefs.contains("uid")){
+                    var bottomSheetDialog: BottomSheetDialog? = null
+                    bottomSheetDialog = BottomSheetDialog(requireContext())
+                    bottomSheetDialog.setContentView(R.layout.select_addresslist_layout)
+                    bottomSheetDialog.setCanceledOnTouchOutside(true)
 
-                val rvAddressList: RecyclerView? = bottomSheetDialog.findViewById(R.id.rvAddressList)
-                val llcancel: LinearLayout? = bottomSheetDialog.findViewById(R.id.llcancel)
+                    val rvAddressList: RecyclerView? = bottomSheetDialog.findViewById(R.id.rvAddressList)
+                    val llcancel: LinearLayout? = bottomSheetDialog.findViewById(R.id.llcancel)
 
-                val rlNoRecordsFound: RelativeLayout? = bottomSheetDialog.findViewById(R.id.rlNoRecordsFound)
+                    val rlNoRecordsFound: RelativeLayout? = bottomSheetDialog.findViewById(R.id.rlNoRecordsFound)
 
-                llcancel!!.setOnClickListener(View.OnClickListener { bottomSheetDialog.dismiss() })
+                    llcancel!!.setOnClickListener(View.OnClickListener { bottomSheetDialog.dismiss() })
 
-                rvAddressList!!.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                    rvAddressList!!.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
-                loadAddressList(bottomSheetDialog,rvAddressList,rlNoRecordsFound)
+                    loadAddressList(bottomSheetDialog,rvAddressList,rlNoRecordsFound)
 
-                bottomSheetDialog.show()
+                    bottomSheetDialog.show()
+                }else{
+                    Toast.makeText(requireActivity(),"You have to login first",Toast.LENGTH_SHORT).show()
+                    view?.findNavController()?.navigate(R.id.nav_cart_to_signin_otp)
+                }
+
             }
         }
     }//nav_cart_to_offer
@@ -379,6 +393,7 @@ class CartFragment : Fragment(), View.OnClickListener {
         val prefs = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
         if(prefs.contains("addressId")){
             view?.findNavController()?.navigate(R.id.navigation_cart_to_order_summery)
+
           /*  CustomProgressDialog.showDialog(requireContext(),true)
             retrofitApiInterface.placeOrder(prefs.getString("uid",""),prefs.getString("addressId","")).enqueue(object : Callback<CartModel?> {
                 override fun onResponse(call: Call<CartModel?>, response: Response<CartModel?>) {

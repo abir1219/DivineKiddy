@@ -20,8 +20,8 @@ import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.databinding.FragmentProductDetailsBinding
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
-import com.textifly.divinekiddy.ui.Discover.Adapter.SliderAdapter
 import com.textifly.divinekiddy.ui.ProductDetails.Adapter.AgePriceAdapter
+import com.textifly.divinekiddy.ui.ProductDetails.Adapter.ProductSliderAdapter
 import com.textifly.divinekiddy.ui.ProductDetails.Adapter.SimilarProductsAdapter
 import com.textifly.divinekiddy.ui.ProductDetails.Model.*
 import retrofit2.Call
@@ -239,7 +239,15 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
 
     private fun loadProduct() {
         activity?.let { CustomProgressDialog.showDialog(it,true) }
-        prodId = arguments?.getString("prodId")
+        val sharedPreference = requireContext().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+        if(sharedPreference.contains("prodId")){
+            prodId = sharedPreference?.getString("prodId","")
+            val edit = sharedPreference.edit()
+            edit.remove("prodId")
+            edit.commit()
+        }else{
+            prodId = arguments?.getString("prodId")
+        }
 
         if (prodId != null) {
             retrofitApiInterface.productDetails(prodId!!)
@@ -248,7 +256,6 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                         call: Call<ProductDetailsModel?>,
                         response: Response<ProductDetailsModel?>
                     ) {
-
                         activity?.let { CustomProgressDialog.showDialog(it,false) }
                         when (response.body()!!.status) {
                             1 -> {
@@ -290,7 +297,14 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                 response: Response<SimilarProductsModel?>
             ) {
                 if(response.body()!!.status.equals("success")){
-                    binding.rvSimilarProduct.adapter = SimilarProductsAdapter(response.body()!!.list)
+                    val adapter = SimilarProductsAdapter(response.body()!!.list)
+                    binding.rvSimilarProduct.adapter = adapter
+
+                    adapter.setListner(object : onDataRecived {
+                        override fun onCallBack(pos: String?) {
+                            loadProduct()
+                        }
+                    })
                 }
             }
 
@@ -335,7 +349,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
 
         }
 
-        val sliderAdapter = SliderAdapter("https://divinekiddy.com/uploads/product/", imageUrl)
+        val sliderAdapter = ProductSliderAdapter(imageUrl)
         binding.slider.setSliderAdapter(sliderAdapter)
         binding.slider.scrollTimeInSec = 3
         binding.slider.isAutoCycle = true
@@ -456,7 +470,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         val uid : String?
         if(sharedPreference.contains("uid")){
             uid = sharedPreference.getString("uid","")
-            Toast.makeText(activity,"uid => $uid",Toast.LENGTH_LONG).show()
+            //Toast.makeText(activity,"uid => $uid",Toast.LENGTH_LONG).show()
 
             retrofitApiInterface.addToCart(prodId!!,uid!!,"",sharedPreference.getString("priceId","")!!,
                 sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {
@@ -524,7 +538,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
         val uid : String?
         if(sharedPreference.contains("uid")){
             uid = sharedPreference.getString("uid","")
-            Toast.makeText(activity,"uid => $uid",Toast.LENGTH_LONG).show()
+            //Toast.makeText(activity,"uid => $uid",Toast.LENGTH_LONG).show()
 
             retrofitApiInterface.addToCart(prodId!!,uid!!,"",sharedPreference.getString("priceId","")!!,
                 sharedPreference.getString("price","")!!,"1").enqueue(object : Callback<CartModel?> {
@@ -601,5 +615,9 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
             isProdDetailsClicked = true
             binding.tvProdDetails.visibility = View.GONE
         }
+    }
+
+    interface onDataRecived {
+        fun onCallBack(pos: String?)
     }
 }

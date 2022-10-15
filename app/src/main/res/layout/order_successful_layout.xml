@@ -98,7 +98,7 @@
                     android:textSize="16.5sp"
                     android:textStyle="bold" />
 
-                <TextView
+               <!-- <TextView
                     android:id="@+id/tvCostPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -118,125 +118,13 @@
                     android:text="61% off"
                     android:textColor="@color/green"
                     android:textSize="13sp" />
-
-
+-->
             </LinearLayout>
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/ivMenu"
-            android:layout_width="0dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="12dp"
-            android:layout_weight=".2"
-            android:src="@drawable/dots" />
-
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/llFunctions"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:visibility="gone"
-        android:orientation="horizontal"
-        android:weightSum="3.4">
-
-        <ImageView
-            android:id="@+id/ivBack"
-            android:layout_width="0dp"
-            android:layout_height="25dp"
-            android:layout_weight=".4"
-            android:src="@drawable/ic_baseline_arrow_forward_24" />
-
-        <LinearLayout
-            android:id="@+id/llChangeQuantity"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/black2"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/ic_baseline_filter_1_24"
-                app:tint="@color/white" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:gravity="center"
-                android:text="Change\nQuantity"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width=".5dp"
-            android:layout_height="150dp"
-            android:background="@color/white" />
-
-        <LinearLayout
-            android:id="@+id/llMoveToWishlist"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/black2"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/carttticoon"
-                app:tint="@color/white" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:gravity="center"
-                android:text="Move to\nwishlist"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width=".5dp"
-            android:layout_height="150dp"
-            android:background="@color/white" />
-
-        <LinearLayout
-            android:id="@+id/llRemoveCart"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/black2"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:src="@drawable/ic_baseline_delete_24"
-                app:tint="@color/white" />
-
-            <TextView
-                android:id="@+id/tvRemoveCart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:gravity="center"
-                android:text="Remove\nfrom cart"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 
 
 </androidx.cardview.widget.CardView>

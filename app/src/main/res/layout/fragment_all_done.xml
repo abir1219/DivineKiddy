@@ -162,7 +162,7 @@
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:id="@+id/llOrderedProduct"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
@@ -292,13 +292,20 @@
                         android:src="@drawable/dots"/>
 
 
-                </LinearLayout>
+                </LinearLayout>-->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvConfirmMsg"
+                    tools:itemCount="2" />
 
                 <LinearLayout
                     android:id="@+id/llBottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/llOrderedProduct"
+                    android:layout_below="@+id/rvCart"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginTop="15dp"
@@ -377,11 +384,12 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/tvTotalItemPrice"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="₹6,096"
+                            tools:text="₹6,096"
                             android:textColor="@color/grey"
                             android:textSize="14sp" />
 
@@ -404,11 +412,12 @@
                             android:textSize="14sp" />
 
                         <TextView
+                            android:id="@+id/tvDiscount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="-₹3,150"
+                            tools:text="-₹3,150"
                             android:textColor="@color/green"
                             android:textSize="14sp" />
 
@@ -466,11 +475,12 @@
                             android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/tvTotal"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="₹2,946"
+                            tools:text="₹2,946"
                             android:textStyle="bold"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
@@ -487,9 +497,10 @@
                         android:background="@color/background" />
 
                     <TextView
+                        android:id="@+id/tvDiscountedPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="You will Save ₹300 On This Order"
+                        tools:text="You will Save ₹300 On This Order"
                         android:textColor="@color/green"
                         android:textSize="16sp"/>
 
@@ -516,7 +527,7 @@
                             android:id="@+id/tvName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Ashik"
+                            tools:text="Ashik"
                             android:textColor="@color/black"
                             android:textSize="16sp"
                             android:textStyle="bold"/>
@@ -541,7 +552,7 @@
                         android:id="@+id/tvPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="+91 97323 38420"
+                        tools:text="+91 97323 38420"
                         android:textSize="13sp"
                         android:layout_marginTop="8dp"/>
 
@@ -549,7 +560,7 @@
                         android:id="@+id/tvAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Nabadiganta,Mukundapur, Near Shib Mandir, Kolkata, West Bengal - 700 094"
+                        tools:text="Nabadiganta,Mukundapur, Near Shib Mandir, Kolkata, West Bengal - 700 094"
                         android:inputType="textMultiLine"
                         android:textSize="13sp"
                         android:layout_marginTop="5dp"/>

@@ -42,6 +42,13 @@
         android:label="@string/account"
         tools:layout="@layout/fragment_account" >
 
+        <action android:id="@+id/nav_account_to_order_list"
+            app:destination="@+id/navigation_order_list"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
         <action android:id="@+id/nav_account_to_profile_details"
             app:destination="@+id/navigation_profile_details"
             app:enterAnim="@anim/fade_in_animation"
@@ -119,6 +126,13 @@
         android:name="com.textifly.divinekiddy.ui.Cart.CartFragment"
         android:label="@string/cart"
         tools:layout="@layout/fragment_cart" >
+
+        <action android:id="@+id/nav_cart_to_signin_otp"
+            app:destination="@+id/navigation_sign_in_otp"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
 
         <action android:id="@+id/nav_cart_to_shipping_address"
             app:destination="@+id/navigation_shipping_address"
@@ -387,6 +401,27 @@
             app:popExitAnim="@anim/fade_out_animation"/>
 
     </fragment>
+
+    <fragment
+        android:id="@+id/navigation_order_list"
+        android:name="com.textifly.divinekiddy.ui.Orders.OrdersListFragment"
+        android:label="Order List"
+        tools:layout="@layout/fragment_orders_list" >
+
+        <action android:id="@+id/nav_order_list_to_order_details"
+            app:destination="@+id/navigation_order_details"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_order_details"
+        android:name="com.textifly.divinekiddy.ui.OrderDetails.OrderDetailsFragment"
+        android:label="Order Details"
+        tools:layout="@layout/fragment_order_details" />
 
     <fragment
         android:id="@+id/navigation_profile_details"
