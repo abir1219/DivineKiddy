@@ -179,6 +179,7 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
     }
 
     private fun initView() {
+        imageUrl = ArrayList()
         val sharedPreference =  requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
             val editor = sharedPreference.edit()
             editor.remove("priceId")
@@ -264,6 +265,8 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
                                 binding.tvProdName.text = response.body()!!.name
                                 binding.tvProdDetails.text = response.body()!!.description
 
+                                imageUrl.add(response.body()!!.image.toString())
+
                                 loadSimilarProduct(response.body()!!.id,response.body()!!.subcategory_id)
                                 
                                 loadSlider(response.body()!!.imageList)
@@ -341,8 +344,8 @@ class ProductDetailsFragment : Fragment(), View.OnClickListener {
     }
 
     private fun loadSlider(imageList: List<ProductImage>?) {
-        imageUrl = ArrayList()
-        for (i in 0 until imageList!!.size) {
+        Log.d("ImageUrl", imageUrl[0])
+        for (i in 1 until imageList!!.size) {
             //sliderImageList.add(ImageList(responseBody))
             //imageUrl = responseBody.
             imageUrl.add(imageList[i].image.toString())

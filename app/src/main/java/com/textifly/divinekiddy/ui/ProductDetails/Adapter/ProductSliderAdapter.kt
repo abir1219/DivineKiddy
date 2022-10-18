@@ -25,17 +25,20 @@ class ProductSliderAdapter(imageUrl: ArrayList<String>) :
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Log.d("ivSimilarSlider_$position", "https://divinekiddy.com/uploads/product/"+ modelList[position])
-        Glide.with(holder.itemView)
-            .load("https://divinekiddy.com/uploads/product/" + modelList[position]).placeholder(R.drawable.loader).into(holder.ivSlider)
+        Log.d("ivSimilarSlider_$position",
+            "https://divinekiddy.com/uploads/product/" + modelList[position])
 
-        Log.d("POSITION_count",position.toString())
-        Log.d("modelList.size",modelList.size.toString())
-        if(position == modelList.size-1){
+        Glide.with(holder.itemView)
+            .load("https://divinekiddy.com/uploads/product/" + modelList[position])
+            .placeholder(R.drawable.loader).into(holder.ivSlider)
+
+        Log.d("POSITION_count", position.toString())
+        Log.d("modelList.size", modelList.size.toString())
+        /*if(position == modelList.size-1){
             Toast.makeText(context,"End",Toast.LENGTH_SHORT).show()
             modelList.clear()
             notifyDataSetChanged()
-        }
+        }*/
     }
 
 

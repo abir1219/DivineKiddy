@@ -89,18 +89,21 @@
                     android:weightSum="3">
 
                     <View
+                        android:id="@+id/v1"
                         android:layout_width="0dp"
                         android:layout_height="4dp"
                         android:layout_weight="1"
                         android:background="@color/yellow" />
 
                     <View
+                        android:id="@+id/v2"
                         android:layout_width="0dp"
                         android:layout_height="4dp"
                         android:layout_weight="1"
                         android:background="@color/yellow" />
 
                     <View
+                        android:id="@+id/v3"
                         android:layout_width="0dp"
                         android:layout_height="4dp"
                         android:layout_weight="1"
@@ -109,6 +112,7 @@
                 </LinearLayout>
 
                 <FrameLayout
+                    android:id="@+id/llProfileImage"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
                     android:layout_gravity="center_horizontal"
@@ -121,6 +125,7 @@
                         app:cardCornerRadius="500dp">
 
                         <ImageView
+                            android:id="@+id/ivProfile"
                             android:layout_width="120dp"
                             android:layout_height="120dp"
                             android:src="@drawable/userpic" />
@@ -186,7 +191,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginStart="10dp"
-                        android:layout_toRightOf="@+id/flName"
+                        android:layout_toEndOf="@+id/flName"
                         android:drawableEnd="@drawable/ic_baseline_arrow_forward_ios_24"
                         android:drawableTint="@color/grey_font"
                         android:text="Ashik Raja"
