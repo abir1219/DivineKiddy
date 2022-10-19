@@ -127,6 +127,7 @@
                         <ImageView
                             android:id="@+id/ivProfile"
                             android:layout_width="120dp"
+                            android:scaleType="fitXY"
                             android:layout_height="120dp"
                             android:src="@drawable/userpic" />
                     </androidx.cardview.widget.CardView>

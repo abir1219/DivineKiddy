@@ -26,6 +26,7 @@ import com.textifly.divinekiddy.databinding.FragmentProfileDetailsBinding
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ProfileDetailsFragment : Fragment(),View.OnClickListener {
@@ -126,7 +127,7 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
                     val photo = data!!.extras!!["data"] as Bitmap?
                     binding.ivProfile.setImageBitmap(photo)
                     // CALL THIS METHOD TO GET THE URI FROM THE BITMAP
-                    val tempUri: Uri? = getImageUri(activity!!, photo!!)
+                    val tempUri: Uri? = getImageUri(requireActivity(), photo!!)
                     // CALL THIS METHOD TO GET THE ACTUAL PATH
                     /*File finalFile = new File(getRealPathFromURI(tempUri));
                     Log.e("finalFile==", String.valueOf(finalFile));*/
@@ -167,7 +168,7 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
     }
 
     fun getRealPathFromURI(uri: Uri?): String? {
-        val cursor = activity!!.contentResolver.query(uri!!, null, null, null, null)
+        val cursor = requireActivity().contentResolver.query(uri!!, null, null, null, null)
         cursor!!.moveToFirst()
         val idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
         return cursor.getString(idx)
@@ -177,7 +178,7 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
     fun getPathFromURI(contentUri: Uri?): String? {
         var res: String? = null
         val proj = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = activity!!.contentResolver.query(contentUri!!, proj, "", null, "")
+        val cursor = requireActivity().contentResolver.query(contentUri!!, proj, "", null, "")
         if (cursor!!.moveToFirst()) {
             val column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
             res = cursor.getString(column_index)
@@ -187,21 +188,19 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
     }
 
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Log.d("RequestCode",requestCode.toString())
         when (requestCode) {
             REQUEST_ID_MULTIPLE_PERMISSIONS -> {
-                if (ContextCompat.checkSelfPermission(activity!!,
+                if (ContextCompat.checkSelfPermission(requireActivity(),
                         Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(activity!!.applicationContext, "FlagUp Requires Access to Camara.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireActivity().applicationContext, "FlagUp Requires Access to Camara.", Toast.LENGTH_SHORT).show()
 
-                } else if (ContextCompat.checkSelfPermission(
-                        activity!!,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    ) != PackageManager.PERMISSION_GRANTED
+                } else if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 ) {
                     Toast.makeText(
-                        activity!!.applicationContext,
+                        requireActivity().applicationContext,
                         "FlagUp Requires Access to Your Storage.",
                         Toast.LENGTH_SHORT
                     ).show()
@@ -218,7 +217,7 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
 
         val WExtstorePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
         val cameraPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA)
-        val listPermissionsNeeded: MutableList<String> = ArrayList()
+        val listPermissionsNeeded: ArrayList<String> = ArrayList()
 
         Log.d("checkAndRequestPermissions","WExtstorePermission : $WExtstorePermission")
         Log.d("cameraPermission","cameraPermission : $cameraPermission")
@@ -231,7 +230,7 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
         }
         if (listPermissionsNeeded.isNotEmpty()) {
             Log.d("listPermissionsNeeded",listPermissionsNeeded.toString())
-            ActivityCompat.requestPermissions(activity!!, listPermissionsNeeded.toTypedArray(), REQUEST_ID_MULTIPLE_PERMISSIONS)
+            ActivityCompat.requestPermissions(requireActivity(), listPermissionsNeeded.toTypedArray(), REQUEST_ID_MULTIPLE_PERMISSIONS)
             return false
         }
 
