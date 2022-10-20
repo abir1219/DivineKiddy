@@ -21,8 +21,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.textifly.divinekiddy.ApiManager.RetrofitHelper
+import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.R
+import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.databinding.FragmentProfileDetailsBinding
+import com.textifly.divinekiddy.ui.Profile.Model.ProfileModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
@@ -32,6 +39,9 @@ import kotlin.collections.ArrayList
 class ProfileDetailsFragment : Fragment(),View.OnClickListener {
     private var _binding : FragmentProfileDetailsBinding? = null
     private val  binding get() = _binding!!
+
+    private var retrofitHelper = RetrofitHelper.getRetrofitInstance()
+    private var retrofitApiInterface = retrofitHelper.create(WebService::class.java)
 
 
     private val REQUEST_ID_MULTIPLE_PERMISSIONS = 101
@@ -55,7 +65,27 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
             bottomNav?.visibility = View.GONE
         }catch (e:Exception){}
         btnClick()
+        loadProfile()
         return binding.root
+    }
+
+    private fun loadProfile() {
+        CustomProgressDialog.showDialog(requireContext(), true)
+        val sharedPreference = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+        val uid = sharedPreference.getString("uid", "")
+        retrofitApiInterface.profileEdit(uid).enqueue(object : Callback<ProfileModel?> {
+            override fun onResponse(call: Call<ProfileModel?>, response: Response<ProfileModel?>) {
+                CustomProgressDialog.showDialog(requireContext(), false)
+                binding.tvName.text= response.body()!!.name
+                binding.tvMobile.text= response.body()!!.mobile
+                binding.tvEmail.text= response.body()!!.email
+            }
+
+            override fun onFailure(call: Call<ProfileModel?>, t: Throwable) {
+                CustomProgressDialog.showDialog(requireContext(), false)
+                Toast.makeText(requireContext(),"Getting some troubles",Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun btnClick() {

@@ -10,6 +10,7 @@ import com.textifly.divinekiddy.ui.OrderSuccess.Model.OrderSuccessModel
 import com.textifly.divinekiddy.ui.Orders.Model.OrderListModel
 import com.textifly.divinekiddy.ui.ProductDetails.Model.*
 import com.textifly.divinekiddy.ui.Products.Model.ProductsModel
+import com.textifly.divinekiddy.ui.Profile.Model.ProfileModel
 import com.textifly.divinekiddy.ui.SavedAddress.Model.AddressList
 import com.textifly.divinekiddy.ui.SavedAddress.Model.SavedAddressModel
 import com.textifly.divinekiddy.ui.SignIn.JoinModel
@@ -237,4 +238,10 @@ interface WebService {
     fun successOrderDetails(
         @Field("order_id") order_id : String?,
     ): Call<OrderSuccessModel?>
+
+    @FormUrlEncoded
+    @POST("profileedit")
+    fun profileEdit(
+        @Field("id") id : String?,
+    ): Call<ProfileModel?>
 }

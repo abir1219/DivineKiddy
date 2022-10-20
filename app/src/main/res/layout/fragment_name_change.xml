@@ -77,7 +77,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background"
                         android:hint="@string/full_name"
-                        android:text="Ashik Raja"
+                        tools:text="Ashik Raja"
                         android:imeOptions="actionNext"
                         android:drawableEnd="@drawable/ic_baseline_close_24"
                         android:inputType="text"
