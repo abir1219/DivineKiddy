@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
+import com.textifly.divinekiddy.CommonSuccessModel.SuccessModel
 import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
@@ -132,10 +133,10 @@ class AddAddressFragment : Fragment(),View.OnClickListener {
         if(arguments?.containsKey("addressId")==true){
             retrofitApiInterface.updateAddress(arguments?.getString("addressId"),uid,binding.tieName.text.toString(),binding.tieEmail.text.toString(),
                 binding.tieAddress.text.toString(),binding.tieLandmark.text.toString(), binding.tieState.text.toString(),
-                binding.tieCity.text.toString(),binding.tiePincode.text.toString(),binding.tieMobile.text.toString()).enqueue(object : Callback<CartModel?> {
+                binding.tieCity.text.toString(),binding.tiePincode.text.toString(),binding.tieMobile.text.toString()).enqueue(object : Callback<SuccessModel?> {
                 override fun onResponse(
-                    call: Call<CartModel?>,
-                    response: Response<CartModel?>
+                    call: Call<SuccessModel?>,
+                    response: Response<SuccessModel?>
                 ) {
                     CustomProgressDialog.showDialog(requireContext(),false)
                     if(response.body()!!.status.equals("success", ignoreCase = true)){
@@ -144,7 +145,7 @@ class AddAddressFragment : Fragment(),View.OnClickListener {
                     }
                 }
 
-                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                override fun onFailure(call: Call<SuccessModel?>, t: Throwable) {
                     CustomProgressDialog.showDialog(requireContext(),false)
                     Toast.makeText(requireContext(),"Getting some troubles",Toast.LENGTH_SHORT).show()
                 }

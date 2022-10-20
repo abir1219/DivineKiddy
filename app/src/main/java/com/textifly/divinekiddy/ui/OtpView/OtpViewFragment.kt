@@ -303,6 +303,7 @@ class OtpViewFragment : Fragment(),View.OnClickListener {
                         editor.putString("uname",response.body()!!.name)
                         editor.putString("email",response.body()!!.email)
                         editor.putString("mobile","91 "+response.body()!!.mobile)
+                        editor.putString("image",response.body()!!.image)
                         editor.commit()
 
                         //view?.findNavController()?.navigate(R.id.nav_join_us_to_otp_verify)
@@ -350,6 +351,7 @@ class OtpViewFragment : Fragment(),View.OnClickListener {
                         editor.putString("uname",response.body()!!.name)
                         editor.putString("email",response.body()!!.email)
                         editor.putString("mobile",response.body()!!.mobile)
+                        editor.putString("image",response.body()!!.image)
                         editor.commit()
 
                         //view?.findNavController()?.navigate(R.id.nav_join_us_to_otp_verify)

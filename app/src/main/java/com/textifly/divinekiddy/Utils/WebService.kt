@@ -1,5 +1,6 @@
 package com.textifly.divinekiddy.Utils
 
+import com.textifly.divinekiddy.CommonSuccessModel.SuccessModel
 import com.textifly.divinekiddy.ui.AddAddress.Model.AddAddressModel
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Cart.Model.CartListModel
@@ -16,9 +17,9 @@ import com.textifly.divinekiddy.ui.SavedAddress.Model.SavedAddressModel
 import com.textifly.divinekiddy.ui.SignIn.JoinModel
 import com.textifly.divinekiddy.ui.SubCategory.Model.SubCategoryModel
 import com.textifly.divinekiddy.ui.Wishlist.Model.WishlistModel
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface WebService {
@@ -113,7 +114,7 @@ interface WebService {
     fun cartTransfer(
         @Field("user_id") user_id : String?,
         @Field("device_id") device_id : String?,
-    ): Call<CartModel?>
+    ): Call<SuccessModel?>
 
     @FormUrlEncoded
     @POST("cartUpdate")
@@ -163,7 +164,7 @@ interface WebService {
         @Field("city") city : String?,
         @Field("pin") pin : String?,
         @Field("mobile") mobile : String?,
-    ):Call<CartModel?>
+    ):Call<SuccessModel?>
 
     @FormUrlEncoded
     @POST("getaddresslist")
@@ -175,7 +176,7 @@ interface WebService {
     @POST("removeaddress")
     fun removeAddress(
         @Field("id") id: String?,
-    ):Call<CartModel?>
+    ):Call<SuccessModel?>
 
     @FormUrlEncoded
     @POST("related_productlist")
@@ -188,14 +189,14 @@ interface WebService {
     @POST("removecart")
     fun removeFromCart(
         @Field("cartid") cartid: String?,
-    ):Call<CartModel?>
+    ):Call<SuccessModel?>
 
 
     @FormUrlEncoded
     @POST("removewishlist")
     fun removeFromWishlist(
         @Field("wishid") wishid: String?,
-    ):Call<CartModel?>
+    ):Call<SuccessModel?>
 
     @FormUrlEncoded
     @POST("moveToCart")
@@ -203,7 +204,7 @@ interface WebService {
         @Field("wishid") wishid: String?,
         @Field("user_id") user_id: String?,
         @Field("device_id") device_id: String?,
-    ):Call<CartModel?>
+    ):Call<SuccessModel?>
 
     @FormUrlEncoded
     @POST("moveToWishlist")
@@ -211,7 +212,7 @@ interface WebService {
         @Field("cartid") cartid: String?,
         @Field("user_id") user_id: String?,
         @Field("device_id") device_id: String?,
-    ):Call<CartModel?>
+    ):Call<SuccessModel?>
 
     @FormUrlEncoded
     @POST("wishlistcheck_product")
@@ -244,4 +245,24 @@ interface WebService {
     fun profileEdit(
         @Field("id") id : String?,
     ): Call<ProfileModel?>
+
+    /*@FormUrlEncoded
+    @POST("profileupdate")
+    fun profileUpdate(
+        @Field("user_id") user_id : String?,
+        @Field("mobile") mobile : String?,
+        @Field("name") name : String?,
+        @Field("email") email : String?,
+        @Field("image") image : String?,
+    ): Call<SuccessModel?>*/
+
+    @Multipart
+    @POST("profileupdate")
+    fun profileUpdate(
+        @Part("user_id") user_id: RequestBody?,
+        @Part("mobile") mobile: RequestBody?,
+        @Part("name") name: RequestBody?,
+        @Part("email") email: RequestBody?,
+        @Part image: MultipartBody.Part?
+    ):Call<SuccessModel?>
 }

@@ -69,8 +69,8 @@ class PaymentFragment : Fragment() ,View.OnClickListener{
     }
 
     private fun btnClick() {
-        binding.llUpi.setOnClickListener(this)
-        binding.llCard.setOnClickListener(this)
+        /*binding.llUpi.setOnClickListener(this)
+        binding.llCard.setOnClickListener(this)*/
         binding.llPayment.setOnClickListener(this)
         binding.llCod.setOnClickListener(this)
         binding.llNetBanking.setOnClickListener(this)
@@ -80,9 +80,9 @@ class PaymentFragment : Fragment() ,View.OnClickListener{
 
     override fun onClick(view: View?) {
         when(view?.id){
-            R.id.llUpi -> openUpiLayout(view)
-            R.id.llCard -> openCardLayout(view)
-            R.id.llPayment -> openPaytmLayout(view)
+            /*R.id.llUpi -> openUpiLayout(view)
+            R.id.llCard -> openCardLayout(view)*/
+            //R.id.llPayment -> openPaytmLayout(view)
             R.id.llCod -> openCodLayout(view)
             R.id.llNetBanking -> openNetBankingLayout(view)
             R.id.llEmi -> openEmiLayout(view)
@@ -114,7 +114,7 @@ private fun checkOut() {
           })
 }
 
-    private fun openUpiLayout(view: View) {
+    /*private fun openUpiLayout(view: View) {
         if(isUpiClicked) {
             binding.ivUpiDropdown.startAnimation(
                 AnimationUtils.loadAnimation(
@@ -181,7 +181,7 @@ private fun checkOut() {
             view.findNavController().navigate(R.id.navigation_payment_to_success,bundle)
             isPaytmClicked = true
         }
-    }
+    }*/
 
     private fun openCodLayout(view: View) {
         if(isCodClicked) {

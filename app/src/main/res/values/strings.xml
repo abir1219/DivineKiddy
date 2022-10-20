@@ -54,6 +54,7 @@
     <string name="credit_debit_card">CREDIT/DEBIT CARD</string>
     <string name="paytm">PAYTM</string>
     <string name="net_banking">NET BANKING</string>
+    <string name="online">ONLINE PAYMENT</string>
     <string name="cash_on_delivery">CASH ON DELIVERY</string>
     <string name="emi">EMI</string>
     <string name="_100_safe_amp_secure_payment"><![CDATA[100% Safe & Secure Payment]]></string>
@@ -106,6 +107,7 @@
     <string name="name">Name</string>
     <string name="save">SAVE</string>
     <string name="enter_your_new_number_below_this_will_be_account_identity_from_now">Enter your new number below. This will be account identity, from now</string>
+    <string name="enter_your_new_email_address_below_this_will_be_account_identity_from_now">Enter your new email address below. This will be account identity, from now</string>
     <string name="save_and_verify">SAVE AND VERIFY</string>
     <string name="shop_by_category">Shop By Category</string>
     <string name="otp_has_been_sent_to">OTP has been sent to</string>

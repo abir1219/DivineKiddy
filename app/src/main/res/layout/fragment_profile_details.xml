@@ -130,7 +130,7 @@
                             android:layout_width="120dp"
                             android:scaleType="fitXY"
                             android:layout_height="120dp"
-                            android:src="@drawable/userpic" />
+                            android:src="@drawable/avatar" />
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
@@ -263,11 +263,17 @@
                             android:src="@drawable/ic_baseline_mail_outline_24" />
 
                         <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_gravity="bottom|end"
+                            android:src="@drawable/verifiy" />
+
+                        <!--<ImageView
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:layout_gravity="bottom|end"
                             android:src="@drawable/ic_baseline_warning_24"
-                            app:tint="@color/pink" />
+                            app:tint="@color/pink" />-->
 
                     </FrameLayout>
 
@@ -293,6 +299,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:text="@string/verify_your_email_to_shop_nuninterupted"
                             android:textColor="@color/pink"
                             android:textSize="14sp" />

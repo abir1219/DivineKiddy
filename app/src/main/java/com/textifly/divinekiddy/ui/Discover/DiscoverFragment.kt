@@ -17,6 +17,7 @@ import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.databinding.FragmentDiscoverBinding
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
+import com.textifly.divinekiddy.CommonSuccessModel.SuccessModel
 import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Discover.Adapter.HeaderImageAdapter
@@ -90,8 +91,8 @@ class DiscoverFragment : Fragment(),View.OnClickListener {
             val device_id: String = Settings.Secure.getString(requireActivity().contentResolver,
                 Settings.Secure.ANDROID_ID)
 
-            retrofitApiInterface.cartTransfer(uid,device_id).enqueue(object : Callback<CartModel?> {
-                override fun onResponse(call: Call<CartModel?>, response: Response<CartModel?>) {
+            retrofitApiInterface.cartTransfer(uid,device_id).enqueue(object : Callback<SuccessModel?> {
+                override fun onResponse(call: Call<SuccessModel?>, response: Response<SuccessModel?>) {
                     CustomProgressDialog.showDialog(requireContext(),false)
                     if(response.body()!!.status.equals("success")){
                         cartCount()
@@ -99,7 +100,7 @@ class DiscoverFragment : Fragment(),View.OnClickListener {
                     }
                 }
 
-                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                override fun onFailure(call: Call<SuccessModel?>, t: Throwable) {
                     CustomProgressDialog.showDialog(requireContext(),false)
                 }
             })

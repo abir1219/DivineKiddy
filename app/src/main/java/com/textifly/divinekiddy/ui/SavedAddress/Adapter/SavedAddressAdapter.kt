@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
+import com.textifly.divinekiddy.CommonSuccessModel.SuccessModel
 import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
@@ -68,8 +69,8 @@ class SavedAddressAdapter(var modelList: List<AddressList>) :
 
         holder.tvRemoveAddress.setOnClickListener{
             CustomProgressDialog.showDialog(context,true)
-            retrofitApiInterface.removeAddress(modelList[position].id).enqueue(object : Callback<CartModel?> {
-                override fun onResponse(call: Call<CartModel?>, response: Response<CartModel?>) {
+            retrofitApiInterface.removeAddress(modelList[position].id).enqueue(object : Callback<SuccessModel?> {
+                override fun onResponse(call: Call<SuccessModel?>, response: Response<SuccessModel?>) {
                     CustomProgressDialog.showDialog(context,false)
                     if(response.body()!!.status.equals("success",ignoreCase = true)){
                         Toast.makeText(context,"Address removed successfully",Toast.LENGTH_SHORT).show()
@@ -77,7 +78,7 @@ class SavedAddressAdapter(var modelList: List<AddressList>) :
                     }
                 }
 
-                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                override fun onFailure(call: Call<SuccessModel?>, t: Throwable) {
                     CustomProgressDialog.showDialog(context,false)
                     Toast.makeText(context,"Getting some troubles",Toast.LENGTH_SHORT).show()
                 }

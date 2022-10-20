@@ -14,6 +14,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
+import com.textifly.divinekiddy.CommonSuccessModel.SuccessModel
 import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
@@ -62,10 +63,10 @@ class WishlistAdapter(var modelList: List<WishlistList>) :
             if (sharedPreference!!.contains("uid")) {
                 val uid = sharedPreference.getString("uid", "")
                 retrofitApiInterface.moveToCart(modelList[position].id, uid, "")
-                    .enqueue(object : Callback<CartModel?> {
+                    .enqueue(object : Callback<SuccessModel?> {
                         override fun onResponse(
-                            call: Call<CartModel?>,
-                            response: Response<CartModel?>
+                            call: Call<SuccessModel?>,
+                            response: Response<SuccessModel?>
                         ) {
                             if (response.body()!!.status.equals("success")) {
                                 CustomProgressDialog.showDialog(context, false)
@@ -77,7 +78,7 @@ class WishlistAdapter(var modelList: List<WishlistList>) :
                             }
                         }
 
-                        override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                        override fun onFailure(call: Call<SuccessModel?>, t: Throwable) {
                             CustomProgressDialog.showDialog(context, false)
                         }
                     })
@@ -87,10 +88,10 @@ class WishlistAdapter(var modelList: List<WishlistList>) :
                     Settings.Secure.ANDROID_ID
                 )
                 retrofitApiInterface.moveToCart(modelList[position].id, "", device_id)
-                    .enqueue(object : Callback<CartModel?> {
+                    .enqueue(object : Callback<SuccessModel?> {
                         override fun onResponse(
-                            call: Call<CartModel?>,
-                            response: Response<CartModel?>
+                            call: Call<SuccessModel?>,
+                            response: Response<SuccessModel?>
                         ) {
                             if (response.body()!!.status.equals("success")) {
                                 CustomProgressDialog.showDialog(context, false)
@@ -101,7 +102,7 @@ class WishlistAdapter(var modelList: List<WishlistList>) :
                             }
                         }
 
-                        override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                        override fun onFailure(call: Call<SuccessModel?>, t: Throwable) {
                             CustomProgressDialog.showDialog(context, false)
                         }
                     })
@@ -115,8 +116,8 @@ class WishlistAdapter(var modelList: List<WishlistList>) :
     }
 
     private fun removeFromWishlist(position:Int?,id: String?) {
-        retrofitApiInterface.removeFromWishlist(id).enqueue(object : Callback<CartModel?> {
-            override fun onResponse(call: Call<CartModel?>, response: Response<CartModel?>) {
+        retrofitApiInterface.removeFromWishlist(id).enqueue(object : Callback<SuccessModel?> {
+            override fun onResponse(call: Call<SuccessModel?>, response: Response<SuccessModel?>) {
                 CustomProgressDialog.showDialog(context,false)
                 if(response.body()!!.status.equals("success")){
                     onDataRecived?.onCallBack(position.toString())
@@ -125,7 +126,7 @@ class WishlistAdapter(var modelList: List<WishlistList>) :
                 }
             }
 
-            override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+            override fun onFailure(call: Call<SuccessModel?>, t: Throwable) {
                 CustomProgressDialog.showDialog(context,false)
             }
         })

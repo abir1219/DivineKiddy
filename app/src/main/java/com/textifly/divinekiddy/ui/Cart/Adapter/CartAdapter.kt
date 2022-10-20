@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
+import com.textifly.divinekiddy.CommonSuccessModel.SuccessModel
 import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
@@ -88,8 +89,8 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
             if (sharedPreference!!.contains("uid")) {
                 val uid = sharedPreference.getString("uid", "")
                 retrofitApiInterface.moveToWishlist(modelList[position].id, uid, "")
-                    .enqueue(object : Callback<CartModel?> {
-                        override fun onResponse(call: Call<CartModel?>, response: Response<CartModel?>
+                    .enqueue(object : Callback<SuccessModel?> {
+                        override fun onResponse(call: Call<SuccessModel?>, response: Response<SuccessModel?>
                         ) {
                             if (response.body()!!.status.equals("success")) {
                                 CustomProgressDialog.showDialog(context, false)
@@ -101,7 +102,7 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
                             }
                         }
 
-                        override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                        override fun onFailure(call: Call<SuccessModel?>, t: Throwable) {
                             CustomProgressDialog.showDialog(context, false)
                         }
                     })
@@ -111,10 +112,10 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
                     Settings.Secure.ANDROID_ID
                 )
                 retrofitApiInterface.moveToWishlist(modelList[position].id, "", device_id)
-                    .enqueue(object : Callback<CartModel?> {
+                    .enqueue(object : Callback<SuccessModel?> {
                         override fun onResponse(
-                            call: Call<CartModel?>,
-                            response: Response<CartModel?>
+                            call: Call<SuccessModel?>,
+                            response: Response<SuccessModel?>
                         ) {
                             if (response.body()!!.status.equals("success")) {
                                 CustomProgressDialog.showDialog(context, false)
@@ -126,7 +127,7 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
                             }
                         }
 
-                        override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                        override fun onFailure(call: Call<SuccessModel?>, t: Throwable) {
                             CustomProgressDialog.showDialog(context, false)
                         }
                     })
@@ -202,10 +203,10 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
 
     private fun removeFromCart(position: Int, id: String, llFunctions: LinearLayout?) {
         retrofitApiInterface.removeFromCart(id)
-            .enqueue(object : Callback<CartModel?> {
+            .enqueue(object : Callback<SuccessModel?> {
                 override fun onResponse(
-                    call: Call<CartModel?>,
-                    response: Response<CartModel?>
+                    call: Call<SuccessModel?>,
+                    response: Response<SuccessModel?>
                 ) {
                     if (response.body()!!.status.equals("success")) {
                         CustomProgressDialog.showDialog(context, false)
@@ -222,7 +223,7 @@ class CartAdapter(var modelList:List<CartList>) : RecyclerView.Adapter<CartAdapt
                     }
                 }
 
-                override fun onFailure(call: Call<CartModel?>, t: Throwable) {
+                override fun onFailure(call: Call<SuccessModel?>, t: Throwable) {
                     Toast.makeText(context, "Getting some troubles", Toast.LENGTH_SHORT).show()
                     llFunctions?.visibility = View.VISIBLE
                     CustomProgressDialog.showDialog(context, false)

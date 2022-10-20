@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.ProfileEdit.MobileFragment">
+    tools:context=".ui.ProfileEdit.EmailChangeFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -37,7 +37,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:gravity="center"
-                    android:text="@string/mobile_number"
+                    android:text="@string/email_address"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -64,7 +64,7 @@
                     android:id="@+id/tvInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/enter_your_new_number_below_this_will_be_account_identity_from_now"
+                    android:text="@string/enter_your_new_email_address_below_this_will_be_account_identity_from_now"
                     android:textColor="@color/grey_font"
                     android:textSize="14sp" />
 
@@ -80,15 +80,14 @@
                     app:hintTextColor="@color/black4">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/tieMobile"
+                        android:id="@+id/tieEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/edit_text_background"
-                        android:hint="@string/mobile_number"
-                        tools:text="9831551655"
-                        android:maxLength="10"
+                        android:hint="@string/email_address"
+                        tools:text="abirchanda009@gmail.com"
                         android:imeOptions="actionNext"
-                        android:inputType="phone"
+                        android:inputType="textEmailAddress"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:textColor="@color/black"
@@ -97,7 +96,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
-                    android:id="@+id/tvSaveMobile"
+                    android:id="@+id/tvSaveEmail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tilName"
@@ -105,7 +104,7 @@
                     android:background="@drawable/checkout_bg"
                     android:gravity="center"
                     android:padding="15dp"
-                    android:text="@string/save_and_verify"
+                    android:text="@string/save"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />

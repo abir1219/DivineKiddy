@@ -20,20 +20,24 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
+import com.textifly.divinekiddy.CommonSuccessModel.SuccessModel
 import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.databinding.FragmentProfileDetailsBinding
 import com.textifly.divinekiddy.ui.Profile.Model.ProfileModel
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class ProfileDetailsFragment : Fragment(),View.OnClickListener {
@@ -79,6 +83,16 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
                 binding.tvName.text= response.body()!!.name
                 binding.tvMobile.text= response.body()!!.mobile
                 binding.tvEmail.text= response.body()!!.email
+                if(response.body()!!.image == null){
+                    Glide.with(requireContext())
+                        .load("https://divinekiddy.com/uploads/profile/${response.body()!!.image}")
+                        .into(binding.ivProfile)
+                }else{
+                    Glide.with(requireContext())
+                        .load(R.drawable.avatar)
+                        .into(binding.ivProfile)
+                }
+
             }
 
             override fun onFailure(call: Call<ProfileModel?>, t: Throwable) {
@@ -95,13 +109,31 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
         binding.rlEmail.setOnClickListener(this)
         binding.rlEmail.setOnClickListener(this)
         binding.llProfileImage.setOnClickListener(this)
+        binding.rlEmail.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
         when(view?.id){
             R.id.ivBack -> view.findNavController().navigate(R.id.nav_profile_details_to_account)
-            R.id.rlName -> view.findNavController().navigate(R.id.nav_profile_details_to_name_change)
-            R.id.rlMobile -> view.findNavController().navigate(R.id.nav_profile_details_to_mobile_change)
+            R.id.rlName ->
+            {
+                val bundle = Bundle()
+                bundle.putString("name",binding.tvName.text.toString())
+                view.findNavController().navigate(R.id.nav_profile_details_to_name_change,bundle)
+            }
+            R.id.rlMobile ->
+            {
+                val bundle = Bundle()
+                bundle.putString("mobile",binding.tvMobile.text.toString())
+                view.findNavController().navigate(R.id.nav_profile_details_to_mobile_change,bundle)
+            }
+
+            R.id.rlEmail -> {
+                val bundle = Bundle()
+                bundle.putString("email",binding.tvEmail.text.toString())
+                view.findNavController().navigate(R.id.nav_profile_details_to_email_change,bundle)
+            }
+
             R.id.llProfileImage -> {
                 //Toast.makeText(getActivity(), "pressed", Toast.LENGTH_SHORT).show();
                 if (checkAndRequestPermissions(requireActivity())) {
@@ -165,6 +197,8 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
                     listFile.add(finalFile);*/
                     imgFile = File(getRealPathFromURI(tempUri)!!)
                     Log.e("finalFile==", imgFile.toString())
+                    updateImage(imgFile!!)
+
                 }
                 1 -> {
                     val selectedImageUri = data!!.data
@@ -179,10 +213,39 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
                         listFile.add(finalFile2);*/
                         imgFile = File(path)
                         Log.e("finalFile==", imgFile.toString())
+                        updateImage(imgFile!!)
                     }
                 }
             }
         }
+    }
+
+    private fun updateImage(imgFile: File) {
+        CustomProgressDialog.showDialog(requireContext(),true)
+        val user_image: MultipartBody.Part
+        val surveyBody: RequestBody = RequestBody.create("*/*".toMediaTypeOrNull(), imgFile)
+        user_image = MultipartBody.Part.createFormData("image", imgFile.name, surveyBody)
+        val sharedPreference = context?.getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+        val uid = sharedPreference?.getString("uid", "")
+        val userId: RequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), uid!!)
+
+        val call: Call<SuccessModel?> = retrofitApiInterface.profileUpdate(userId,null,null,null,user_image)
+        call.enqueue(object : Callback<SuccessModel?> {
+            override fun onResponse(call: Call<SuccessModel?>, response: Response<SuccessModel?>) {
+                CustomProgressDialog.showDialog(requireContext(),false)
+                Toast.makeText(requireContext(),response.body()!!.message, Toast.LENGTH_SHORT).show()
+                val edit = sharedPreference.edit()
+                edit?.putString("image",imgFile.name)
+                edit?.commit()
+                loadProfile()
+            }
+
+            override fun onFailure(call: Call<SuccessModel?>, t: Throwable) {
+                CustomProgressDialog.showDialog(requireContext(),false)
+                Toast.makeText(requireContext(),"Getting some troubles", Toast.LENGTH_SHORT).show()
+            }
+        })
+
     }
 
     fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {

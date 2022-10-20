@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.Helper
@@ -64,7 +65,20 @@ class AccountFragment : Fragment(), View.OnClickListener {
             binding.llAfterLoginTop.visibility = View.GONE
             binding.llAfterLoginBottom.visibility = View.GONE
         }
-    }
+
+        if(sharedPreference.contains("image")){
+            if(sharedPreference.getString("image","")!=null){
+                Glide.with(requireContext())
+                    .load("https://divinekiddy.com/uploads/profile/${sharedPreference.getString("image","")}")
+                    .into(binding.ivProfileImg)
+            }else{
+                Glide.with(requireContext())
+                    .load(R.drawable.avatar)
+                    .into(binding.ivProfileImg)
+            }
+        }
+
+    }//ivProfileImg
 
     private fun btnClick() {
         binding.rlOrderList.setOnClickListener(this)
@@ -91,7 +105,14 @@ class AccountFragment : Fragment(), View.OnClickListener {
             }
             R.id.rlWishlist -> view.findNavController().navigate(R.id.nav_account_to_navigation_wishlist)
 
-            R.id.rlOrderList -> view.findNavController().navigate(R.id.nav_account_to_order_list)
+            R.id.rlOrderList -> {
+                val sharedPreference = requireActivity().getSharedPreferences("PREFERENCE",Context.MODE_PRIVATE)
+                if(sharedPreference.contains("uid")) {
+                    view.findNavController().navigate(R.id.nav_account_to_order_list)
+                }else{
+                    view.findNavController().navigate(R.id.nav_account_to_signin_otp)
+                }
+            }
 
             R.id.rlCancelOrder -> {
                 if (sharedPreference.contains("uid")){

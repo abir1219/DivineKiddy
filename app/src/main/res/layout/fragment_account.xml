@@ -84,9 +84,11 @@
                                     android:text="A"/>-->
 
                                 <ImageView
+                                    android:id="@+id/ivProfileImg"
                                     android:layout_width="70dp"
                                     android:layout_height="70dp"
-                                    android:src="@drawable/userpic"/>
+                                    android:scaleType="fitXY"
+                                    android:src="@drawable/avatar"/>
 
                             </androidx.cardview.widget.CardView>
                         </LinearLayout>

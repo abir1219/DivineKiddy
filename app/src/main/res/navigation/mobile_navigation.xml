@@ -436,6 +436,13 @@
             app:popEnterAnim="@anim/fade_in_animation"
             app:popExitAnim="@anim/fade_out_animation"/>
 
+        <action android:id="@+id/nav_profile_details_to_email_change"
+            app:destination="@+id/navigation_email_change"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
+
         <action android:id="@+id/nav_profile_details_to_name_change"
             app:destination="@+id/navigation_name_change"
             app:enterAnim="@anim/fade_in_animation"
@@ -521,6 +528,21 @@
             app:exitAnim="@anim/fade_out_animation"
             app:popEnterAnim="@anim/fade_in_animation"
             app:popExitAnim="@anim/fade_out_animation"/>-->
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_email_change"
+        android:name="com.textifly.divinekiddy.ui.ProfileEdit.EmailChangeFragment"
+        android:label="@string/email_address"
+        tools:layout="@layout/fragment_email_change" >
+
+        <action android:id="@+id/nav_email_change_to_profile_details"
+            app:destination="@+id/navigation_profile_details"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"
+            app:popEnterAnim="@anim/fade_in_animation"
+            app:popExitAnim="@anim/fade_out_animation"/>
 
     </fragment>
 

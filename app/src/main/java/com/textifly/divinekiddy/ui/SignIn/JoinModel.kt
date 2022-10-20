@@ -15,4 +15,6 @@ data class JoinModel(
     var email:String?,
     @SerializedName("mobile")
     var mobile:String?,
+    @SerializedName("image")
+    var image:String?,
 )
