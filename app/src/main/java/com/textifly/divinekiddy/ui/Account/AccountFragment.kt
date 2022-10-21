@@ -118,7 +118,7 @@ class AccountFragment : Fragment(), View.OnClickListener {
 
             R.id.rlCancelOrder -> {
                 if (sharedPreference.contains("uid")){
-                    view.findNavController().navigate(R.id.nav_account_to_navigation_cancel_order)
+                    view.findNavController().navigate(R.id.nav_account_to_navigation_cancel_success)
                 }else{
                     view.findNavController().navigate(R.id.nav_account_to_signin_otp)
                 }

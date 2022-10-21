@@ -1,6 +1,7 @@
 package com.textifly.divinekiddy.ui.Payment
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,7 +16,9 @@ import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
 import com.textifly.divinekiddy.R
 import com.textifly.divinekiddy.Utils.WebService
 import com.textifly.divinekiddy.databinding.FragmentPaymentBinding
+import com.textifly.divinekiddy.ui.OrderSuccess.AllDoneActivity
 import com.textifly.divinekiddy.ui.ProductDetails.Model.CartModel
+import com.textifly.divinekiddy.ui.RazorPay.RazorPayActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -84,7 +87,17 @@ class PaymentFragment : Fragment() ,View.OnClickListener{
             R.id.llCard -> openCardLayout(view)*/
             //R.id.llPayment -> openPaytmLayout(view)
             R.id.llCod -> openCodLayout(view)
-            R.id.llNetBanking -> openNetBankingLayout(view)
+            R.id.llNetBanking -> {
+//                val bundle = Bundle()
+//                bundle.putString("amount",arguments?.getString("totalPrice"))
+//                view.findNavController().navigate(R.id.navigation_payment_to_razor_pay,bundle)
+                val intent = Intent (requireContext(), RazorPayActivity::class.java)
+                intent.putExtra("total",arguments?.getString("totalPrice"))
+                intent.putExtra("discountPrice",arguments?.getString("discountPrice"))
+                requireContext().startActivity(intent)
+
+                //navigation_payment_to_razor_pay
+            }//openNetBankingLayout(view)
             R.id.llEmi -> openEmiLayout(view)
             R.id.llMenu -> activity?.onBackPressed()
         }
@@ -201,7 +214,11 @@ private fun checkOut() {
                 )
             )
             checkOut()
-            view.findNavController().navigate(R.id.navigation_payment_to_success,bundle)
+            //view.findNavController().navigate(R.id.navigation_payment_to_success,bundle)
+            val intent = Intent (requireContext(), AllDoneActivity::class.java)
+            intent.putExtra("total",arguments?.getString("totalPrice"))
+            intent.putExtra("discountPrice",arguments?.getString("discountPrice"))
+            requireContext().startActivity(intent)
             isCodClicked = true
         }
     }

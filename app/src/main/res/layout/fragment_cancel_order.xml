@@ -155,56 +155,62 @@
                     android:id="@+id/llOrder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="12dp"
-                    android:gravity="center_vertical"
                     android:layout_below="@+id/v1"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <CheckBox
+                    <!--<CheckBox
                         android:id="@+id/chkBox"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:scaleX="1.50"
-                        android:scaleY="1.50"
-                        />
+                        android:scaleY="1.50" />-->
 
                     <ImageView
+                        android:id="@+id/ivImage"
                         android:layout_width="130dp"
                         android:layout_height="130dp"
-                        android:src="@drawable/one_iv"
                         android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"/>
+                        android:layout_marginEnd="5dp"
+                        android:src="@drawable/one_iv" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="top"
-                        android:orientation="vertical"
                         android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp">
+                        android:layout_marginEnd="5dp"
+                        android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvProdName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
-                            android:textSize="16sp"
                             android:maxLines="1"
+                            tools:text="Girls Red Sleevless Solid Casual"
                             android:textColor="@color/black"
-                            android:text="Girls Red Sleevless Solid Casual"/>
+                            android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/tvProdAge"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
                             android:layout_marginTop="5dp"
-                            android:text="Size 3-6 months"/>
+                            tools:text="Size 3-6 months"
+                            android:textSize="16sp" />
 
                         <TextView
+                            android:id="@+id/tvQuantity"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="16sp"
                             android:layout_marginTop="5dp"
-                            android:text="Qty 1"/>
+                            tools:text="Qty 1"
+                            android:textSize="16sp" />
 
 
                     </LinearLayout>
@@ -243,36 +249,57 @@
                     android:layout_marginBottom="10dp"
                     android:background="@color/background" />
 
-                <TextView
-                    android:id="@+id/tvReason"
+                <LinearLayout
+                    android:id="@+id/llSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/v3"
-                    android:textSize="16sp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginTop="5dp"
-                    android:text="@string/select_a_reason"/>
+                    android:orientation="vertical"
+                    android:layout_below="@+id/v3">
+
+                    <TextView
+                        android:id="@+id/tvReason"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginTop="5dp"
+                        android:text="@string/select_a_reason"/>
+
+                    <Spinner
+                        android:id="@+id/spReason"
+                        android:layout_width="match_parent"
+                        android:layout_height=".01dp"
+                        android:backgroundTint="@color/black"
+                        android:padding="5dp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
 
                 <View
                     android:id="@+id/v4"
                     android:layout_width="match_parent"
                     android:layout_height="1.5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_below="@+id/tvReason"
+                    android:layout_below="@+id/llSpinner"
                     android:layout_marginBottom="10dp"
                     android:background="@color/background" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tvComments"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     android:layout_below="@+id/v4"
                     android:textSize="16sp"
+                    android:background="@color/white"
+                    android:textColor="@color/black"
+                    android:inputType="textImeMultiLine"
                     android:layout_marginStart="12dp"
                     android:layout_marginEnd="12dp"
                     android:layout_marginTop="15dp"
-                    android:text="@string/add_your_comments"/>
+                    android:hint="@string/add_your_comments"
+                    />
 
                 <View
                     android:id="@+id/v5"

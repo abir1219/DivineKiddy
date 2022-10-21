@@ -116,4 +116,12 @@
     <string name="choose_address">Choose Address</string>
     <string name="select_address">Select Address</string>
     <string name="select_quantity">Select Quantity</string>
+
+
+
+    <string-array name="Reasons">
+        <item>Select a reason</item>
+        <item>Damaged product</item>
+        <item>Wrong item delivered</item>
+    </string-array>
 </resources>

@@ -265,4 +265,12 @@ interface WebService {
         @Part("email") email: RequestBody?,
         @Part image: MultipartBody.Part?
     ):Call<SuccessModel?>
+
+    @FormUrlEncoded
+    @POST("cancelorder")
+    fun cancelProduct(
+        @Field("orderid") orderid : String?,
+        @Field("reason") reason : String?,
+        @Field("message") message : String?,
+    ): Call<SuccessModel?>
 }
