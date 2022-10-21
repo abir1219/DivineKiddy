@@ -67,7 +67,9 @@ class AccountFragment : Fragment(), View.OnClickListener {
         }
 
         if(sharedPreference.contains("image")){
+            Toast.makeText(requireContext(),"Image Have",Toast.LENGTH_SHORT).show()
             if(sharedPreference.getString("image","")!=null){
+                Toast.makeText(requireContext(),"Image -> ${sharedPreference.getString("image","")}",Toast.LENGTH_SHORT).show()
                 Glide.with(requireContext())
                     .load("https://divinekiddy.com/uploads/profile/${sharedPreference.getString("image","")}")
                     .into(binding.ivProfileImg)

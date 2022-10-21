@@ -204,39 +204,39 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="3dp"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="3dp"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
         android:layout_marginTop="8dp"
         android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:weightSum="2"
-        app:layout_constraintTop_toBottomOf="@+id/llAddress"
-        android:orientation="horizontal">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/llAddress">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:weightSum="2"
             android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:weightSum="2">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:text="Total Order Price"
+                android:layout_weight="1"
                 android:gravity="start"
-                android:textStyle="bold"
+                android:text="Total Order Price"
                 android:textColor="#000000"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
@@ -246,13 +246,13 @@
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                tools:text="You saved ₹ 1600.00 on this order"
                 android:gravity="start"
-                android:textStyle="bold"
                 android:textColor="@color/green"
                 android:textSize="12sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                tools:text="You saved ₹ 1600.00 on this order" />
 
 
         </LinearLayout>
@@ -262,15 +262,32 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="8dp"
-            android:text="₹2424.00"
-            android:gravity="end"
             android:layout_weight="1"
-            android:textStyle="bold"
+            android:gravity="end"
+            android:text="₹2424.00"
             android:textColor="#000000"
             android:textSize="16sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvCancelOrder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@color/yellow"
+        android:gravity="center"
+        android:letterSpacing="0.02"
+        android:padding="15dp"
+        android:text="@string/cancel_order"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

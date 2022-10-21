@@ -83,7 +83,9 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
                 binding.tvName.text= response.body()!!.name
                 binding.tvMobile.text= response.body()!!.mobile
                 binding.tvEmail.text= response.body()!!.email
-                if(response.body()!!.image == null){
+
+                Log.d("Profile_img", response.body()!!.image.toString())
+                if(response.body()!!.image != null){
                     Glide.with(requireContext())
                         .load("https://divinekiddy.com/uploads/profile/${response.body()!!.image}")
                         .into(binding.ivProfile)
@@ -196,7 +198,7 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
                     /*listFile = new ArrayList<>();
                     listFile.add(finalFile);*/
                     imgFile = File(getRealPathFromURI(tempUri)!!)
-                    Log.e("finalFile==", imgFile.toString())
+                    Log.e("finalFileCamera==", imgFile.toString())
                     updateImage(imgFile!!)
 
                 }
@@ -212,7 +214,7 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
                         listFile = new ArrayList<>();
                         listFile.add(finalFile2);*/
                         imgFile = File(path)
-                        Log.e("finalFile==", imgFile.toString())
+                        Log.e("finalFileGallery==", imgFile.toString())
                         updateImage(imgFile!!)
                     }
                 }
@@ -234,6 +236,7 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
             override fun onResponse(call: Call<SuccessModel?>, response: Response<SuccessModel?>) {
                 CustomProgressDialog.showDialog(requireContext(),false)
                 Toast.makeText(requireContext(),response.body()!!.message, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(requireContext(),"Save image-> "+imgFile.name, Toast.LENGTH_SHORT).show()
                 val edit = sharedPreference.edit()
                 edit?.putString("image",imgFile.name)
                 edit?.commit()

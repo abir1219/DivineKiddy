@@ -74,7 +74,7 @@ class OrderDetailsFragment : Fragment(),View.OnClickListener {
                 binding.tvAddressName.text = response.body()!!.userAddressName
                 binding.tvMobile.text = response.body()!!.mobile
                 binding.tvAddress.text = response.body()!!.address +", "+response.body()!!.city+", "+response.body()!!.state+" -"+response.body()!!.pin
-                binding.tvTotal.text = response.body()!!.price
+                binding.tvTotal.text = "₹"+response.body()!!.price
                 binding.tvSaveTotal.text = "You saved ₹ ${response.body()!!.discount} on this order"
                 //sharedPreference.getString("totalDiscount","")
             }
