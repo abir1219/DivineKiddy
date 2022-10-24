@@ -1,6 +1,8 @@
 package com.textifly.divinekiddy.ui.Cancel
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +33,7 @@ class CancelOrderFragment : Fragment(), View.OnClickListener {
     private var retrofitApiInterface = retrofitHelper.create(WebService::class.java)
 
     var reason: String? = null
+    val bundle = Bundle()
 
     override fun onResume() {
         super.onResume()
@@ -77,6 +80,7 @@ class CancelOrderFragment : Fragment(), View.OnClickListener {
             ) {
                 if (!reasons[position].equals("Select Reason", ignoreCase = false)) {
                     reason = reasons[position]
+                    binding.spReason.visibility = View.GONE
                     binding.tvReason.text = reasons[position]
                 } else {
                     reason = ""
@@ -94,11 +98,18 @@ class CancelOrderFragment : Fragment(), View.OnClickListener {
         binding.tvProdName.text = arguments?.getString("prod_name")
         binding.tvProdAge.text = arguments?.getString("prod_age")
         binding.tvQuantity.text = arguments?.getString("prod_qty")
+        setBundle()
         Glide.with(requireContext())
             .load("https://divinekiddy.com/uploads/product/" + arguments?.getString("prod_img"))
             .placeholder(R.drawable.loader).into(binding.ivImage)
         CustomProgressDialog.showDialog(requireContext(), false)
 
+    }
+
+    private fun setBundle() {
+        bundle.putString("prod_name",arguments?.getString("prod_name"))
+        bundle.putString("prod_age",arguments?.getString("prod_age"))
+        bundle.putString("prod_qty",arguments?.getString("prod_qty"))
     }
 
     private fun btnClick() {
@@ -125,13 +136,18 @@ class CancelOrderFragment : Fragment(), View.OnClickListener {
     }
 
     private fun cancelProduct() {
+        Log.d("orderId", arguments?.getString("orderId")!!)
+
         CustomProgressDialog.showDialog(requireContext(), true)
-        retrofitApiInterface.cancelProduct(arguments?.getString("order_id"),reason,binding.tvComments.text.toString()).enqueue(object : Callback<SuccessModel?> {
+        retrofitApiInterface.cancelProduct(arguments?.getString("orderId"),reason,binding.tvComments.text.toString()).enqueue(object : Callback<SuccessModel?> {
             override fun onResponse(call: Call<SuccessModel?>, response: Response<SuccessModel?>) {
                 CustomProgressDialog.showDialog(requireContext(), false)
                 if(response.body()!!.status.equals("success",ignoreCase = false)){
                     Toast.makeText(requireContext(),response.body()!!.message,Toast.LENGTH_SHORT).show()
-                    view?.findNavController()!!.navigate(R.id.navigation_cancel_order_to_cancel_success)
+                    val sharedPreference = requireActivity().getSharedPreferences("PREFERENCE",
+                        Context.MODE_PRIVATE)
+
+                    view?.findNavController()!!.navigate(R.id.navigation_cancel_order_to_cancel_success,bundle)
                 }
             }
 

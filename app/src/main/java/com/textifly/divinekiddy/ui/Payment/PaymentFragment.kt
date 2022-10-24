@@ -115,6 +115,11 @@ private fun checkOut() {
                       edit.commit()
                       Toast.makeText(requireContext(),"Order Placed Successfully",Toast.LENGTH_SHORT).show()
                       //view?.findNavController()?.navigate(R.id.nav_cart_to_shipping_address)
+                      val intent = Intent (requireContext(), AllDoneActivity::class.java)
+                      intent.putExtra("total",arguments?.getString("totalPrice"))
+                      intent.putExtra("discountPrice",arguments?.getString("discountPrice"))
+                      intent.putExtra("order_id",response.body()!!.order_id)
+                      startActivity(intent)
                   }else{
                       Toast.makeText(requireContext(),"Order Placed un-successful",Toast.LENGTH_SHORT).show()
                   }

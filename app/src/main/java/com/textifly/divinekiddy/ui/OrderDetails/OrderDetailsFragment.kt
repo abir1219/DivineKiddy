@@ -3,6 +3,7 @@ package com.textifly.divinekiddy.ui.OrderDetails
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -76,6 +77,7 @@ class OrderDetailsFragment : Fragment(), View.OnClickListener {
                     call: Call<OrderDetailsModel?>,
                     response: Response<OrderDetailsModel?>
                 ) {
+                    Log.d("Order_details",response.body().toString())
                     CustomProgressDialog.showDialog(requireContext(), false)
                     Glide.with(requireActivity())
                         .load("https://divinekiddy.com/uploads/product/${response.body()!!.image}")
@@ -87,7 +89,7 @@ class OrderDetailsFragment : Fragment(), View.OnClickListener {
                     prod_name = response.body()!!.productName
                     prod_age = response.body()!!.age
                     prod_qty = response.body()!!.quantity
-                    orderId = response.body()!!.orderId
+                    orderId = response.body()!!.id
                     prod_img = response.body()!!.image
 
                     if(response.body()!!.cancelStatus==null){

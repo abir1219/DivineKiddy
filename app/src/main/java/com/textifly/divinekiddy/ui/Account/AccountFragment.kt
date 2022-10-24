@@ -132,6 +132,7 @@ class AccountFragment : Fragment(), View.OnClickListener {
                     view.findNavController().navigate(R.id.nav_account_to_signin_otp)
                 }
             }
+
             R.id.tvSignOut -> {
                 /*Helper.isSignIn = false
                 activity?.recreate()*/
