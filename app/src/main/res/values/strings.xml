@@ -116,7 +116,7 @@
     <string name="choose_address">Choose Address</string>
     <string name="select_address">Select Address</string>
     <string name="select_quantity">Select Quantity</string>
-    <string name="item_was_cancelled_successfully">Item was cancelled successfully</string>
+    <string name="item_was_cancelled_successfully">Item is cancelled successfully</string>
 
 
     <string-array name="Reasons">

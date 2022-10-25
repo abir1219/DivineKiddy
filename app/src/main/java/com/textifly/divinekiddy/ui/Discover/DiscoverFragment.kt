@@ -1,5 +1,6 @@
 package com.textifly.divinekiddy.ui.Discover
 
+//import com.textifly.divinekiddy.ui.Discover.Model.ImageList
 import android.content.Context
 import android.os.Bundle
 import android.provider.Settings
@@ -13,19 +14,18 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.textifly.divinekiddy.R
-import com.textifly.divinekiddy.Utils.WebService
-import com.textifly.divinekiddy.databinding.FragmentDiscoverBinding
 import com.textifly.divinekiddy.ApiManager.RetrofitHelper
 import com.textifly.divinekiddy.CommonSuccessModel.SuccessModel
 import com.textifly.divinekiddy.CustomDialog.CustomProgressDialog
+import com.textifly.divinekiddy.MainActivity
+import com.textifly.divinekiddy.R
+import com.textifly.divinekiddy.Utils.WebService
+import com.textifly.divinekiddy.databinding.FragmentDiscoverBinding
 import com.textifly.divinekiddy.ui.Cart.Model.CartCountModel
 import com.textifly.divinekiddy.ui.Discover.Adapter.HeaderImageAdapter
 import com.textifly.divinekiddy.ui.Discover.Adapter.SliderAdapter
 import com.textifly.divinekiddy.ui.Discover.Model.HeaderImageModel
-//import com.textifly.divinekiddy.ui.Discover.Model.ImageList
 import com.textifly.divinekiddy.ui.Discover.Model.SliderModel
-import com.textifly.divinekiddy.ui.ProductDetails.Model.CartModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -106,7 +106,7 @@ class DiscoverFragment : Fragment(),View.OnClickListener {
             })
         }else{
             CustomProgressDialog.showDialog(requireContext(),false)
-            Toast.makeText(requireContext(),"Please Login",Toast.LENGTH_SHORT).show()
+            //Toast.makeText(requireContext(),"Please Login",Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -165,6 +165,7 @@ class DiscoverFragment : Fragment(),View.OnClickListener {
     private fun btnClick() {
         binding.llCart.setOnClickListener(this)
         binding.llWishlist.setOnClickListener(this)
+        binding.llMenu.setOnClickListener(this)
     }
 
     private fun cartCount() {
@@ -326,6 +327,7 @@ class DiscoverFragment : Fragment(),View.OnClickListener {
         when(view?.id){
             R.id.llCart -> view.findNavController().navigate(R.id.navigation_discover_details_to_cart)
             R.id.llWishlist -> view.findNavController().navigate(R.id.navigation_discover_details_to_wishlist)
+            R.id.llMenu -> (activity as MainActivity?)!!.openDrawer()
         }
     }
 }

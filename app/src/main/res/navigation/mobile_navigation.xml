@@ -317,7 +317,7 @@
             app:popExitAnim="@anim/fade_out_animation"/>
 
         <action android:id="@+id/nav_signinotp_to_signin_mobile"
-            app:destination="@+id/navigation_signin_mobile_to_account"
+            app:destination="@+id/navigation_signin_mobile"
             app:enterAnim="@anim/fade_in_animation"
             app:exitAnim="@anim/fade_out_animation"
             app:popEnterAnim="@anim/fade_in_animation"
@@ -326,7 +326,7 @@
     </fragment>
 
     <fragment
-        android:id="@+id/navigation_signin_mobile_to_account"
+        android:id="@+id/navigation_signin_mobile"
         android:name="com.textifly.divinekiddy.ui.SignIn.SigninMobileFragment"
         android:label="SignIn Mobile"
         tools:layout="@layout/fragment_signin_mobile" >

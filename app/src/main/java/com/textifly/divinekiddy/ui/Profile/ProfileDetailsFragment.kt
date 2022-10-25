@@ -116,7 +116,7 @@ class ProfileDetailsFragment : Fragment(),View.OnClickListener {
 
     override fun onClick(view: View?) {
         when(view?.id){
-            R.id.ivBack -> view.findNavController().navigate(R.id.nav_profile_details_to_account)
+            R.id.ivBack -> activity?.onBackPressed()//view.findNavController().navigate(R.id.nav_profile_details_to_account)
             R.id.rlName ->
             {
                 val bundle = Bundle()

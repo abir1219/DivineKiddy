@@ -221,9 +221,9 @@ private fun checkOut() {
             checkOut()
             //view.findNavController().navigate(R.id.navigation_payment_to_success,bundle)
             val intent = Intent (requireContext(), AllDoneActivity::class.java)
-            intent.putExtra("total",arguments?.getString("totalPrice"))
+            /*intent.putExtra("total",arguments?.getString("totalPrice"))
             intent.putExtra("discountPrice",arguments?.getString("discountPrice"))
-            requireContext().startActivity(intent)
+            requireContext().startActivity(intent)*/
             isCodClicked = true
         }
     }

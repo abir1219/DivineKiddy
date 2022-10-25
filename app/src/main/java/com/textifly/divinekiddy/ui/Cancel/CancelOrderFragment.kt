@@ -110,6 +110,8 @@ class CancelOrderFragment : Fragment(), View.OnClickListener {
         bundle.putString("prod_name",arguments?.getString("prod_name"))
         bundle.putString("prod_age",arguments?.getString("prod_age"))
         bundle.putString("prod_qty",arguments?.getString("prod_qty"))
+        bundle.putString("prod_img",arguments?.getString("prod_img"))
+        bundle.putString("orderId",arguments?.getString("orderId")!!)
     }
 
     private fun btnClick() {
@@ -144,9 +146,8 @@ class CancelOrderFragment : Fragment(), View.OnClickListener {
                 CustomProgressDialog.showDialog(requireContext(), false)
                 if(response.body()!!.status.equals("success",ignoreCase = false)){
                     Toast.makeText(requireContext(),response.body()!!.message,Toast.LENGTH_SHORT).show()
-                    val sharedPreference = requireActivity().getSharedPreferences("PREFERENCE",
-                        Context.MODE_PRIVATE)
-
+                    val sharedPreference = requireActivity().getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
+                    val edit = sharedPreference.edit()
                     view?.findNavController()!!.navigate(R.id.navigation_cancel_order_to_cancel_success,bundle)
                 }
             }

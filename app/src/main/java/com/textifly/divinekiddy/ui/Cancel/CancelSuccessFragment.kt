@@ -44,6 +44,7 @@ class CancelSuccessFragment : Fragment(),View.OnClickListener {
         binding.tvProdName.text = arguments?.getString("prod_name")
         binding.tvProdAge.text = arguments?.getString("prod_age")
         binding.tvQuantity.text = arguments?.getString("prod_qty")
+        binding.tvOrderId.text = "Order "+arguments?.getString("orderId")!!
         Glide.with(requireContext())
             .load("https://divinekiddy.com/uploads/product/" + arguments?.getString("prod_img"))
             .placeholder(R.drawable.loader).into(binding.ivImage)
