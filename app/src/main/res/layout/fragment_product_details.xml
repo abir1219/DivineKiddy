@@ -82,7 +82,7 @@
 
                     <ImageView
                         android:layout_width="25dp"
-                        android:layout_height="17dp"
+                        android:layout_height="25dp"
                         android:layout_gravity="center"
                         android:src="@drawable/wishlist_menu"
                         app:tint="@color/black" />

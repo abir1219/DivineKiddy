@@ -44,15 +44,15 @@ class MainActivity : AppCompatActivity() {
         modelList = ArrayList()
 
         // if not logged in
-        modelList!!.add(DrawerModel("Home"))
-        modelList!!.add(DrawerModel("Profile"))
-        modelList!!.add(DrawerModel("My Cart"))
-        modelList!!.add(DrawerModel("My Orders"))
+        modelList!!.add(DrawerModel(R.drawable.home,"Home"))
+        modelList!!.add(DrawerModel(R.drawable.ic_baseline_person_24,"Profile"))
+        modelList!!.add(DrawerModel(R.drawable.ic_baseline_shopping_cart_24,"My Cart"))
+        modelList!!.add(DrawerModel(R.drawable.ic_baseline_shopping_bag_24,"My Orders"))
         val sharedPreference = getSharedPreferences("PREFERENCE", Context.MODE_PRIVATE)
         if(sharedPreference.contains("uid")){
-            modelList!!.add(DrawerModel("Logout"))
+            modelList!!.add(DrawerModel(R.drawable.ic_baseline_power_settings_new_24,"Logout"))
         }else{
-            modelList!!.add(DrawerModel("Login"))
+            modelList!!.add(DrawerModel(R.drawable.ic_baseline_power_settings_new_24,"Login"))
         }
 
         var adapter = DrawerAdapter(modelList!!)

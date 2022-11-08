@@ -83,7 +83,7 @@ class AddAddressFragment : Fragment(),View.OnClickListener {
 
     override fun onClick(view: View?) {
         when(view?.id){
-            R.id.llMenu -> view.findNavController().navigate(R.id.nav_to_add_address_address_list)
+            R.id.llMenu -> activity?.onBackPressed()//view.findNavController().navigate(R.id.nav_to_add_address_address_list)
             R.id.tvSavedAddress -> {
               checkValidity()
             }

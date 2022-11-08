@@ -69,7 +69,7 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <LinearLayout
+                <!--<LinearLayout
                     android:id="@+id/llSearch"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -87,7 +87,7 @@
                         app:tint="@color/black" />
 
 
-                </LinearLayout>
+                </LinearLayout>-->
 
                 <LinearLayout
                     android:id="@+id/llWishlist"
@@ -111,7 +111,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/llCart"
+                    android:id="@+id/llProfile"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"

@@ -13,6 +13,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -370,6 +371,12 @@ class CartFragment : Fragment(), View.OnClickListener {
 
                     val rvAddressList: RecyclerView? = bottomSheetDialog.findViewById(R.id.rvAddressList)
                     val llcancel: LinearLayout? = bottomSheetDialog.findViewById(R.id.llcancel)
+                    val tvAddAddress : TextView? = bottomSheetDialog.findViewById(R.id.tvAddAddress)
+
+                    tvAddAddress?.setOnClickListener(View.OnClickListener {
+                        view.findNavController()
+                            .navigate(R.id.nav_cart_to_add_address)
+                    })
 
                     val rlNoRecordsFound: RelativeLayout? = bottomSheetDialog.findViewById(R.id.rlNoRecordsFound)
 

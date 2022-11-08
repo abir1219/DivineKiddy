@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ class DrawerAdapter(var modelList:List<DrawerModel>):RecyclerView.Adapter<Drawer
 
     class ViewHolder(var itemView: View):RecyclerView.ViewHolder(itemView){
         var tvMenu: TextView? = itemView.findViewById(R.id.tvMenu)
+        var ivMenu: ImageView? = itemView.findViewById(R.id.ivMenu)
         var llMenu: LinearLayout? = itemView.findViewById(R.id.llMenu)
     }
 
@@ -29,6 +31,7 @@ class DrawerAdapter(var modelList:List<DrawerModel>):RecyclerView.Adapter<Drawer
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.tvMenu?.text = modelList[position].name
+        holder.ivMenu?.setImageResource(modelList[position].image)
 
         holder.llMenu?.setOnClickListener {
             try {

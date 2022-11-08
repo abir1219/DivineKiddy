@@ -139,6 +139,11 @@
             app:enterAnim="@anim/fade_in_animation"
             app:exitAnim="@anim/fade_out_animation"/>
 
+        <action android:id="@+id/nav_cart_to_add_address"
+            app:destination="@+id/navigation_add_address"
+            app:enterAnim="@anim/fade_in_animation"
+            app:exitAnim="@anim/fade_out_animation"/>
+
         <action android:id="@+id/navigation_cart_to_order_summery"
             app:destination="@+id/navigation_order_summery"
             app:enterAnim="@anim/fade_in_animation"
@@ -557,6 +562,7 @@
             app:popExitAnim="@anim/fade_out_animation"/>
 
     </fragment>
+
 
 
     <fragment
